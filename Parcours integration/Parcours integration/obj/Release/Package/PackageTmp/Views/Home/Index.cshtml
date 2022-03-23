@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Menu principal";
+}
+
+
+<div>
+    <div class="h-100 p-4 bg-light border rounded-3">
+        <h1>Parcours d'intégrations</h1>
+        <p class="lead">Cet outil permet de suivre la progression des parcours d'intégration des employés, au travers de leurs différentes étapes.</p>
+        <p>Le bouton suivant amène les interlocuteurs aux formations à faire, et les employés à leur propre parcours, ou la liste de ceux-ci.</p>
+        <p><a href="@Url.Action("Index", "Formations")" class="btn btn-primary btn-lg">Formations &raquo;</a></p>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Liste de missions</h2>
+        <p>
+            Pour créer les parcours d'intégration, il est nécessaire de créer des formations à suivre. Ces formations sont nommées, situées dans un secteur et sont liées à différents types de contrats. Cela permet de simplifier la création de parcours.
+        </p>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index", "Modeles")">Missions &raquo;</a>
+    </div>
+    <div class="col-md-4">
+        <h2>Interlocuteurs</h2>
+        <p>Les différents interlocuteurs effectuant les formations sont classés par secteur d'activité. Leurs adresse mail est aussi affichée en cas de besoin.</p>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","Employes")">Employés &raquo;</a>
+    </div>
+    <div class="col-md-4">
+        <h2>Parcours disponibles</h2>
+        <p>Accédez à la liste des parcours encore non-complétés. Vous pourrez y suivre l'avancée des formations, mais aussi les remarques concernant ces dernières.</p>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","Parcours")">Suivi des parcours &raquo;</a>
+    </div>
+</div>

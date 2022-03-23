@@ -1,0 +1,73 @@
+﻿@model Parcours_integration.Models.Parcours
+
+@{
+    ViewBag.Title = "Nouveau parcours d'intégration";
+}
+
+<h2>Nouveau parcours d'intégration</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        <table style="width:600px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td style="width:300px">
+                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        @Html.LabelFor(model => model.Prénom, htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td style="width:300px">
+                        @Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Prénom, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Type de contrat de l'employé
+                    </td>
+                    <td style="width:300px">
+                        @Html.DropDownList("Type_Contrat", null, "--Type de contrat--", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Type_Contrat, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Poste occupé
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Poste, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="@Url.Action("Index")" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>

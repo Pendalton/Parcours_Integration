@@ -1,0 +1,57 @@
+﻿@model Parcours_integration.Models.Missions
+
+@{
+    ViewBag.Title = "Nouvelle mission";
+}
+
+<h2>Nouvelle mission</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <table>
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:150px">
+                        Mission choisie :
+                    </td>
+                    <td style="width:300px">
+                        @Html.DropDownList("Modeles", null, "-- Mission --", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nom_Mission, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Interlocuteur formateur :
+                    </td>
+                    <td>
+                        @Html.DropDownList("Login_Interlocuteur", null,"--Interlocuteur--", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Login_Interlocuteur, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
+
+@Html.Hidden("Inter", ViewData["Parc"])
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

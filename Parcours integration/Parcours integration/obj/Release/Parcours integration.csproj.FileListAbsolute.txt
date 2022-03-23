@@ -1,0 +1,68 @@
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Parcours integration.dll.config
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Parcours integration.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Parcours integration.pdb
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csc.exe
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csc.exe.config
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csc.rsp
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csi.exe
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csi.exe.config
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\csi.rsp
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Buffers.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Memory.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Numerics.Vectors.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\System.Threading.Tasks.Extensions.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\vbc.exe
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\vbc.exe.config
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\vbc.rsp
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\VBCSCompiler.exe
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Antlr3.Runtime.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\EntityFramework.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\EntityFramework.SqlServer.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Newtonsoft.Json.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\PagedList.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\PagedList.Mvc.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Helpers.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Mvc.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Optimization.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Razor.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.Deployment.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.Razor.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\WebGrease.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\EntityFramework.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\EntityFramework.SqlServer.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Newtonsoft.Json.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\PagedList.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\PagedList.Mvc.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Helpers.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Mvc.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Optimization.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.Razor.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.Deployment.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\System.Web.WebPages.Razor.xml
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\bin\Antlr3.Runtime.pdb
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\obj\Release\Parcours integration.csproj.AssemblyReference.cache
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\obj\Release\Parcours integration.csproj.CoreCompileInputs.cache
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\obj\Release\Parcours integration.csproj.CopyComplete
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\obj\Release\Parcours integration.dll
+C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\obj\Release\Parcours integration.pdb

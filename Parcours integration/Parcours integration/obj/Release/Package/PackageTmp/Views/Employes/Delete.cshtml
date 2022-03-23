@@ -1,0 +1,82 @@
+﻿@model Parcours_integration.Models.Employes
+
+@{
+    ViewBag.Title = "Supprimer l'interlocuteur";
+}
+
+<h3>Êtes-vous sûr de vouloir supprimer cet interlocuteur?</h3>
+<div>
+    <hr />
+    <table>
+        <tbody>
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Login)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Nom)
+                </td>
+                <td style="width:300px">
+                    @Html.DisplayFor(model => model.Nom)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Secteur)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Secteur)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Mail)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Mail)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Intervenant)
+                </td>
+                <td>
+                    @if (Model.Intervenant == true)
+                    {
+                        <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+            <input type="submit" value="Supprimer" class="btn btn-danger" />
+        </div>
+    </div>
+}
+
+<br />
+<div>
+    <a href="@Url.Action("Index")" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
+</div>

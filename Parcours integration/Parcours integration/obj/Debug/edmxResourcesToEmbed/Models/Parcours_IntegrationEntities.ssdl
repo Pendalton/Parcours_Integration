@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Parcours_IntegrationEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Contrat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Employes">
+    <Key>
+      <PropertyRef Name="Login" />
+    </Key>
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Intervenant" Type="bit" Nullable="false" />
+    <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Missions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom_Mission" Type="nvarchar" MaxLength="200" />
+    <Property Name="Nom_Secteur" Type="nvarchar" MaxLength="50" />
+    <Property Name="Login_Interlocuteur" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date_passage" Type="nchar" MaxLength="10" />
+    <Property Name="Passage" Type="bit" Nullable="false" />
+    <Property Name="ID_Parcours" Type="int" Nullable="false" />
+    <Property Name="Remarque" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Modele">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="200" />
+    <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
+    <Property Name="CDI" Type="bit" Nullable="false" />
+    <Property Name="CDD" Type="bit" Nullable="false" />
+    <Property Name="Stage" Type="bit" Nullable="false" />
+    <Property Name="Mutation" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ModeleContrat">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Modele" Type="int" Nullable="false" />
+    <Property Name="ID_Contrat" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Parcours">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+    <Property Name="Prénom" Type="nvarchar" MaxLength="50" />
+    <Property Name="Date_entrée" Type="nchar" MaxLength="10" />
+    <Property Name="Type_Contrat" Type="int" />
+    <Property Name="Complété" Type="bit" Nullable="false" />
+    <Property Name="Poste" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Secteurs">
+    <Key>
+      <PropertyRef Name="Nom" />
+    </Key>
+    <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Actif" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Employes_Secteurs">
+    <End Role="Secteurs" Type="Self.Secteurs" Multiplicity="0..1" />
+    <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Secteurs">
+        <PropertyRef Name="Nom" />
+      </Principal>
+      <Dependent Role="Employes">
+        <PropertyRef Name="Secteur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Missions_Employes">
+    <End Role="Employes" Type="Self.Employes" Multiplicity="0..1" />
+    <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employes">
+        <PropertyRef Name="Login" />
+      </Principal>
+      <Dependent Role="Missions">
+        <PropertyRef Name="Login_Interlocuteur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Missions_Parcours">
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="1" />
+    <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Missions">
+        <PropertyRef Name="ID_Parcours" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Modele_Secteurs">
+    <End Role="Secteurs" Type="Self.Secteurs" Multiplicity="0..1" />
+    <End Role="Modele" Type="Self.Modele" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Secteurs">
+        <PropertyRef Name="Nom" />
+      </Principal>
+      <Dependent Role="Modele">
+        <PropertyRef Name="Secteur" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModeleContrat_Contrat">
+    <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+    <End Role="ModeleContrat" Type="Self.ModeleContrat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contrat">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ModeleContrat">
+        <PropertyRef Name="ID_Contrat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModeleContrat_Modele">
+    <End Role="Modele" Type="Self.Modele" Multiplicity="1" />
+    <End Role="ModeleContrat" Type="Self.ModeleContrat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modele">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ModeleContrat">
+        <PropertyRef Name="ID_Modele" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Parcours_Contrat">
+    <End Role="Contrat" Type="Self.Contrat" Multiplicity="0..1" />
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contrat">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Parcours">
+        <PropertyRef Name="Type_Contrat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Parcours_IntegrationEntitiesStoreContainer">
+    <EntitySet Name="Contrat" EntityType="Self.Contrat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employes" EntityType="Self.Employes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Missions" EntityType="Self.Missions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Secteurs" EntityType="Self.Secteurs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Employes_Secteurs" Association="Self.FK_Employes_Secteurs">
+      <End Role="Secteurs" EntitySet="Secteurs" />
+      <End Role="Employes" EntitySet="Employes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Missions_Employes" Association="Self.FK_Missions_Employes">
+      <End Role="Employes" EntitySet="Employes" />
+      <End Role="Missions" EntitySet="Missions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Missions_Parcours" Association="Self.FK_Missions_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Missions" EntitySet="Missions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Modele_Secteurs" Association="Self.FK_Modele_Secteurs">
+      <End Role="Secteurs" EntitySet="Secteurs" />
+      <End Role="Modele" EntitySet="Modele" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModeleContrat_Contrat" Association="Self.FK_ModeleContrat_Contrat">
+      <End Role="Contrat" EntitySet="Contrat" />
+      <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModeleContrat_Modele" Association="Self.FK_ModeleContrat_Modele">
+      <End Role="Modele" EntitySet="Modele" />
+      <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Parcours_Contrat" Association="Self.FK_Parcours_Contrat">
+      <End Role="Contrat" EntitySet="Contrat" />
+      <End Role="Parcours" EntitySet="Parcours" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

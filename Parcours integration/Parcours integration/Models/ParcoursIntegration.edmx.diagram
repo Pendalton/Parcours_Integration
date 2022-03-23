@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="78d36fdc64c74bf4881d70d1242c20c5" Name="Diagram1">
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Contrat" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Employes" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Modele" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.ModeleContrat" Width="1.5" PointX="5.25" PointY="4.875" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Parcours" Width="1.5" PointX="3" PointY="8.375" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Secteurs" Width="1.5" PointX="0.75" PointY="3.5" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_ModeleContrat_Contrat" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_Parcours_Contrat" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_Employes_Secteurs" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_Modele_Secteurs" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_ModeleContrat_Modele" />
+        <EntityTypeShape EntityType="Parcours_IntegrationModel.Missions" Width="1.5" PointX="5.25" PointY="7.625" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_Missions_Employes" />
+        <AssociationConnector Association="Parcours_IntegrationModel.FK_Missions_Parcours" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

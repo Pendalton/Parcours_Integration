@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Parcours d'intégration</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/bootstrap-toggle.js")
+
+    <link href="~/Content/bootstrap-toggle.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">Parcours Integ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a>
+                    <a class="nav-link" href="@Url.Action("Index","Employes")">Liste des interlocuteurs</a>
+                    <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des parcours</a>
+                </div>
+            </div>
+            <div class="me-auto">
+                <a class="btn btn-mini btn-secondary icon-edit bigger-10" href="@Url.Action("Index", "Formations")">Parcours à faire</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Knorr-Bremse</p>
+        </footer>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

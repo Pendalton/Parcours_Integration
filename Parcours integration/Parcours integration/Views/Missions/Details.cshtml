@@ -1,0 +1,66 @@
+﻿@model Parcours_integration.Models.Missions
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Missions</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_Mission)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_Mission)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom_Secteur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom_Secteur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_passage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_passage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Passage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Passage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employes.Mail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employes.Mail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcours.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcours.Nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

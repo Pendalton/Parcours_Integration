@@ -1,0 +1,80 @@
+﻿@model Parcours_integration.Models.Missions
+
+@{
+    ViewBag.Title = "Modifier la mission";
+}
+
+<h2>Modifier la mission</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        <table style="width:800px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:170px">
+                        Mission
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Nom_Mission, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nom_Mission, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Secteur
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Nom_Secteur, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nom_Secteur, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Interlocuteur Responsable
+                    </td>
+                    <td>
+                        @Html.DropDownList("Login_Interlocuteur", null, "--Interlocuteur--", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Login_Interlocuteur, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        Remarque
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.Remarque, new { htmlAttributes = new { @class = "form-control" }, style="width:500px; min-height:100px" })
+                        @Html.ValidationMessageFor(model => model.Remarque, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        @Html.HiddenFor(model=>model.ID_Parcours)
+        @Html.HiddenFor(model=>model.Passage)
+        @Html.HiddenFor(model=>model.Date_passage)
+
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br/>
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Parcours_integration.Models.Parcours>
+
+@{
+    ViewBag.Title = "Liste des parcours d'intégration";
+}
+
+<h2>Liste des parcours d'intégration</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div class="form-group" style="position: relative; height: 110px">
+        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+            <div class="input-group">
+                <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+            </div>
+
+            <div style="position:absolute; top:25px; margin-left:340px; line-height:30px">
+                CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+                <br />
+                Du : &nbsp;<input id="datepicker" name="Datepicker" data-format="dd/MM/yyyy" type="date">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;<input id="datepicker2" name="Datepicker2" data-format="dd/MM/yyyy" type="date" readonly>
+            </div>
+            <div class="d-grid gap-1 d-md-flex btn-group-vertical" style="position:absolute; top:15px; right:30px">
+                @if (!ViewBag.Term)
+                {
+                    <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Afficher les parcours terminés</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
+                }
+                <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+            </div>
+        </div>
+    </div>
+}
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 28%;">
+                                Nom
+                            </th>
+                            <th class="text-center" style="width: 20%;">
+                                Date d'entrée en entreprise
+                            </th>
+                            <th class="text-center" style="width: 15%;">
+                                Type de contrat
+                            </th>
+                            <th class="text-center" style="width: 20%">
+                                Poste
+                            </th>
+                            <th class="text-center" style="width: 17%">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model)
+                    {
+                        <tbody>
+                            <tr align="center">
+                                <td class="align-middle Search">
+                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Date_entrée)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Contrat.Nom)
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => item.Poste)
+                                </td>
+                                <td class="align-middle">
+                                    @if (ViewBag.EstAdmin)
+                                    {
+                                        <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
+                                        <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
+                                        <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).parent().hide();
+                }
+                else {
+                    $(this).parent().show();
+                }
+            });
+        });
+    });
+    $(function () {
+        $("#datepicker").change(function () {
+            var date1 = document.getElementById("datepicker");
+            var date2 = document.getElementById("datepicker2");
+            if (date1.value == '') { date2.readOnly = true; }
+            else { date2.readOnly = false; }
+        })
+    });
+</script>
+
+<style>
+    .sizeup {
+        transform: scale(1.5);
+    }
+</style>

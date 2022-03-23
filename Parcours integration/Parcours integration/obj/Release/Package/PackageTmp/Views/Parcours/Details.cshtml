@@ -1,0 +1,48 @@
+﻿@model Parcours_integration.Models.Parcours
+
+@{
+    ViewBag.Title = "Détails du parcours";
+}
+
+<div>
+    <div>
+        <h2 style="font-weight:normal"> <span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)
+        <span style="display:inline-block; ">@Html.DisplayFor(model => model.Contrat.Nom)</span>
+        <span style="float:right">@Html.DisplayFor(model=>model.Poste)</span>
+        </h2>
+        <h3 style ="font-weight:normal"><span>Entré(e) le : @Html.DisplayFor(model => model.Date_entrée)</span></h3>
+</div>
+    <hr />
+
+    <div style="margin-left:15px">
+        <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        @if (ViewBag.EstAdmin)
+        {
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>@:&nbsp;
+            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10" style="width:100px">Supprimer</a>
+        }
+        else
+        {
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="width:100px">Modifier</a>@:&nbsp;
+            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10 disabled" style="width:100px">Supprimer</a>
+        }
+
+        @if (ViewBag.EstAdmin)
+        {
+            <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 me-auto float-end" style="min-width:100px">Nouvelle mission</a> <br /><br />
+        }
+        else
+        {
+            <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary disabled icon-edit bigger-10 float-end" style="min-width:100px; position:relative">Nouvelle mission</a> <br /><br />
+        }
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Partial("_Missions", Model.Missions)
+        </div>
+    </div>
+</div>
