@@ -16,6 +16,7 @@
     <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
     <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>

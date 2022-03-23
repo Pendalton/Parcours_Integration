@@ -20,6 +20,7 @@
     <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Secteurs" Relationship="Self.FK_Employes_Secteurs" FromRole="Employes" ToRole="Secteurs" />
     <NavigationProperty Name="Missions" Relationship="Self.FK_Missions_Employes" FromRole="Employes" ToRole="Missions" />
+    <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>

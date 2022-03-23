@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -49,7 +50,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes)
+        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes, HttpPostedFile files)
         {
             if (!employes.Login.Contains("CORPORATE\\"))
             {
@@ -59,6 +60,15 @@ namespace Parcours_integration.Controllers
             {
                 ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
                 return View(employes);
+            }
+
+            if (files != null && files.ContentLength > 0)
+            {
+                // extract only the filename
+                var fileName = Path.GetFileName(files.FileName);
+                // store the file inside ~/App_Data/uploads folder
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                files.SaveAs(path);
             }
 
             if (ModelState.IsValid)
@@ -96,7 +106,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes)
+        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo")] Employes employes)
         {
             if (ModelState.IsValid)
             {

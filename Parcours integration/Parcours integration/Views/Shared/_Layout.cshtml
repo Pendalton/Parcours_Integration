@@ -20,12 +20,22 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="@Url.Action("Index","Secteurs")">Liste des Secteurs</a>
-                    <a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a>
-                    <a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Liste des ressources
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="width:200px">
+                            <li><a class="nav-link" href="@Url.Action("Index","Secteurs")">Liste des Secteurs</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
+                            <li role="separator" class="divider"></li>
+                        </ul>
+                    </li>
                     <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des Parcours</a>
-                </div>
+                </ul>
             </div>
             <div class="me-auto">
                 <a class="btn btn-mini btn-secondary icon-edit bigger-10" href="@Url.Action("Index", "Formations")">Parcours à faire</a>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\delesalf\source\repos\Parcours integration\Parcours integration\Models\Parcours_IntegrationEntities.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\Models\Parcours_IntegrationEntities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
