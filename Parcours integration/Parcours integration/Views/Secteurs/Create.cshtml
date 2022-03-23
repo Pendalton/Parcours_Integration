@@ -11,30 +11,36 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Secteurs</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
+        <table style="width:600px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:160px; font-weight:bold">
+                        Nom du secteur
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder="Requis" } })
+                        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:160px; font-weight:bold">
+                        Actif
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.Actif, new { data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Actif, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Actif)
-                    @Html.ValidationMessageFor(model => model.Actif, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
             </div>
         </div>
     </div>
