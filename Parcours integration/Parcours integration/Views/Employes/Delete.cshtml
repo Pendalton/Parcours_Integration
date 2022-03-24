@@ -7,61 +7,74 @@
 <h3>Êtes-vous sûr de vouloir supprimer cet interlocuteur?</h3>
 <div>
     <hr />
-    <table>
-        <tbody>
-            <tr style="height:50px">
-                <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Login)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Login)
-                </td>
-            </tr>
+    <div class="row">
+        <div class="col-md-6">
+            <table>
+                <tbody>
+                    <tr style="height:50px">
+                        <td class="text-center" style="max-width:160px; font-weight:bold">
+                            @Html.DisplayNameFor(model => model.Login)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Login)
+                        </td>
+                    </tr>
 
-            <tr style="height:50px">
-                <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Nom)
-                </td>
-                <td style="width:300px">
-                    @Html.DisplayFor(model => model.Nom)
-                </td>
-            </tr>
+                    <tr style="height:50px">
+                        <td class="text-center" style="width:160px; font-weight:bold">
+                            @Html.DisplayNameFor(model => model.Nom)
+                        </td>
+                        <td style="width:100px">
+                            @Html.DisplayFor(model => model.Nom)
+                        </td>
+                    </tr>
 
-            <tr style="height:50px">
-                <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Secteur)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Secteur)
-                </td>
-            </tr>
+                    <tr style="height:50px">
+                        <td class="text-center" style="width:160px; font-weight:bold">
+                            @Html.DisplayNameFor(model => model.Secteur)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Secteur)
+                        </td>
+                    </tr>
 
-            <tr style="height:50px">
-                <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Mail)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Mail)
-                </td>
-            </tr>
+                    <tr style="height:50px">
+                        <td class="text-center" style="width:160px; font-weight:bold">
+                            @Html.DisplayNameFor(model => model.Mail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Mail)
+                        </td>
+                    </tr>
 
-            <tr style="height:50px">
-                <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Intervenant)
-                </td>
-                <td>
-                    @if (Model.Intervenant == true)
-                    {
-                        <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
-                    }
-                    else
-                    {
-                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <tr style="height:50px">
+                        <td class="text-center" style="width:160px; font-weight:bold">
+                            @Html.DisplayNameFor(model => model.Intervenant)
+                        </td>
+                        <td>
+                            @if (Model.Intervenant == true)
+                            {
+                                <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
+                            }
+                            else
+                            {
+                                <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            @if (Model.Photo != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Photo);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                <img src="@imgSrc" class="picture" />
+            }
+        </div>
+    </div>
 </div>
 @using (Html.BeginForm())
 {
@@ -79,3 +92,9 @@
 <div>
     <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
 </div>
+
+<style>
+    .picture {
+        max-width: 80%
+    }
+</style>

@@ -33,7 +33,7 @@
                 Employé
             </th>
             <th class="text-center" style="background-color: #efefef; width: 15%">
-                Type de contrat
+                Contrat
             </th>
             <th class="text-center" style="background-color: #efefef; width: 12%">
                 Entrée dans l'entreprise
@@ -72,7 +72,7 @@
                 <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
             </td>
             <td data-bs-toggle="collapse" href="#@test">
-                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span>
+                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Poste)</span> - @Html.DisplayFor(modelItem => item.Contrat.Nom)
             </td>
             <td data-bs-toggle="collapse" href="#@test">
                 @Html.DisplayFor(modelItem => item.Date_entrée)

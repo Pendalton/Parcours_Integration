@@ -50,7 +50,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes, HttpPostedFile files)
+        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes, HttpPostedFileBase postedFile)
         {
             if (!employes.Login.Contains("CORPORATE\\"))
             {
@@ -62,13 +62,14 @@ namespace Parcours_integration.Controllers
                 return View(employes);
             }
 
-            if (files != null && files.ContentLength > 0)
+            if (postedFile != null && postedFile.ContentLength > 0)
             {
-                // extract only the filename
-                var fileName = Path.GetFileName(files.FileName);
-                // store the file inside ~/App_Data/uploads folder
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                files.SaveAs(path);
+                byte[] bytes;
+                using(BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+                employes.Photo = bytes;
             }
 
             if (ModelState.IsValid)
@@ -106,8 +107,24 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo")] Employes employes)
+        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo")] Employes employes, HttpPostedFileBase postedFile)
         {
+            if (employes.Nom == null || employes.Mail == null)
+            {
+                ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+                return View(employes);
+            }
+
+            if (postedFile != null && postedFile.ContentLength > 0)
+            {
+                byte[] bytes;
+                using (BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+                employes.Photo = bytes;
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(employes).State = EntityState.Modified;

@@ -7,7 +7,7 @@
 <div>
     <div>
         <h2 style="font-weight:normal"> <span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)
-        <span style="display:inline-block; ">@Html.DisplayFor(model => model.Contrat.Nom)</span>
+        <span style="margin-left:200px">@Html.DisplayFor(model => model.Contrat.Nom)</span>
         <span style="float:right">@Html.DisplayFor(model=>model.Poste)</span>
         </h2>
         <h3 style ="font-weight:normal"><span>Entré(e) le : @Html.DisplayFor(model => model.Date_entrée)</span></h3>
@@ -16,16 +16,15 @@
 
     <div style="margin-left:15px">
         <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
         @if (ViewBag.EstAdmin)
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>@:&nbsp;
-            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10" style="width:100px">Supprimer</a>
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="width: 100px; margin-left:200px">Modifier</a>
+            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10" style="width: 100px">Supprimer</a>
         }
         else
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="width:100px">Modifier</a>@:&nbsp;
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="width: 100px; margin-left: 200px">Modifier</a>
             <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10 disabled" style="width:100px">Supprimer</a>
         }
 

@@ -33,68 +33,45 @@
 }
 <br />
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width:180px;">
-                                Nom
-                            </th>
-                            <th class="text-center" style="width:180px;">
-                                Adresse Mail
-                            </th>
-                            <th class="text-center" style="width:40px;">
-                                Secteur
-                            </th>
-                            <th class="text-center" style="width:40px;">
-                                Admin
-                            </th>
-                            <th class="text-center" style="width:40px;">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-
-                    @foreach (var item in Model)
-                    {
-                        <tbody>
-                            <tr align="center">
-                                <td class="align-middle Search">
-                                    @Html.DisplayFor(modelItem => item.Nom)
-                                </td>
-                                <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Mail)
-                                </td>
-                                <td class="align-middle CDITri">
-                                    @Html.DisplayFor(modelItem => item.Secteur)
-                                </td>
-                                <td class="align-middle CDDTri">
-                                    @if (item.Intervenant)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                <td class="align-middle">
-                                    @if (ViewBag.EstAdmin)
-                                    {
-                                        <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10">Modifier</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10 disabled">Modifier</a>
-                                    }
-                                </td>
-                            </tr>
-                        </tbody>
-                    }
-                </table>
-            </div>
+    <div class="col-md-12">
+        <div class="row">
+           @foreach (var item in Model)
+            {
+                <div class="col-md-4" style="padding:5px">
+                    <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
+                       @if (item.Photo != null)
+                        {
+                           var base64 = Convert.ToBase64String(item.Photo);
+                           var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <img src="@imgSrc" class="picture" style="margin-bottom:10px" />
+                        }
+                        else 
+                        {
+                            <img src="~/App_Data/uploads/person-icon.png" class="picture" style="margin-bottom:10px" />
+                        }
+                        <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</div>
+                        <div>@Html.DisplayFor(modelItem => item.Secteur)</div>
+                       @if (item.Intervenant)
+                        {
+                            <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Mail)</div>
+                        }
+                        else
+                        {
+                            <div>@Html.DisplayFor(modelItem => item.Mail)</div>
+                        }
+                        <div style="margin-bottom:5px">
+                           @if (ViewBag.EstAdmin)
+                            {
+                                <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10 disabled" style="width:100px">Modifier</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -119,3 +96,9 @@
         });
     });
 </script>
+
+<style>
+    .picture {
+        max-width: 50%
+    }
+</style>

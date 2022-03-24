@@ -7,12 +7,12 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Employes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-
+        @Html.HiddenFor(model=>model.Login)
         <hr />
         <table style="width:600px">
             <tbody>
@@ -23,6 +23,15 @@
                     <td>
                         @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "Requis" } })
                         @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:160px; font-weight:bold">
+                        Photo
+                    </td>
+                    <td>
+                        <input type="file" id="postedFile" name="postedFile" />
                     </td>
                 </tr>
 
@@ -51,7 +60,7 @@
                         Admin
                     </td>
                     <td>
-                        @Html.CheckBoxFor(model => model.Intervenant, new {data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
+                        @Html.CheckBoxFor(model => model.Intervenant, new { data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
                     </td>
                 </tr>
             </tbody>
