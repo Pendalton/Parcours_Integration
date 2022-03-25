@@ -465,9 +465,11 @@
     <Content Include="Views\Secteurs\Delete.cshtml" />
     <Content Include="Views\Secteurs\Edit.cshtml" />
     <Content Include="Views\Secteurs\Index.cshtml" />
+    <Content Include="Views\Parcours\AddFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
+    <Folder Include="Docs\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

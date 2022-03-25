@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -128,6 +129,12 @@ namespace Parcours_integration.Controllers
                     }
                 }
                 db.SaveChanges();
+                string name = parcours.ID + parcours.Nom + parcours.Prénom;
+                string folderName = @"~/Docs/" + name;
+                if (!Directory.Exists(Server.MapPath(folderName)))
+                {
+                    Directory.CreateDirectory(Server.MapPath(folderName));
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
@@ -202,9 +209,62 @@ namespace Parcours_integration.Controllers
             {
                 db.Missions.Remove(item);
             }
+            string name = parcours.ID + parcours.Nom + parcours.Prénom;
+            string folderName = @"~/Docs/" + name;
+            if (Directory.Exists(Server.MapPath(folderName)))
+            {
+                Directory.Delete(Server.MapPath(folderName),true);
+            }
             db.Parcours.Remove(parcours);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AddFile(int id)
+        {
+            var parcours = db.Parcours.Find(id);
+            if (parcours == null) 
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+
+            ViewData["id"] = parcours.ID;
+            return View(parcours);
+        }
+
+        [HttpPost]
+        public ActionResult AddFile(HttpPostedFileBase[] postedFiles, int ID)
+        {
+
+            int i = 1;
+            if(postedFiles == null || postedFiles.Length == 0)
+            {
+                return Content("Vous n'avez pas envoyé de fichiers!");
+            }
+            else
+            {
+                Parcours parcours = db.Parcours.Find(ID);
+                var name = parcours.ID + parcours.Nom + parcours.Prénom;
+                string folderName = @"~/Docs/" + name;
+
+                foreach(HttpPostedFileBase file in postedFiles)
+                {
+                    if(file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath(folderName), InputFileName);
+                        while (System.IO.File.Exists(ServerSavePath))
+                        {
+                            InputFileName = Path.GetFileNameWithoutExtension(file.FileName) + "_" + i+Path.GetExtension(file.FileName);
+                            ServerSavePath = Path.Combine(Server.MapPath(folderName), InputFileName);
+                            i++;
+                        }
+
+                        file.SaveAs(ServerSavePath);
+                    }
+                }
+            }
+            return RedirectToAction("Details", new { id = ID });
         }
 
         protected override void Dispose(bool disposing)

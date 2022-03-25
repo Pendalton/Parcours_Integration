@@ -16,16 +16,18 @@
 
     <div style="margin-left:15px">
         <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
-        
+
         @if (ViewBag.EstAdmin)
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="width: 100px; margin-left:200px">Modifier</a>
-            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10" style="width: 100px">Supprimer</a>
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="margin-left:200px">Modifier</a>
+            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10">Supprimer</a>
+            <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-primary icon-edit bigger-10">Documents du parcours</a>
         }
         else
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="width: 100px; margin-left: 200px">Modifier</a>
-            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10 disabled" style="width:100px">Supprimer</a>
+            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="margin-left: 200px">Modifier</a>
+            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10 disabled">Supprimer</a>
+            <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-primary icon-edit bigger-10 disabled">Documents du parcours</a>
         }
 
         @if (ViewBag.EstAdmin)

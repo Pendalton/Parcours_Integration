@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Documents du parcours";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr />
+<h2>Envoi de fichiers</h2>
+<hr />
+@using (Html.BeginForm("AddFile", "Parcours", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        @Html.Hidden("ID", ViewData["ID"])
+        <table style="width:1000px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:15%">
+                        Envoi de fichiers
+                    </td>
+                    <td style="width:85%">
+                        <input type="file" id="postedFiles" name="postedFiles" multiple="multiple" style="max-width:500px !important" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
