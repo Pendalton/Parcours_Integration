@@ -4,4 +4,37 @@
 }
 
 <h2>Plan des lieux</h2>
+<hr />
 
+<div class="row">
+    <div class="col-md-8">
+        Ici un plan interactif de l'usine, permettant d'afficher clairement les salles de réunions, les services de l'usine ou les points clés.
+        <br />
+        Ce plan serait accompagné d'un arbre de tri, permettant de choisir quelle salle est affichée, ce qui aidera à s'orienter dans le bâtiment. Les choix incluront les salles de réunions, les vestiaires, l'infirmerie ou la cantine.
+        <br />
+        <br />
+        Le choix d'une catégorie de salle ou d'une salle en particulier affichera un carte avec en surbrillance le choix, avec par exemple l'étage où se trouvent les salles.
+    </div>
+
+    <div class="col-md-4">
+        <div class="h-100 bg-light border rounded-3" style="padding:12px">
+            <ul id="tree" style="list-style:none; margin-left:-20px">
+                @foreach (var type in ViewBag.Types)
+                {
+                    <li>
+                        <span class="" /> &nbsp;&nbsp; <a href="#" style="text-decoration: none; font-weight: bold">@type</a>
+                        <ul style="list-style:none">
+                            @foreach (var Room in ViewBag.Salles)
+                            {
+                                if (Room.Type_de_salle == type)
+                                {
+                                    <li><a href="#" style="text-decoration: none">@Room.Nom_de_salle</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

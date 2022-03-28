@@ -19,6 +19,7 @@
         <AssociationConnector Association="Parcours_IntegrationEntities.FK_Missions_Parcours" ManuallyRouted="false" />
         <AssociationConnector Association="Parcours_IntegrationEntities.FK_Modele_Secteurs" ManuallyRouted="false" />
         <AssociationConnector Association="Parcours_IntegrationEntities.FK_ModeleContrat_Modele" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Parcours_IntegrationEntities.Plan" Width="1.5" PointX="1" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -228,12 +228,55 @@ namespace Parcours_integration.Controllers
                 return Redirect(Request.UrlReferrer.ToString());
             }
 
+            var path = @"~/Docs/" + parcours.ID + parcours.Nom + parcours.Prénom;
+            var ServerPath = Server.MapPath(path);
+
+            string[] files = Directory.GetFiles(ServerPath);
+            List<FileModel> list = new List<FileModel>();
+            foreach(string file in files)
+            {
+                list.Add(new FileModel { FileName = Path.GetFileName(file) });
+            }
+
+            ViewBag.Fichers = list;
+
             ViewData["id"] = parcours.ID;
             return View(parcours);
         }
 
+        public FileResult DownloadFile(string fileName, int id)
+        {
+            Parcours parc = db.Parcours.Find(id);
+            var Emp = parc.ID + parc.Nom + parc.Prénom;            
+
+            string path = Path.Combine(Server.MapPath("~/Docs/"), Emp, fileName);
+            var NomFichier = Path.GetFileNameWithoutExtension(path);
+            var ExtFichier = Path.GetExtension(path);
+            if (System.IO.File.Exists(path))
+            {
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
+                return File(bytes, "application/octet-stream", NomFichier + parc.Nom + parc.Prénom + ExtFichier);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public ActionResult DeleteFile(string fileName, int id)
+        {
+            Parcours parcours = db.Parcours.Find(id);
+            var emp = id + parcours.Nom + parcours.Prénom;
+            string fullPath = Path.Combine(Server.MapPath("~/Docs"), emp, fileName);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
+            return RedirectToAction("AddFile", new { id });
+        }
+
         [HttpPost]
-        public ActionResult AddFile(HttpPostedFileBase[] postedFiles, int ID)
+        public ActionResult AddFile(HttpPostedFileBase[] postedFiles, int id)
         {
 
             int i = 1;
@@ -243,7 +286,7 @@ namespace Parcours_integration.Controllers
             }
             else
             {
-                Parcours parcours = db.Parcours.Find(ID);
+                Parcours parcours = db.Parcours.Find(id);
                 var name = parcours.ID + parcours.Nom + parcours.Prénom;
                 string folderName = @"~/Docs/" + name;
 
@@ -264,7 +307,7 @@ namespace Parcours_integration.Controllers
                     }
                 }
             }
-            return RedirectToAction("Details", new { id = ID });
+            return RedirectToAction("AddFile", new { id });
         }
 
         protected override void Dispose(bool disposing)

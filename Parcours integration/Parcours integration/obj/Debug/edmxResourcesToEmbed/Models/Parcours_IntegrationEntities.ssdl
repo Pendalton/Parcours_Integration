@@ -63,6 +63,14 @@
     <Property Name="Complété" Type="bit" Nullable="false" />
     <Property Name="Poste" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="Plan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" />
+    <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Secteurs">
     <Key>
       <PropertyRef Name="Nom" />
@@ -161,6 +169,7 @@
     <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Secteurs" EntityType="Self.Secteurs" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Employes_Secteurs" Association="Self.FK_Employes_Secteurs">
       <End Role="Secteurs" EntitySet="Secteurs" />

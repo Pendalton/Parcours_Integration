@@ -68,6 +68,14 @@
           <Property Name="Complété" Type="bit" Nullable="false" />
           <Property Name="Poste" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Secteurs">
           <Key>
             <PropertyRef Name="Nom" />
@@ -166,6 +174,7 @@
           <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Secteurs" EntityType="Self.Secteurs" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Employes_Secteurs" Association="Self.FK_Employes_Secteurs">
             <End Role="Secteurs" EntitySet="Secteurs" />
@@ -404,7 +413,16 @@
             <End Role="Modele" EntitySet="Modele" />
             <End Role="ModeleContrat" EntitySet="ModeleContrat" />
           </AssociationSet>
+          <EntitySet Name="Plan" EntityType="Parcours_IntegrationEntities.Plan" />
         </EntityContainer>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nom_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -485,6 +503,15 @@
               <MappingFragment StoreEntitySet="Secteurs">
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="Actif" ColumnName="Actif" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plan">
+            <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Plan">
+              <MappingFragment StoreEntitySet="Plan">
+                <ScalarProperty Name="Nom_de_salle" ColumnName="Nom_de_salle" />
+                <ScalarProperty Name="Type_de_salle" ColumnName="Type_de_salle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

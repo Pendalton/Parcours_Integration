@@ -32,5 +32,6 @@ namespace Parcours_integration.Models
         public virtual DbSet<ModeleContrat> ModeleContrat { get; set; }
         public virtual DbSet<Parcours> Parcours { get; set; }
         public virtual DbSet<Secteurs> Secteurs { get; set; }
+        public virtual DbSet<Plan> Plan { get; set; }
     }
 }

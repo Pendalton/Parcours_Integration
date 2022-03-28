@@ -26,6 +26,10 @@
                             Liste des ressources
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="width:200px">
+                            <li><a class="nav-link" href="@Url.Action("Index","Organi")">Organigramme</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a class="nav-link" href="@Url.Action("Index","Secteurs")">Liste des Secteurs</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a></li>
@@ -34,7 +38,9 @@
                             <li role="separator" class="divider"></li>
                         </ul>
                     </li>
-                    <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des Parcours</a>
+                    <li>
+                        <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des Parcours</a>
+                    </li>
                 </ul>
             </div>
             <div class="me-auto">

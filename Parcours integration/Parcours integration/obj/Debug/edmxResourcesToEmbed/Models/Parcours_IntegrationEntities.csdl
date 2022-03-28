@@ -204,5 +204,14 @@
       <End Role="Modele" EntitySet="Modele" />
       <End Role="ModeleContrat" EntitySet="ModeleContrat" />
     </AssociationSet>
+    <EntitySet Name="Plan" EntityType="Parcours_IntegrationEntities.Plan" />
   </EntityContainer>
+  <EntityType Name="Plan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Nom_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

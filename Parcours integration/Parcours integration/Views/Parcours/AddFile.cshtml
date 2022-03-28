@@ -2,25 +2,48 @@
     ViewBag.Title = "Documents du parcours";
 }
 
+<h2>Fichiers du parcours</h2>
+<hr />
 
+<div class="col-md-7" style="margin-left:30px">
+    <div class="row">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 65%;">
+                        Nom
+                    </th>
+                    <th>
 
+                    </th>
+                </tr>
+            </thead>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            @foreach (var item in ViewBag.Fichers)
+            {
+                <tbody>
+                    <tr align="center">
+                        <td class="align-middle Search">
+                            @item.FileName
+                        </td>
+                        <td class="align-middle">
+                            @if (ViewBag.EstAdmin)
+                            {
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
+                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
 
 <hr />
 <h2>Envoi de fichiers</h2>

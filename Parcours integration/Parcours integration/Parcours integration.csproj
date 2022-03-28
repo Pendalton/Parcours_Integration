@@ -149,6 +149,7 @@
     <Compile Include="Models\Employes.cs">
       <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Missions.cs">
       <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
     </Compile>
@@ -175,6 +176,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Plan.cs">
+      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Secteurs.cs">
       <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
