@@ -153,6 +153,7 @@ namespace Parcours_integration.Controllers
             {
                 return HttpNotFound();
             }
+            ViewData["Dossier"] = parcours.ID + parcours.Nom + parcours.Prénom;
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom", parcours.Type_Contrat);
             return View(parcours);
         }
@@ -162,12 +163,18 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété")] Parcours parcours)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété")] Parcours parcours, string Dossier)
         {
             if(parcours.Type_Contrat != null)
             {
                 if (ModelState.IsValid)
                 {
+                    string folder = @"~/Docs/" + Dossier;
+                    string newFold = @"~/Docs/" + parcours.ID + parcours.Nom + parcours.Prénom;
+                    if (Directory.Exists(Server.MapPath(folder)))
+                    {
+                        Directory.Move(Server.MapPath(folder), Server.MapPath(newFold));
+                    }
                     db.Entry(parcours).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = parcours.ID });

@@ -9,6 +9,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/bootstrap-toggle.js")
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
     <link href="~/Content/bootstrap-toggle.css" rel="stylesheet" />
 </head>
@@ -22,13 +23,11 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                             Liste des ressources
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="width:200px">
+                        <ul class="dropdown-menu dropdown-menu-dark" style="width:200px">
                             <li><a class="nav-link" href="@Url.Action("Index","Organi")">Organigramme</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a class="nav-link" href="@Url.Action("Index","Secteurs")">Liste des Secteurs</a></li>
                             <li role="separator" class="divider"></li>
@@ -37,6 +36,9 @@
                             <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
                             <li role="separator" class="divider"></li>
                         </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a>
                     </li>
                     <li>
                         <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des Parcours</a>

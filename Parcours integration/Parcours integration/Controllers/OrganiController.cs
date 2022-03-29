@@ -17,7 +17,11 @@ namespace Parcours_integration.Controllers
         // GET: Organi
         public ActionResult Index()
         {
-            return View();
+            var list = from m in db.Secteurs
+                       orderby m.Nom
+                       select m;
+
+            return View(list);
         }
 
         public ActionResult Carte()
@@ -31,8 +35,7 @@ namespace Parcours_integration.Controllers
                          select m;
 
             ViewBag.Types = TypeRoom;
-            ViewBag.Salles = Salles.ToList();
-            return View();
+            return View(Salles);
         }
     }
 }

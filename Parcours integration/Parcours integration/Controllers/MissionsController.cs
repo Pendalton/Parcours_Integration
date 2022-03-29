@@ -42,8 +42,7 @@ namespace Parcours_integration.Controllers
                     }
                 }
             }
-
-            ViewData["Parc"] = ID;
+            ViewBag.ID = ID;
             ViewBag.Modeles = new SelectList(Mods, "ID","Modele.Nom");
             ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Nom");
             return View();
@@ -54,11 +53,11 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int Parc, int Modele)
+        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int Modeles)
         {
-            missions.ID_Parcours = Parc;
+            missions.ID_Parcours = ID;
             missions.Date_passage = "--/--/----";
-            var choix = db.Modele.Find(Modele);
+            var choix = db.Modele.Find(Modeles);
 
             missions.Nom_Mission = choix.Nom;
             missions.Nom_Secteur = choix.Secteurs.Nom;
