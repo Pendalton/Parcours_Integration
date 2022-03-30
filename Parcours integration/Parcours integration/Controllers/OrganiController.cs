@@ -24,7 +24,29 @@ namespace Parcours_integration.Controllers
             return View(list);
         }
 
-        public ActionResult Carte()
+        public ActionResult Create()
+        {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
+            List<string> list = new List<string>();
+            var types = from m in db.Plan
+                        select m.Type_de_salle;
+            list.AddRange(types.Distinct());
+
+            ViewBag.Types = new SelectList(list);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ID,Type_de_salle,Nom_de_salle")] Plan salle, HttpPostedFileBase postedFile)
+        {
+            return View();
+        }
+
+            public ActionResult Carte()
         {
             List<string> TypeRoom = new List<string>();
             var list = from m in db.Plan

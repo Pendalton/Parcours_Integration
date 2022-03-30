@@ -2,36 +2,50 @@
 @{
     ViewBag.Title = "Plan";
 }
-
-<h2>Plan des lieux</h2>
-<hr />
-
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
+        <h2>Plan des lieux</h2>
+    </div>
+
+    <div class="col-md-6 text-end">
+        @if (ViewBag.EstAdmin)
+        {
+            <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle salle</a>
+        }
+        else
+        {
+            <a class="btn btn-primary disabled btn-mini" href="@Url.Action("Create")" role="button">Nouvelle salle</a>
+        }
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
         Ici un plan interactif de l'usine, permettant d'afficher clairement les salles de réunions, les services de l'usine ou les points clés.
-        <br />
-        <br />
-        Ce plan est accompagné d'un arbre de tri, pour que l'utilisateur choisisse quelles salles sont affichées, ce qui aidera à s'orienter dans le bâtiment. 
-        <br />
-        <br />
+        <br /><br />
+        <img src="~/Docs/usine.png" class="picture" />
+        <br /><br />
         Le choix d'une catégorie de salle ou d'une salle en particulier affichera un carte avec en surbrillance le choix, avec par exemple l'étage où se trouvent les salles.
     </div>
 
-    <div class="col-md-4">
-        <ul id="treeview-search" class="treeview" style="list-style:none; margin-left:-20px">
-            @foreach (var type in ViewBag.Types)
-            {
-                <li class="list-group-item">
-                    <a href="#" style="text-decoration: none; font-weight: bold">@type</a>
-                </li>
-                foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
+    <div class="col-md-3">
+        <div class="h-100 bg-light border rounded-3" style="padding:16px">
+            <ul id="treeview" class="treeview" style="list-style:none; margin-left:-25px">
+                @foreach (var type in ViewBag.Types)
                 {
-                    <li class="list-group-item">
-                        <span class="indent"></span><a href="#" style="text-decoration: none">@Room.Nom_de_salle</a>
+                    <li>
+                        <a href="#" style="text-decoration: none; font-weight: bold">@type</a>
                     </li>
+                    foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
+                    {
+                        <li>
+                            <span class="indent"></span><a href="#" style="text-decoration: none">@Room.Nom_de_salle</a>
+                        </li>
+                    }
+                    <hr style="margin: 5px;"/>
                 }
-            }
-        </ul>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -40,5 +54,13 @@
     .treeview span.indent {
         margin-left: 10px;
         margin-right: 10px
+    }
+
+    .treeview li {
+        padding-bottom: 5px;
+    }
+
+    .picture {
+        max-width: 100%
     }
 </style>

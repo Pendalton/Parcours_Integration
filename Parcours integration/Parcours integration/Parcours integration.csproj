@@ -470,6 +470,7 @@
     <Content Include="Views\Secteurs\Edit.cshtml" />
     <Content Include="Views\Secteurs\Index.cshtml" />
     <Content Include="Views\Parcours\AddFile.cshtml" />
+    <Content Include="Views\Organi\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
