@@ -17,5 +17,6 @@ namespace Parcours_integration.Models
         public int Id { get; set; }
         public string Type_de_salle { get; set; }
         public string Nom_de_salle { get; set; }
+        public string Image { get; set; }
     }
 }

@@ -3,12 +3,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 @{
-    ViewBag.Title = "Nouvelle salle";
+    ViewBag.Title = "Modifier la salle";
 }
 
-<h2>Nouvelle salle</h2>
-<hr />
-@using (Html.BeginForm("Create", "Organi", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<h2>Modifier la salle</h2>
+
+@using (Html.BeginForm("Edit", "Organi", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -46,6 +46,7 @@
             </tbody>
         </table>
         <br />
+        @Html.HiddenFor(model => model.Image)
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
                 <input type="submit" value="Enregistrer" class="btn btn-primary" />
@@ -57,7 +58,6 @@
 <div>
     <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
 </div>
-
 
 <script>
     $(function () {

@@ -21,39 +21,44 @@
 <hr />
 <div class="row">
     <div class="col-md-9">
-        Ici un plan interactif de l'usine, permettant d'afficher clairement les salles de réunions, les services de l'usine ou les points clés.
-        <br /><br />
-        <img src="~/Docs/usine.png" class="picture" />
-        <br /><br />
-        Le choix d'une catégorie de salle ou d'une salle en particulier affichera un carte avec en surbrillance le choix, avec par exemple l'étage où se trouvent les salles.
+        <div class="map">
+            <img src="/Docs/Plan/usine.png" id="pic" class="picture" />
+        </div>
     </div>
 
     <div class="col-md-3">
         <div class="h-100 bg-light border rounded-3" style="padding:16px">
             <ul id="treeview" class="treeview" style="list-style:none; margin-left:-25px">
+                <li>
+                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changeImage('usine')">Usine</a>
+                </li>
+                <hr style="margin: 5px;" />
                 @foreach (var type in ViewBag.Types)
                 {
                     <li>
-                        <a href="#" style="text-decoration: none; font-weight: bold">@type</a>
+                        <span id="@type" style="font-weight: bold; font-size: 20px">@type</span>
                     </li>
                     foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
                     {
                         <li>
-                            <span class="indent"></span><a href="#" style="text-decoration: none">@Room.Nom_de_salle</a>
+                            <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changeImage('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a> 
+                            @if (ViewBag.EstAdmin) 
+                            { 
+                                <a href="@Url.Action("Edit", new { id=Room.Id })" role="button"><i class="bi bi-wrench"></i></a>
+                                <a href="@Url.Action("Delete", new { id=Room.Id })" role="button"><i class="bi bi-trash-fill"></i></a>
+                            }
                         </li>
                     }
-                    <hr style="margin: 5px;"/>
+                    <hr style="margin: 5px;" />
                 }
             </ul>
         </div>
     </div>
 </div>
 
-
 <style>
     .treeview span.indent {
         margin-left: 10px;
-        margin-right: 10px
     }
 
     .treeview li {
@@ -64,3 +69,12 @@
         max-width: 100%
     }
 </style>
+
+<script>
+    function changeImage(source) {
+        var Plan = document.getElementById("pic");
+        console.log(source);
+        var addr = "/Docs/Plan/" + source + ".png";
+        $(Plan).attr("src", addr);
+    }
+</script>

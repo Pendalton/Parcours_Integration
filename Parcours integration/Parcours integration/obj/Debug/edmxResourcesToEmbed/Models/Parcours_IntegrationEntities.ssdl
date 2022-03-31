@@ -70,6 +70,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" />
     <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
+    <Property Name="Image" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Secteurs">
     <Key>
