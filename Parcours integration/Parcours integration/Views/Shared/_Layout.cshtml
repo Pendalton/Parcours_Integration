@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Parcours d'intégration</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
+    @Styles.Render("~/Content/Bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -17,7 +18,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="@Url.Action("Index", "Home")">Parcours Integ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -46,7 +47,7 @@
                 </ul>
             </div>
             <div class="me-auto">
-                <a class="btn btn-mini btn-secondary icon-edit bigger-10" href="@Url.Action("Index", "Formations")">Parcours à faire</a>
+                <a class="btn btn-mini btn-secondary icon-edit bigger-10" style="margin-left:15px" href="@Url.Action("Index", "Formations")">Parcours à faire</a>
             </div>
         </div>
     </nav>

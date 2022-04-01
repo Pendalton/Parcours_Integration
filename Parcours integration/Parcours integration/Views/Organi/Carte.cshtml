@@ -22,7 +22,7 @@
 <div class="row">
     <div class="col-md-9">
         <div class="map">
-            <img src="/Docs/Plan/usine.png" id="pic" class="picture" />
+            <img src="~/Docs/Plan/usine.png" id="pic" class="picture" />
         </div>
     </div>
 
@@ -73,8 +73,7 @@
 <script>
     function changeImage(source) {
         var Plan = document.getElementById("pic");
-        console.log(source);
-        var addr = "/Docs/Plan/" + source + ".png";
+        var addr = "/ParcoursIntegration/Docs/Plan/" + source + ".png";
         $(Plan).attr("src", addr);
     }
 </script>

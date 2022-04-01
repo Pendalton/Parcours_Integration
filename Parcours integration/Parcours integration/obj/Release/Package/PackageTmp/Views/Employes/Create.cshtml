@@ -1,13 +1,13 @@
 ﻿@model Parcours_integration.Models.Employes
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Nouveau formateur";
 }
 
-<h2>Create</h2>
+<h2>Nouveau formateur</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","Employes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -39,6 +39,15 @@
 
                 <tr style="height:50px">
                     <td class="text-center" style="width:160px; font-weight:bold">
+                        Photo
+                    </td>
+                    <td>
+                        <input type="file" id="postedFile" name="postedFile" style="max-width:500px !important"/>
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:160px; font-weight:bold">
                         @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label" })
                     </td>
                     <td>
@@ -62,7 +71,7 @@
                         Admin
                     </td>
                     <td>
-                        @Html.CheckBoxFor(model => model.Intervenant, new {data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
+                        @Html.CheckBoxFor(model => model.Intervenant, new { data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
                     </td>
                 </tr>
             </tbody>

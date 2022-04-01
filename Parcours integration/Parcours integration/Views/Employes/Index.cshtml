@@ -8,25 +8,29 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-group" style="position:relative">
-        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
-            <div class="input-group">
-                <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:230px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+                </div>
             </div>
 
-            <div style="position:absolute;top:30px;margin-left:330px; line-height:30px">
+            <div class="col-md-5">
                 Secteur de l'interlocuteur :&nbsp; @Html.DropDownList("secteur", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" })
             </div>
 
-            <div style="position:absolute; right:15px;top:25px">
-                @if (ViewBag.EstAdmin)
-                {
-                    <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
-                }
-                else
-                {
-                    <a class="btn btn-primary disabled btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
-                }
+            <div class="col-md-3">
+                <div class="d-grid d-md-flex btn-group-vertical">
+                    @if (ViewBag.EstAdmin)
+                    {
+                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary disabled btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -35,23 +39,23 @@
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="row">
-           @foreach (var item in Model)
+            @foreach (var item in Model)
             {
                 <div class="col-md-4" style="padding:5px">
                     <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
-                       @if (item.Photo != null)
+                        @if (item.Photo != null)
                         {
-                           var base64 = Convert.ToBase64String(item.Photo);
-                           var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            var base64 = Convert.ToBase64String(item.Photo);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                             <img src="@imgSrc" class="picture" style="margin-bottom:10px" />
                         }
-                        else 
+                        else
                         {
                             <img src="~/Docs/person-icon.png" class="picture" style="margin-bottom:10px" />
                         }
                         <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</div>
                         <div>@Html.DisplayFor(modelItem => item.Secteur)</div>
-                       @if (item.Intervenant)
+                        @if (item.Intervenant)
                         {
                             <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Mail)</div>
                         }
@@ -60,7 +64,7 @@
                             <div>@Html.DisplayFor(modelItem => item.Mail)</div>
                         }
                         <div style="margin-bottom:5px">
-                           @if (ViewBag.EstAdmin)
+                            @if (ViewBag.EstAdmin)
                             {
                                 <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>
                             }

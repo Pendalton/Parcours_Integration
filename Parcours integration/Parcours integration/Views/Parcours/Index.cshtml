@@ -9,30 +9,37 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-group" style="position: relative; height: 110px">
-        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
-            <div class="input-group">
-                <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+                </div>
             </div>
 
-            <div style="position:absolute; top:25px; margin-left:340px; line-height:30px">
-                CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
-                <br />
-                Du : &nbsp;<input id="datepicker" name="Datepicker" data-format="dd/MM/yyyy" type="date">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;<input id="datepicker2" name="Datepicker2" data-format="dd/MM/yyyy" type="date" readonly>
+            <div class="col-md-5">
+                <div style="line-height:30px">
+                    CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+                    <br />
+                    Du : &nbsp;<input id="datepicker" name="Datepicker" data-format="dd/MM/yyyy" type="date">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;<input id="datepicker2" name="Datepicker2" data-format="dd/MM/yyyy" type="date" readonly>
+                </div>
             </div>
-            <div class="d-grid gap-1 d-md-flex btn-group-vertical" style="position:absolute; top:15px; right:30px">
-                @if (!ViewBag.Term)
-                {
-                    <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Afficher les parcours terminés</a>
-                }
-                else
-                {
-                    <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
-                }
-                <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+
+            <div class="col-md-3">
+                <div class="d-grid gap-1 d-md-flex btn-group-vertical">
+                    @if (!ViewBag.Term)
+                    {
+                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Afficher les parcours terminés</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
+                    }
+                    <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+                </div>
             </div>
         </div>
     </div>

@@ -217,6 +217,13 @@
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Docs\18MartinRémy\Nouveau document texte.txt" />
+    <Content Include="Docs\18MartinRémy\Photo-test.png" />
+    <Content Include="Docs\person-icon.png" />
+    <Content Include="Docs\Plan\CantineRestaurant Sud.png" />
+    <Content Include="Docs\Plan\Salle de pauseIntérieure.png" />
+    <Content Include="Docs\Plan\Salle de réunionFormation Informatique.png" />
+    <Content Include="Docs\Plan\usine.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -277,6 +284,8 @@
     <Content Include="Models\Parcours_IntegrationEntities.edmx.diagram">
       <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
     </Content>
+    <Content Include="Docs\18MartinRémy\Compte-Rendu de Réunion.docx" />
+    <Content Include="Docs\18MartinRémy\Compte-Rendu de Réunion.pdf" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -476,7 +485,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
-    <Folder Include="Docs\" />
+    <Folder Include="Docs\13CorkAdrien\" />
+    <Folder Include="Docs\14PesquetThomas\" />
+    <Folder Include="Docs\15ClaarkeShirley\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

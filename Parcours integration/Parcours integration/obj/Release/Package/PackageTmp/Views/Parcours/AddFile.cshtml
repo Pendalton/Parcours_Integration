@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Documents du parcours";
+}
+
+<h2>Fichiers du parcours</h2>
+<hr />
+
+<div class="col-md-7" style="margin-left:30px">
+    <div class="row">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 65%;">
+                        Nom
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+
+            @foreach (var item in ViewBag.Fichers)
+            {
+                <tbody>
+                    <tr align="center">
+                        <td class="align-middle Search">
+                            @item.FileName
+                        </td>
+                        <td class="align-middle">
+                            @if (ViewBag.EstAdmin)
+                            {
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
+                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+<hr />
+<h2>Envoi de fichiers</h2>
+<hr />
+@using (Html.BeginForm("AddFile", "Parcours", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        @Html.Hidden("ID", ViewData["ID"])
+        <table style="width:1000px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:15%">
+                        Envoi de fichiers
+                    </td>
+                    <td style="width:85%">
+                        <input type="file" id="postedFiles" name="postedFiles" multiple="multiple" style="max-width:500px !important" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
