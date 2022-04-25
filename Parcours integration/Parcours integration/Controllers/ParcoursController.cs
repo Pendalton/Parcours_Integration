@@ -237,6 +237,10 @@ namespace Parcours_integration.Controllers
 
             var path = @"~/Docs/" + parcours.ID + parcours.Nom + parcours.Prénom;
             var ServerPath = Server.MapPath(path);
+            if (!Directory.Exists(ServerPath))
+            {
+                Directory.CreateDirectory(ServerPath);
+            }
 
             string[] files = Directory.GetFiles(ServerPath);
             List<FileModel> list = new List<FileModel>();

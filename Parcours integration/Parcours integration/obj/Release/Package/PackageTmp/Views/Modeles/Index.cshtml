@@ -9,21 +9,35 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-group" style="position:relative">
-        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
-            <div class="input-group">
-                <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:230px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+                </div>
             </div>
 
-            <div style="position:absolute;top:15px;margin-left:330px; line-height:30px">
-                Secteur :&nbsp;@Html.DropDownList("Secteurs", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp;&nbsp;&nbsp; <br />
-                CDI :&nbsp; @Html.CheckBox("CDI", new{ onChange="this.form.submit()", @class= "sizeup" }) &nbsp;&nbsp; 
-                CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp; 
-                Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp; 
-                Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+            <div class="col-md-5">
+                <div style="line-height:30px">
+                    Secteur :&nbsp;@Html.DropDownList("Secteurs", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp;&nbsp;&nbsp; <br />
+                    CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
+                    Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+                </div>
             </div>
-            <div style="position:absolute; right:15px;top:25px">
-                <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
+
+            <div class="col-md-3">
+                <div class="d-grid gap-1 d-md-flex btn-group-vertical">
+                    @if (ViewBag.EstAdmin)
+                    {
+                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -61,7 +75,7 @@
                         </tr>
                     </thead>
 
-                   @foreach (var item in Model)
+                    @foreach (var item in Model)
                     {
                         <tbody>
                             <tr align="center">
