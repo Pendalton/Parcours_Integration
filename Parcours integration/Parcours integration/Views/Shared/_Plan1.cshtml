@@ -3,15 +3,15 @@
 <div class="row">
     <div class="col-md-9">
         <div class="map">
-            <img src="~/Docs/Plan/usine.png" id="pic" class="picture" />
+            <img src="~/Docs/Plan/EtageSud.png" id="plan1" class="picture" />
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="h-100 bg-light border rounded-3" style="padding:16px">
+        <div class="h-100 bg-light border rounded-1" style="padding:16px">
             <ul id="treeview" class="treeview" style="list-style:none; margin-left:-25px">
                 <li>
-                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changeImage('EtageSud')">Premier étage</a>
+                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changePlan1('EtageSud')">Premier étage</a>
                 </li>
                 <hr style="margin: 5px;" />
                 @foreach (var type in ViewBag.TypeSalle1)
@@ -22,7 +22,7 @@
                     foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
                     {
                         <li>
-                            <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changeImage('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a>
+                            <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changePlan1('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a>
                             @if (ViewBag.EstAdmin)
                             {
                                 <a href="@Url.Action("Edit", new { id=Room.Id })" role="button"><i class="bi bi-wrench"></i></a>
@@ -52,8 +52,8 @@
 </style>
 
 <script>
-    function changeImage(source) {
-        var Plan = document.getElementById("pic");
+    function changePlan1(source) {
+        var Plan = document.getElementById("plan1");
         var addr = "/Docs/Plan/" + source + ".png";
         $(Plan).attr("src", addr);
     }

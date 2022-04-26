@@ -221,7 +221,11 @@
     <Content Include="Docs\18MartinRémy\Photo-test.png" />
     <Content Include="Docs\person-icon.png" />
     <Content Include="Docs\Plan\CantineRestaurant Sud.png" />
+    <Content Include="Docs\Plan\EtageNord.png" />
+    <Content Include="Docs\Plan\EtageSud.png" />
+    <Content Include="Docs\Plan\RDC.png" />
     <Content Include="Docs\Plan\Salle de pauseIntérieure.png" />
+    <Content Include="Docs\Plan\Salle de réunionConfroom C.png" />
     <Content Include="Docs\Plan\Salle de réunionFormation Informatique.png" />
     <Content Include="Docs\Plan\usine.png" />
     <Content Include="favicon.ico" />
