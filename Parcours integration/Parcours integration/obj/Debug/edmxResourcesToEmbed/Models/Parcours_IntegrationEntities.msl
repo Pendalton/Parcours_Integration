@@ -81,6 +81,7 @@
     <EntitySetMapping Name="Plan">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Plan">
         <MappingFragment StoreEntitySet="Plan">
+          <ScalarProperty Name="Etage" ColumnName="Etage" />
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Nom_de_salle" ColumnName="Nom_de_salle" />
           <ScalarProperty Name="Type_de_salle" ColumnName="Type_de_salle" />

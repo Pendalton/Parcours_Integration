@@ -214,5 +214,6 @@
     <Property Name="Type_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Nom_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Etage" Type="Int32" />
   </EntityType>
 </Schema>

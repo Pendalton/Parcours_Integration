@@ -18,5 +18,6 @@ namespace Parcours_integration.Models
         public string Type_de_salle { get; set; }
         public string Nom_de_salle { get; set; }
         public string Image { get; set; }
+        public Nullable<int> Etage { get; set; }
     }
 }

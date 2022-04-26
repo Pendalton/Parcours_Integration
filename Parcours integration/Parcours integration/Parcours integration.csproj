@@ -482,6 +482,9 @@
     <Content Include="Views\Organi\Create.cshtml" />
     <Content Include="Views\Organi\Edit.cshtml" />
     <Content Include="Views\Organi\Delete.cshtml" />
+    <Content Include="Views\Shared\_Plan1.cshtml" />
+    <Content Include="Views\Shared\_Plan0.cshtml" />
+    <Content Include="Views\Shared\_Plan2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

@@ -98,6 +98,9 @@ namespace Parcours_integration.Controllers
             }
             if (postedFile != null)
             {
+            #if DEBUG
+                Console.WriteLine("Debug utilisé");
+            #endif
                 var name = salle.Type_de_salle + salle.Nom_de_salle;
                 string folderName = @"~/Docs/Plan/";
 
@@ -153,15 +156,32 @@ namespace Parcours_integration.Controllers
 
         public ActionResult Carte()
         {
-            List<string> TypeRoom = new List<string>();
-            var list = from m in db.Plan
-                       select m.Type_de_salle;
-            TypeRoom.AddRange(list.Distinct());
+            List<string> TypeRoom0 = new List<string>();
+            var list0 = from m in db.Plan
+                        where m.Etage == 0 || m.Etage == 3
+                        select m.Type_de_salle;
+            TypeRoom0.AddRange(list0.Distinct());
+
+            List<string> TypeRoom1 = new List<string>();
+            var list1 = from m in db.Plan
+                        where m.Etage == 1 || m.Etage == 3
+                        select m.Type_de_salle;
+            TypeRoom1.AddRange(list1.Distinct());
+
+            List<string> TypeRoom2 = new List<string>();
+            var list2 = from m in db.Plan
+                        where m.Etage == 2 || m.Etage == 3
+                        select m.Type_de_salle;
+            TypeRoom2.AddRange(list2.Distinct());
+
+            ViewBag.TypeSalle0 = TypeRoom0;
+            ViewBag.TypeSalle1 = TypeRoom1;
+            ViewBag.TypeSalle2 = TypeRoom2;
 
             var Salles = from m in db.Plan
+                         orderby m.Etage
                          select m;
 
-            ViewBag.Types = TypeRoom;
             return View(Salles);
         }
     }
