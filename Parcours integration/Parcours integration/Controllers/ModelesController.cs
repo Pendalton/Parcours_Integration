@@ -63,6 +63,10 @@ namespace Parcours_integration.Controllers
         // GET: Modeles/Create
         public ActionResult Create()
         {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
             ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom","Nom");
             return View();
         }

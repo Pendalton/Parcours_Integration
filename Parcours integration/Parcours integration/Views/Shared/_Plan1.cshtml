@@ -8,10 +8,10 @@
     </div>
 
     <div class="col-md-3">
-        <div class="h-100 bg-light border rounded-1" style="padding:16px">
-            <ul id="treeview" class="treeview" style="list-style:none; margin-left:-25px">
+        <div class="h-100 bg-light border rounded-1" style="padding:12px">
+            <ul id="treeview" class="treeview" style="list-style:none; margin-left:-30px">
                 <li>
-                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changePlan1('EtageSud')">Premier étage</a>
+                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changePlan1('EtageSud')">Plan général</a>
                 </li>
                 <hr style="margin: 5px;" />
                 @foreach (var type in ViewBag.TypeSalle1)
@@ -19,7 +19,7 @@
                     <li>
                         <span id="@type" style="font-weight: bold; font-size: 20px">@type</span>
                     </li>
-                    foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
+                    foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type && w.Etage == 1))
                     {
                         <li>
                             <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changePlan1('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a>

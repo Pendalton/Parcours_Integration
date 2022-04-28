@@ -228,6 +228,7 @@
     <Content Include="Docs\Plan\Salle de réunionConfroom C.png" />
     <Content Include="Docs\Plan\Salle de réunionFormation Informatique.png" />
     <Content Include="Docs\Plan\usine.png" />
+    <Content Include="Docs\TestTrombi.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

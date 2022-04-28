@@ -19,9 +19,11 @@ namespace Parcours_integration.Controllers
         {
             var list = from m in db.Secteurs
                        orderby m.Nom
-                       select m;
-
-            return View(list);
+                       select m.Nom;
+            List<string> Secteurs = new List<string>();
+            Secteurs.AddRange(list.Distinct());
+            ViewBag.Secteur = new SelectList(Secteurs);
+            return View();
         }
 
         public ActionResult Create()
@@ -34,14 +36,23 @@ namespace Parcours_integration.Controllers
             var types = from m in db.Plan
                         select m.Type_de_salle;
             list.AddRange(types.Distinct());
-
             ViewBag.Types = new SelectList(list);
+
+
+            List<SelectListItem> etage = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "Rez-de-chaussée", Value = "0" },
+                new SelectListItem() { Text = "Etage Sud", Value = "1" },
+                new SelectListItem() { Text = "Etage Nord", Value = "2" }
+            };
+
+            ViewBag.Etage = etage;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Type_de_salle,Nom_de_salle")] Plan salle, HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "ID,Type_de_salle,Nom_de_salle,Etage")] Plan salle, HttpPostedFileBase postedFile)
         {
             if (postedFile == null)
             {
@@ -86,11 +97,20 @@ namespace Parcours_integration.Controllers
             list.AddRange(types.Distinct());
 
             ViewBag.Types = new SelectList(list);
+
+            List<SelectListItem> etage = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "Rez-de-chaussée", Value = "0",Selected=plan.Etage==0 },
+                new SelectListItem() { Text = "Etage Sud", Value = "1",Selected=plan.Etage==1 },
+                new SelectListItem() { Text = "Etage Nord", Value = "2",Selected=plan.Etage==2 }
+            };
+
+            ViewBag.Etage = etage;
             return View(plan);
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "ID,Type_de_salle,Nom_de_salle,Image")] Plan salle, HttpPostedFileBase postedFile)
+        public ActionResult Edit([Bind(Include = "ID,Type_de_salle,Nom_de_salle,Image,Etage")] Plan salle, HttpPostedFileBase postedFile)
         {
             if (!EstAdmin)
             {
@@ -143,11 +163,12 @@ namespace Parcours_integration.Controllers
         {
             Plan plan = db.Plan.Find(id);
             string folderName = @"~/Docs/Plan/";
-
-            var ServerSavePath = Path.Combine(Server.MapPath(folderName),plan.Image);
-            if (System.IO.File.Exists(ServerSavePath))
-            {
-                System.IO.File.Delete(ServerSavePath);
+            if(plan.Image != null) {
+                var ServerSavePath = Path.Combine(Server.MapPath(folderName), plan.Image);
+                if (System.IO.File.Exists(ServerSavePath))
+                {
+                    System.IO.File.Delete(ServerSavePath);
+                }
             }
             db.Plan.Remove(plan);
             db.SaveChanges();
@@ -158,19 +179,19 @@ namespace Parcours_integration.Controllers
         {
             List<string> TypeRoom0 = new List<string>();
             var list0 = from m in db.Plan
-                        where m.Etage == 0 || m.Etage == 3
+                        where m.Etage == 0
                         select m.Type_de_salle;
             TypeRoom0.AddRange(list0.Distinct());
 
             List<string> TypeRoom1 = new List<string>();
             var list1 = from m in db.Plan
-                        where m.Etage == 1 || m.Etage == 3
+                        where m.Etage == 1
                         select m.Type_de_salle;
             TypeRoom1.AddRange(list1.Distinct());
 
             List<string> TypeRoom2 = new List<string>();
             var list2 = from m in db.Plan
-                        where m.Etage == 2 || m.Etage == 3
+                        where m.Etage == 2
                         select m.Type_de_salle;
             TypeRoom2.AddRange(list2.Distinct());
 
