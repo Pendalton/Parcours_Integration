@@ -22,6 +22,7 @@
           <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
           <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="Reporting" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Missions">
           <Key>
@@ -232,6 +233,7 @@
           <NavigationProperty Name="Secteurs" Relationship="Self.FK_Employes_Secteurs" FromRole="Employes" ToRole="Secteurs" />
           <NavigationProperty Name="Missions" Relationship="Self.FK_Missions_Employes" FromRole="Employes" ToRole="Missions" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Reporting" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Missions">
           <Key>
@@ -444,6 +446,7 @@
           <EntitySetMapping Name="Employes">
             <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Employes">
               <MappingFragment StoreEntitySet="Employes">
+                <ScalarProperty Name="Reporting" ColumnName="Reporting" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Intervenant" ColumnName="Intervenant" />

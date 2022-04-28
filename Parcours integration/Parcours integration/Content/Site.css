@@ -100,3 +100,7 @@ select {
 .Normal {
     background-color: white;
 }
+
+.dropdwn {
+    appearance: auto !important;
+}

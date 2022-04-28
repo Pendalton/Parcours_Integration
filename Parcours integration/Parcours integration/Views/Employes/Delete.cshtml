@@ -9,10 +9,10 @@
     <hr />
     <div class="row">
         <div class="col-md-9">
-            <table>
+            <table style="margin-left:30px">
                 <tbody>
                     <tr style="height:50px">
-                        <td class="text-center" style="max-width:160px; font-weight:bold">
+                        <td class="text-center" style="width:160px; font-weight:bold">
                             @Html.DisplayNameFor(model => model.Login)
                         </td>
                         <td>
@@ -44,6 +44,22 @@
                         </td>
                         <td>
                             @Html.DisplayFor(model => model.Mail)
+                        </td>
+                    </tr>
+
+                    <tr style="height:50px">
+                        <td class="text-center" style="width:160px; font-weight:bold">
+                            Supérieur Hiérarchique :
+                        </td>
+                        <td>
+                            @if (Model.Reporting == null)
+                            {
+                                <p>Aucun supérieur direct</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.Reporting)
+                            }
                         </td>
                     </tr>
 

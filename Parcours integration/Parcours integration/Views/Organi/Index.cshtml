@@ -15,7 +15,7 @@
         Trier selon les secteurs permettra de n'afficher que les employés de ce secteurs pour faciliter l'identification des employés par les nouveaux arrivants.
     </div>
     <div class="col-md-3">
-        @Html.DropDownList("Secteur", null, "-- Secteur --")
+        @Html.DropDownList("Secteur", null, "-- Secteur --", htmlAttributes: new { @class = "dropdwn form-control" })
     </div>
 </div>
 <br/>

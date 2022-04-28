@@ -19,6 +19,7 @@ namespace Parcours_integration.Controllers
 
         public Employes UserSession;
         public bool EstAdmin;
+        public bool EstFormateur;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
@@ -32,6 +33,7 @@ namespace Parcours_integration.Controllers
             ViewBag.UserSecteur = UserSession.Secteur;
 
             EstAdmin = CheckIntervenant(UserSession.Login);
+            EstFormateur = CheckFormateur(UserSession.Login);
             ViewBag.EstAdmin = EstAdmin;
         }
 
@@ -63,6 +65,16 @@ namespace Parcours_integration.Controllers
             {
                 return false;
             }
+        }
+
+        public bool CheckFormateur(string login)
+        {
+            Employes emp = db.Employes.Where(x => x.Login == login).FirstOrDefault();
+            if(emp != null)
+            {
+                return true;
+            }
+            else { return false; }
         }
     }
 }

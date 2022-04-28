@@ -16,7 +16,7 @@ namespace Parcours_integration.Controllers
         // GET: Formations
         public ActionResult Index(bool? CDI, bool? CDD, bool? Stage, bool? Mutation)
         {
-            if (!EstAdmin)
+            if (!EstFormateur)
             {
                 var Nom = UserSession.Nom;
                 var Parc = db.Parcours.Where(m => m.Nom + m.Prénom == Nom).FirstOrDefault();
@@ -72,7 +72,7 @@ namespace Parcours_integration.Controllers
             }
 
 
-            Parcours = Parcours.OrderBy(s => s.Nom);
+            Parcours = Parcours.OrderBy(s => s.Date_entrée);
             ViewBag.Missions = missions;
             return View(Parcours);
         }

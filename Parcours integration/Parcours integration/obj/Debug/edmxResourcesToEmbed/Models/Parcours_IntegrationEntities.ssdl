@@ -17,6 +17,7 @@
     <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
     <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Photo" Type="varbinary(max)" />
+    <Property Name="Reporting" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>

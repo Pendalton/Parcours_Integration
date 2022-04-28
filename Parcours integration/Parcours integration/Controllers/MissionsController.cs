@@ -171,6 +171,7 @@ namespace Parcours_integration.Controllers
                     Miss.Passage = false;
                     Miss.Date_passage = "--/--/----";
                     Miss.Login_Interlocuteur = null;
+                    Miss.Remarque = "";
                 }
                 db.SaveChanges();
                 var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Passage==false).FirstOrDefault();

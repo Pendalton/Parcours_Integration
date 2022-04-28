@@ -12,6 +12,7 @@
     <EntitySetMapping Name="Employes">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Employes">
         <MappingFragment StoreEntitySet="Employes">
+          <ScalarProperty Name="Reporting" ColumnName="Reporting" />
           <ScalarProperty Name="Photo" ColumnName="Photo" />
           <ScalarProperty Name="Login" ColumnName="Login" />
           <ScalarProperty Name="Intervenant" ColumnName="Intervenant" />
