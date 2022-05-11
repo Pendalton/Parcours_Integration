@@ -6,37 +6,65 @@
 
 <div>
     <div>
-        <h2 style="font-weight:normal"> <span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)
-        <span style="margin-left:200px">@Html.DisplayFor(model => model.Contrat.Nom)</span>
-        <span style="float:right">@Html.DisplayFor(model=>model.Poste)</span>
-        </h2>
-        <h3 style ="font-weight:normal"><span>Entré(e) le : @Html.DisplayFor(model => model.Date_entrée)</span></h3>
-</div>
+        <table class="table" style="margin: 0 auto; border-color: #ffffff00">
+            <tr>
+                <td style="width:33%">
+                    <h2 style="font-weight:normal"><span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
+                </td>
+                <td class="text-center" style="width:33%">
+                    <h2 style="font-weight:normal"><span>@ViewBag.TypeContrat</span></h2>
+                </td>
+                <td class="text-end" style="width:33%">
+                    <h2 style="font-weight:normal"><span>@ViewBag.PosteOccupé</span></h2>
+                </td>
+            </tr>
+        </table>
+        <h3 style="font-weight:normal; padding-left:8px"><span>Entré(e) le : @ViewBag.Entrée</span></h3>
+    </div>
     <hr />
 
-    <div style="margin-left:15px">
-        <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
+    <div class="row">
+        <div class="col-md-2">
+            <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
+        </div>
 
         @if (ViewBag.EstAdmin)
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10" style="margin-left:200px">Modifier</a>
-            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10">Supprimer</a>
-            <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-primary icon-edit bigger-10">Documents du parcours</a>
+            <div class="col-md-8" style="height:38px; display:inline-flex">
+                <div class="btn-group" style="margin-left: auto">
+                    <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary bigger-10" style="max-width:120px;">Modifier</a>
+                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-info bigger-10" style="max-width: 200px">Documents du parcours</a>
+                </div>
+                @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-right: auto;margin-left:5px" }))
+                {
+                    <input type="hidden" name="GridHtml" />
+                    <input type="hidden" value="@Model.ID" name="ID" />
+                    <input class="btn btn-mini btn-warning icon-edit bigger-10" type="submit" id="btnSubmit" value="Exporter le parcours" />
+                }
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 float-end">Nouvelle mission</a>
+            </div>
+            <br /><br />
         }
         else
         {
-            <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 disabled" style="margin-left: 200px">Modifier</a>
-            <a href="@Url.Action("Delete", new { id = Model.ID })" class="btn btn-mini btn-danger icon-edit bigger-10 disabled">Supprimer</a>
-            <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-primary icon-edit bigger-10 disabled">Documents du parcours</a>
-        }
-
-        @if (ViewBag.EstAdmin)
-        {
-            <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 me-auto float-end" style="min-width:100px">Nouvelle mission</a> <br /><br />
-        }
-        else
-        {
-            <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary disabled icon-edit bigger-10 float-end" style="min-width:100px; position:relative">Nouvelle mission</a> <br /><br />
+            <div class="col-md-8 btn-group" style="height:38px">
+                <div class="btn-group" style="margin-left: auto">
+                    <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary bigger-10 disabled" style="max-width:120px;">Modifier</a>
+                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-info bigger-10 disabled" style="max-width: 200px">Documents du parcours</a>
+                </div>
+                @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-right: auto;margin-left:5px" }))
+                {
+                    <input type="hidden" name="GridHtml" />
+                    <input type="hidden" value="@Model.ID" name="ID" />
+                    <input class="btn btn-mini btn-warning icon-edit bigger-10" type="submit" id="btnSubmit" value="Exporter le parcours" />
+                }
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn disabled btn-mini btn-primary icon-edit bigger-10 float-end">Nouvelle mission</a>
+            </div>
+            <br /><br />
         }
 
     </div>
@@ -46,4 +74,63 @@
             @Html.Partial("_Missions", Model.Missions)
         </div>
     </div>
+
+    <div id="Grid" style="display:none">
+        @Html.Partial("_HiddenMissions", Model.Missions)
+    </div>
+    
+    @if (Model.Complété)
+    {
+        <hr />
+        <div class="h-100 bg-light border rounded-1" style="padding:12px">
+            <span style="font-weight:bold">Commentaire</span>
+            <hr style="margin-bottom:5px;margin-top:5px" />
+            @Html.Partial("_CommentBox")
+        </div>
+    }
 </div>
+
+<script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+</script>
+
+<style>
+    .commentBox {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .starFade {
+        background-image: url('/Docs/Images/StarFade.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .starFadeN {
+        background-image: url('/Docs/Images/StarFade.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+    }
+
+    .starGlow {
+        background-image: url('/Docs/Images/StarGlow.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .starGlowN {
+        background-image: url('/Docs/Images/StarGlow.gif');
+        min-width: 30px;
+        min-height: 30px;
+        display: inline-block;
+    }
+</style>

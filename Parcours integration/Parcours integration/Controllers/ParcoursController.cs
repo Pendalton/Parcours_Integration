@@ -8,6 +8,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Parcours_integration.Models;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.tool.xml;
 
 namespace Parcours_integration.Controllers
 {
@@ -77,10 +81,39 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ParcoursID = id.Value;
+            var comments = db.Comment.Where(s => s.ParcoursID == parcours.ID).FirstOrDefault();
+            ViewBag.Comments = comments;
+
+            if (comments != null)
+            {
+                ViewBag.Commenté = true;
+                ViewBag.Rating = comments.Rating;
+                ViewBag.CommentText = comments.CommentText;
+            }
+            else
+            {
+                ViewBag.Commenté = false;
+            }
+
             var jour = parcours.Date_entrée.Substring(8, 2);
             var mois = parcours.Date_entrée.Substring(5, 2);
             var année = parcours.Date_entrée.Substring(0, 4);
             parcours.Date_entrée = jour + "/" + mois + "/" + année;
+
+            ViewBag.Identity = parcours.Nom + " " + parcours.Prénom;
+            ViewBag.TypeContrat = parcours.Contrat.Nom;
+            ViewBag.PosteOccupé = parcours.Poste;
+            ViewBag.Entrée = parcours.Date_entrée;
+
+            List<string> Emplois = new List<string>();
+            var adding = from m in db.Employes
+                         orderby m.Secteur
+                         select m.Secteur;
+            Emplois.AddRange(adding.Distinct());
+            ViewBag.Lieux = Emplois;
+
+            ViewBag.Intervenants = db.Employes.OrderBy(s=>s.Nom).ToList();
 
             return View(parcours);
         }
@@ -92,9 +125,6 @@ namespace Parcours_integration.Controllers
             return View();
         }
 
-        // POST: Parcours/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste")] Parcours parcours)
@@ -158,9 +188,6 @@ namespace Parcours_integration.Controllers
             return View(parcours);
         }
 
-        // POST: Parcours/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété")] Parcours parcours, string Dossier)
@@ -319,6 +346,24 @@ namespace Parcours_integration.Controllers
                 }
             }
             return RedirectToAction("AddFile", new { id });
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public FileResult Export(string GridHtml,int ID)
+        {
+            Parcours parcours = db.Parcours.Find(ID);
+
+            using (MemoryStream stream = new System.IO.MemoryStream())
+            {
+                StringReader sr = new StringReader(GridHtml);
+                Document pdfDoc = new Document(PageSize.A4, 30f, 10f, 40f, 0f);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                pdfDoc.Close();
+                return File(stream.ToArray(), "application/pdf", parcours.Nom+parcours.Prénom+".pdf");
+            }
         }
 
         protected override void Dispose(bool disposing)

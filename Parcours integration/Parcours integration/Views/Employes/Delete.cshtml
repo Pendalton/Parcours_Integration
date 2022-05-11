@@ -49,22 +49,6 @@
 
                     <tr style="height:50px">
                         <td class="text-center" style="width:160px; font-weight:bold">
-                            Supérieur Hiérarchique :
-                        </td>
-                        <td>
-                            @if (Model.Reporting == null)
-                            {
-                                <p>Aucun supérieur direct</p>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(model => model.Reporting)
-                            }
-                        </td>
-                    </tr>
-
-                    <tr style="height:50px">
-                        <td class="text-center" style="width:160px; font-weight:bold">
                             @Html.DisplayNameFor(model => model.Intervenant)
                         </td>
                         <td>

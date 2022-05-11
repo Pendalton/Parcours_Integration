@@ -85,12 +85,12 @@
                 @if (ViewBag.EstAdmin)
                 {
                     <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", "Parcours", new { id = item.ID })" role="button">Modifier</a>
-                    <a class="btn btn-primary btn-mini" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
+                    <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
                 }
                 else
                 {
                     <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Edit", "Parcours", new { id = item.ID })" role="button">Modifier</a>
-                    <a class="btn btn-primary btn-mini" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
+                    <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
                 }
             </td>
         </tr>
@@ -123,7 +123,7 @@
                                             @format.Nom_Mission
                                         </td>
                                         <td>
-                                            @format.Remarque
+                                            @format.Remarque Changer texte ici par textarea pour simplifier signature
                                         </td>
                                         <td>
                                             <a class="btn btn-secondary btn-mini" href="@Url.Action("Signer", new { id = format.ID})" role="button">Signer</a>

@@ -42,7 +42,6 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
-            ViewBag.Reporting = new SelectList(db.Employes, "Login", "Nom");
             return View();
         }
 
@@ -51,7 +50,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Reporting")] Employes employes, HttpPostedFileBase postedFile)
+        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes, HttpPostedFileBase postedFile)
         {
             if (!employes.Login.Contains("CORPORATE\\"))
             {
@@ -80,7 +79,6 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
-            ViewBag.Reporting = new SelectList(db.Employes, "Login", "Nom");
             return View(employes);
         }
 
@@ -101,7 +99,6 @@ namespace Parcours_integration.Controllers
                 return HttpNotFound();
             }
             ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", employes.Secteur);
-            ViewBag.Reporting = new SelectList(db.Employes.Where(s=>s.Login != employes.Login), "Login", "Nom", employes.Reporting);
             return View(employes);
         }
 
@@ -110,7 +107,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo,Reporting")] Employes employes, HttpPostedFileBase postedFile)
+        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo")] Employes employes, HttpPostedFileBase postedFile)
         {
             if (employes.Nom == null || employes.Mail == null)
             {
@@ -135,7 +132,6 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", employes.Secteur);
-            ViewBag.Reporting = new SelectList(db.Employes.Where(s => s.Login != employes.Login), "Login", "Nom", employes.Reporting);
             return View(employes);
         }
 

@@ -30,7 +30,7 @@
                         @Html.LabelFor(model => model.Secteur, htmlAttributes: new { @class = "control-label" })
                     </td>
                     <td>
-                        @Html.DropDownList("Secteur", null, "--Secteur sélectionné--", htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("Secteur", null, "--Secteur sélectionné--", htmlAttributes: new { @class = "dropdwn form-control" })
                         @Html.ValidationMessageFor(model => model.Secteur, "", new { @class = "text-danger" })
                     </td>
                 </tr>

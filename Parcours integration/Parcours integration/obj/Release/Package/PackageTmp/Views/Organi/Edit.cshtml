@@ -37,6 +37,15 @@
                 </tr>
                 <tr style="height:50px">
                     <td class="text-center" style="width:150px">
+                        Etage :
+                    </td>
+                    <td style="width:300px">
+                        @Html.DropDownList("Etage", null, "-- Etage --", htmlAttributes: new { @class = "dropdwn form-control" })
+                        @Html.ValidationMessageFor(model => model.Etage, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:150px">
                         Plan de la salle :
                     </td>
                     <td style="width:300px">

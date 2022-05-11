@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Parcours_integration.Models.Plan>
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="map">
+            <img src="~/Docs/Plan/EtageNord.png" id="plan2" class="picture" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="h-100 bg-light border rounded-1" style="padding:12px">
+            <ul id="treeview" class="treeview" style="list-style:none; margin-left:-30px">
+                <li>
+                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changePlan2('EtageNord')">Plan général</a>
+                </li>
+                <hr style="margin: 5px;" />
+                @foreach (var type in ViewBag.TypeSalle2)
+                {
+                    <li>
+                        <span id="@type" style="font-weight: bold; font-size: 20px">@type</span>
+                    </li>
+                    foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type && w.Etage == 2))
+                    {
+                        <li>
+                            <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changePlan2('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a>
+                            @if (ViewBag.EstAdmin)
+                            {
+                                <a href="@Url.Action("Edit", new { id=Room.Id })" role="button"><i class="bi bi-wrench"></i></a>
+                                <a href="@Url.Action("Delete", new { id=Room.Id })" role="button"><i class="bi bi-trash-fill"></i></a>
+                            }
+                        </li>
+                    }
+                    <hr style="margin: 5px;" />
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .treeview span.indent {
+        margin-left: 10px;
+    }
+
+    .treeview li {
+        padding-bottom: 5px;
+    }
+
+    .picture {
+        max-width: 100%
+    }
+</style>
+
+<script>
+    function changePlan2(source) {
+        var Plan = document.getElementById("plan2");
+        var addr = "/Docs/Plan/" + source + ".png";
+        $(Plan).attr("src", addr);
+    }
+</script>

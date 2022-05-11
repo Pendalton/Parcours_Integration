@@ -26,7 +26,6 @@ namespace Parcours_integration.Models
         public string Secteur { get; set; }
         public string Nom { get; set; }
         public byte[] Photo { get; set; }
-        public string Reporting { get; set; }
     
         public virtual Secteurs Secteurs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

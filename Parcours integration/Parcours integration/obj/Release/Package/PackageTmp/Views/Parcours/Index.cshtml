@@ -73,8 +73,15 @@
 
                     @foreach (var item in Model)
                     {
+                        string[] colors = { "table-success", "table-default" };
+                        int index = 1;
+                        if(item.Complété)
+                        {
+                            index = 0;
+                        }
+                        var complété = colors[index];
                         <tbody>
-                            <tr align="center">
+                            <tr class="@complété" align="center">
                                 <td class="align-middle Search">
                                     <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
                                 </td>
@@ -88,7 +95,7 @@
                                     @Html.DisplayFor(modelItem => item.Poste)
                                 </td>
                                 <td class="align-middle">
-                                    @if (ViewBag.EstAdmin)
+                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper()+" "+item.Prénom == ViewBag.UserSession)
                                     {
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>

@@ -4,8 +4,8 @@
     <EntitySetMapping Name="Contrat">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Contrat">
         <MappingFragment StoreEntitySet="Contrat">
-          <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -13,78 +13,91 @@
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Employes">
         <MappingFragment StoreEntitySet="Employes">
           <ScalarProperty Name="Photo" ColumnName="Photo" />
-          <ScalarProperty Name="Login" ColumnName="Login" />
-          <ScalarProperty Name="Intervenant" ColumnName="Intervenant" />
-          <ScalarProperty Name="Mail" ColumnName="Mail" />
-          <ScalarProperty Name="Secteur" ColumnName="Secteur" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="Secteur" ColumnName="Secteur" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="Intervenant" ColumnName="Intervenant" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Missions">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Missions">
         <MappingFragment StoreEntitySet="Missions">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Nom_Mission" ColumnName="Nom_Mission" />
-          <ScalarProperty Name="Nom_Secteur" ColumnName="Nom_Secteur" />
-          <ScalarProperty Name="Login_Interlocuteur" ColumnName="Login_Interlocuteur" />
-          <ScalarProperty Name="Date_passage" ColumnName="Date_passage" />
-          <ScalarProperty Name="Passage" ColumnName="Passage" />
-          <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
           <ScalarProperty Name="Remarque" ColumnName="Remarque" />
+          <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
+          <ScalarProperty Name="Passage" ColumnName="Passage" />
+          <ScalarProperty Name="Date_passage" ColumnName="Date_passage" />
+          <ScalarProperty Name="Login_Interlocuteur" ColumnName="Login_Interlocuteur" />
+          <ScalarProperty Name="Nom_Secteur" ColumnName="Nom_Secteur" />
+          <ScalarProperty Name="Nom_Mission" ColumnName="Nom_Mission" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Modele">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Modele">
         <MappingFragment StoreEntitySet="Modele">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Nom" ColumnName="Nom" />
-          <ScalarProperty Name="Secteur" ColumnName="Secteur" />
-          <ScalarProperty Name="CDI" ColumnName="CDI" />
-          <ScalarProperty Name="CDD" ColumnName="CDD" />
-          <ScalarProperty Name="Stage" ColumnName="Stage" />
           <ScalarProperty Name="Mutation" ColumnName="Mutation" />
+          <ScalarProperty Name="Stage" ColumnName="Stage" />
+          <ScalarProperty Name="CDD" ColumnName="CDD" />
+          <ScalarProperty Name="CDI" ColumnName="CDI" />
+          <ScalarProperty Name="Secteur" ColumnName="Secteur" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="ModeleContrat">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.ModeleContrat">
         <MappingFragment StoreEntitySet="ModeleContrat">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="ID_Modele" ColumnName="ID_Modele" />
           <ScalarProperty Name="ID_Contrat" ColumnName="ID_Contrat" />
+          <ScalarProperty Name="ID_Modele" ColumnName="ID_Modele" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Parcours">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Parcours">
         <MappingFragment StoreEntitySet="Parcours">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Nom" ColumnName="Nom" />
-          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
-          <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
-          <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
-          <ScalarProperty Name="Complété" ColumnName="Complété" />
+          <ScalarProperty Name="Satisfaction" ColumnName="Satisfaction" />
           <ScalarProperty Name="Poste" ColumnName="Poste" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Secteurs">
-      <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Secteurs">
-        <MappingFragment StoreEntitySet="Secteurs">
+          <ScalarProperty Name="Complété" ColumnName="Complété" />
+          <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
+          <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
+          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
-          <ScalarProperty Name="Actif" ColumnName="Actif" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Plan">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Plan">
         <MappingFragment StoreEntitySet="Plan">
+          <ScalarProperty Name="Etage" ColumnName="Etage" />
           <ScalarProperty Name="Image" ColumnName="Image" />
           <ScalarProperty Name="Nom_de_salle" ColumnName="Nom_de_salle" />
           <ScalarProperty Name="Type_de_salle" ColumnName="Type_de_salle" />
           <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Secteurs">
+      <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Secteurs">
+        <MappingFragment StoreEntitySet="Secteurs">
+          <ScalarProperty Name="Actif" ColumnName="Actif" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comment">
+      <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Comment">
+        <MappingFragment StoreEntitySet="Comment">
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="ParcoursID" ColumnName="ParcoursID" />
+          <ScalarProperty Name="DateHeure" ColumnName="DateHeure" />
+          <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+          <ScalarProperty Name="CommentID" ColumnName="CommentID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

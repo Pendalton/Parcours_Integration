@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Parcours_IntegrationEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="CommentID" />
+    </Key>
+    <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CommentText" Type="nvarchar" MaxLength="200" />
+    <Property Name="DateHeure" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="ParcoursID" Type="int" Nullable="false" />
+    <Property Name="Rating" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Contrat">
     <Key>
       <PropertyRef Name="ID" />
@@ -17,7 +27,6 @@
     <Property Name="Secteur" Type="nvarchar" MaxLength="50" />
     <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Photo" Type="varbinary(max)" />
-    <Property Name="Reporting" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>
@@ -63,6 +72,7 @@
     <Property Name="Type_Contrat" Type="int" />
     <Property Name="Complété" Type="bit" Nullable="false" />
     <Property Name="Poste" Type="nvarchar" MaxLength="50" />
+    <Property Name="Satisfaction" Type="int" />
   </EntityType>
   <EntityType Name="Plan">
     <Key>
@@ -81,6 +91,18 @@
     <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Actif" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK_Comment_Parcours">
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ParcoursID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Employes_Secteurs">
     <End Role="Secteurs" Type="Self.Secteurs" Multiplicity="0..1" />
     <End Role="Employes" Type="Self.Employes" Multiplicity="*" />
@@ -166,6 +188,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="Parcours_IntegrationEntitiesStoreContainer">
+    <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Contrat" EntityType="Self.Contrat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employes" EntityType="Self.Employes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Missions" EntityType="Self.Missions" Schema="dbo" store:Type="Tables" />
@@ -174,6 +197,10 @@
     <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Secteurs" EntityType="Self.Secteurs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Comment_Parcours" Association="Self.FK_Comment_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
     <AssociationSet Name="FK_Employes_Secteurs" Association="Self.FK_Employes_Secteurs">
       <End Role="Secteurs" EntitySet="Secteurs" />
       <End Role="Employes" EntitySet="Employes" />

@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color:lightgray;
+    background-color: lightgray !important;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -19,10 +19,10 @@
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
-select {
-    max-width: 280px;
+select,
+textarea {
+    max-width: 350px;
 }
 
 .tenet {
@@ -93,10 +93,14 @@ select {
     }
 }
 
-.Urgent{
-    background-color:rgba(255,0,0,0.15);
+.Urgent {
+    background-color: #ffd9d9;
 }
 
 .Normal {
     background-color: white;
+}
+
+.dropdwn {
+    appearance: auto !important;
 }

@@ -19,61 +19,32 @@
     </div>
 </div>
 <hr />
-<div class="row">
-    <div class="col-md-9">
-        <div class="map">
-            <img src="~/Docs/Plan/usine.png" id="pic" class="picture" />
+
+<ul class="nav nav-tabs" style="margin:0px 20px -1px 10px; width:98%" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><span style="font-weight: bold">Etage Sud</span></button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><span style="font-weight: bold">Rez-de-chaussée</span></button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><span style="font-weight: bold">Etage Nord</span></button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="h-100 bg-light border rounded-1" style="padding:16px">
+            @Html.Partial("_Plan1")
         </div>
     </div>
-
-    <div class="col-md-3">
-        <div class="h-100 bg-light border rounded-3" style="padding:16px">
-            <ul id="treeview" class="treeview" style="list-style:none; margin-left:-25px">
-                <li>
-                    <a href="#" style="text-decoration: none; font-weight: bold; font-size:20px" onclick="changeImage('usine')">Usine</a>
-                </li>
-                <hr style="margin: 5px;" />
-                @foreach (var type in ViewBag.Types)
-                {
-                    <li>
-                        <span id="@type" style="font-weight: bold; font-size: 20px">@type</span>
-                    </li>
-                    foreach (var Room in Model.Where(w => w.Nom_de_salle != null && w.Type_de_salle == type))
-                    {
-                        <li>
-                            <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changeImage('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a> 
-                            @if (ViewBag.EstAdmin) 
-                            { 
-                                <a href="@Url.Action("Edit", new { id=Room.Id })" role="button"><i class="bi bi-wrench"></i></a>
-                                <a href="@Url.Action("Delete", new { id=Room.Id })" role="button"><i class="bi bi-trash-fill"></i></a>
-                            }
-                        </li>
-                    }
-                    <hr style="margin: 5px;" />
-                }
-            </ul>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="h-100 bg-light border rounded-1" style="padding:16px">
+            @Html.Partial("_Plan0")
+        </div>
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="h-100 bg-light border rounded-1" style="padding:16px">
+            @Html.Partial("_Plan2")
         </div>
     </div>
 </div>
-
-<style>
-    .treeview span.indent {
-        margin-left: 10px;
-    }
-
-    .treeview li {
-        padding-bottom: 5px;
-    }
-
-    .picture {
-        max-width: 100%
-    }
-</style>
-
-<script>
-    function changeImage(source) {
-        var Plan = document.getElementById("pic");
-        var addr = "/Docs/Plan/" + source + ".png";
-        $(Plan).attr("src", addr);
-    }
-</script>

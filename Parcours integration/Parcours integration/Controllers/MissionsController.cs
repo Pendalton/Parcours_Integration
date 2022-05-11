@@ -28,36 +28,39 @@ namespace Parcours_integration.Controllers
             }
 
             var Mods = from m in db.ModeleContrat
-                       select m;
+                       select m.Modele;
+            List<Modele> MissPossibles = new List<Modele>();
 
-            var misspré = db.Missions.Where(s => s.ID_Parcours == parc.ID);
+            MissPossibles.AddRange(Mods.Distinct());
 
-            foreach (var miss in misspré)
+            var MissPrésentes = db.Missions.Where(s => s.ID_Parcours == ID);
+
+            foreach (var Mission in MissPrésentes)
             {
-                foreach(var item in Mods)
+                foreach (var item in MissPossibles.ToList())
                 {
-                    if (miss.Nom_Mission == item.Modele.Nom)
+                    if (Mission.Nom_Mission == item.Nom)
                     {
-                        Mods = Mods.Where(s => s.Modele.Nom != item.Modele.Nom);
+                        MissPossibles.Remove(item);
                     }
                 }
             }
             ViewBag.ID = ID;
-            ViewBag.Modeles = new SelectList(Mods, "ID","Modele.Nom");
-            ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Nom");
-            return View();
+            ViewBag.ChoixMiss = new SelectList(MissPossibles, "ID", "Nom");
+            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            return View(new Missions());
         }
 
         // POST: Missions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int Modeles)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int ChoixMiss)
         {
             missions.ID_Parcours = ID;
             missions.Date_passage = "--/--/----";
-            var choix = db.Modele.Find(Modeles);
+            var choix = db.Modele.Find(ChoixMiss);
 
             missions.Nom_Mission = choix.Nom;
             missions.Nom_Secteur = choix.Secteurs.Nom;
@@ -66,12 +69,53 @@ namespace Parcours_integration.Controllers
             {
                 db.Missions.Add(missions);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details","Parcours", new { id = ID });
             }
 
-            ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Mail", missions.Login_Interlocuteur);
-            ViewBag.ID_Parcours = new SelectList(db.Parcours, "ID", "Nom", missions.ID_Parcours);
+            var Mods = from m in db.ModeleContrat
+                       select m.Modele;
+            List<Modele> MissPossibles = new List<Modele>();
+
+            MissPossibles.AddRange(Mods.Distinct());
+
+            var MissPrésentes = db.Missions.Where(s => s.ID_Parcours == ID);
+
+            foreach (var Mission in MissPrésentes)
+            {
+                foreach (var item in MissPossibles.ToList())
+                {
+                    if (Mission.Nom_Mission == item.Nom)
+                    {
+                        MissPossibles.Remove(item);
+                    }
+                }
+            }
+            ViewBag.ID = ID;
+            ViewBag.ChoixMiss = new SelectList(MissPossibles, "ID", "Nom");
+            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
             return View(missions);
+        }
+
+        public ActionResult _NewMission(string Nom_Mission, string Secteur, int ID) 
+        {
+            var Sect = db.Secteurs.Find(Secteur);
+
+            Missions newMiss = new Missions
+            {
+                ID_Parcours = ID,
+                Nom_Mission = Nom_Mission,
+                Nom_Secteur = Sect.Nom,
+                Date_passage = "--/--/----"
+            };
+
+
+            if (ModelState.IsValid)
+            {
+                db.Missions.Add(newMiss);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Parcours", new { id = ID });
+            }
+            return RedirectToAction("Create");
         }
 
         // GET: Missions/Edit/5
@@ -87,6 +131,7 @@ namespace Parcours_integration.Controllers
                 return HttpNotFound();
             }
             ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Nom", missions.Login_Interlocuteur);
+            ViewBag.Secteurs = new SelectList(db.Secteurs.Where(s=>s.Actif==true), "Nom", "Nom", missions.Nom_Secteur);
             return View(missions);
         }
 
@@ -95,8 +140,11 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours,Remarque")] Missions missions)
+        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours,Remarque")] Missions missions,string Secteurs)
         {
+            var sect = db.Secteurs.Find(Secteurs);
+            missions.Nom_Secteur = sect.Nom;
+
             if (ModelState.IsValid)
             {
                 db.Entry(missions).State = EntityState.Modified;
@@ -105,6 +153,7 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Mail", missions.Login_Interlocuteur);
             ViewBag.ID_Parcours = new SelectList(db.Parcours, "ID", "Nom", missions.ID_Parcours);
+            ViewBag.Secteurs = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", missions.Nom_Secteur);
             return View(missions);
         }
 

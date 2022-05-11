@@ -30,7 +30,7 @@
                         Secteur
                     </td>
                     <td>
-                        @Html.EditorFor(model => model.Nom_Secteur, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownList("Secteurs", null, "-- Secteur --", htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Nom_Secteur, "", new { @class = "text-danger" })
                     </td>
                 </tr>

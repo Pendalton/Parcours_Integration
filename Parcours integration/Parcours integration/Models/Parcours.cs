@@ -18,6 +18,7 @@ namespace Parcours_integration.Models
         public Parcours()
         {
             this.Missions = new HashSet<Missions>();
+            this.Comment = new HashSet<Comment>();
         }
     
         public int ID { get; set; }
@@ -27,9 +28,12 @@ namespace Parcours_integration.Models
         public Nullable<int> Type_Contrat { get; set; }
         public bool Complété { get; set; }
         public string Poste { get; set; }
+        public Nullable<int> Satisfaction { get; set; }
     
         public virtual Contrat Contrat { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Missions> Missions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comment { get; set; }
     }
 }

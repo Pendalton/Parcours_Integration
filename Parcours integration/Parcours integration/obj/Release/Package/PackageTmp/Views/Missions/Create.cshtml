@@ -7,7 +7,7 @@
 <h2>Nouvelle mission</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create"))
 {
     @Html.AntiForgeryToken()
 
@@ -21,12 +21,13 @@
                         Mission choisie :
                     </td>
                     <td style="width:300px">
-                        @Html.DropDownList("Modeles", null, "-- Mission --", htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("ChoixMiss", null, "-- Mission --", htmlAttributes: new { @class = "dropdwn form-control" })
                         @Html.ValidationMessageFor(model => model.Nom_Mission, "", new { @class = "text-danger" })
                     </td>
                 </tr>
             </tbody>
         </table>
+
         <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
@@ -35,6 +36,14 @@
         </div>
     </div>
 }
+<br />
+
+@using (Html.BeginForm("_NewMission", "Missions", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_NewMission", Model)
+}
+
 <br />
 <div>
     <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
