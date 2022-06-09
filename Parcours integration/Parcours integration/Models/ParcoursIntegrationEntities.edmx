@@ -1,0 +1,794 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ParcoursIntegrationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar" MaxLength="200" />
+          <Property Name="DateHeure" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ParcoursID" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contrat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Equipe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Missions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom_Mission" Type="nvarchar" MaxLength="200" />
+          <Property Name="Nom_Secteur" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date_passage" Type="nchar" MaxLength="10" />
+          <Property Name="Passage" Type="bit" Nullable="false" />
+          <Property Name="ID_Parcours" Type="int" Nullable="false" />
+          <Property Name="Remarque" Type="nvarchar(max)" />
+          <Property Name="Planifié" Type="bit" Nullable="false" />
+          <Property Name="ID_Formateur" Type="int" />
+        </EntityType>
+        <EntityType Name="Modele">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="200" />
+          <Property Name="CDI" Type="bit" Nullable="false" />
+          <Property Name="CDD" Type="bit" Nullable="false" />
+          <Property Name="Stage" Type="bit" Nullable="false" />
+          <Property Name="Mutation" Type="bit" Nullable="false" />
+          <Property Name="Intérimaire" Type="bit" Nullable="false" />
+          <Property Name="ServiceID" Type="int" />
+        </EntityType>
+        <EntityType Name="ModeleContrat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Modele" Type="int" Nullable="false" />
+          <Property Name="ID_Contrat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parcours">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="Prénom" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date_entrée" Type="nchar" MaxLength="10" />
+          <Property Name="Type_Contrat" Type="int" />
+          <Property Name="Complété" Type="bit" Nullable="false" />
+          <Property Name="Poste" Type="nvarchar" MaxLength="50" />
+          <Property Name="Entrée" Type="date" />
+          <Property Name="EquipeID" Type="int" />
+          <Property Name="ID_Resp" Type="int" />
+        </EntityType>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
+          <Property Name="Image" Type="nvarchar" MaxLength="50" />
+          <Property Name="Etage" Type="int" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
+          <Property Name="Actif" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="100" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserMail" Type="nvarchar(max)" />
+          <Property Name="UserPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="EstResponsable" Type="bit" Nullable="false" />
+          <Property Name="EstFormateur" Type="bit" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+          <Property Name="EstAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utilisateurs_Services">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Service" Type="int" Nullable="false" />
+          <Property Name="ID_Utilisateur" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Comment_Parcours">
+          <End Role="Parcours" Type="Self.Parcours" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcours">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ParcoursID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employes_Services_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="Utilisateurs_Services" Type="Self.Utilisateurs_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateurs_Services">
+              <PropertyRef Name="ID_Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Missions_Parcours">
+          <End Role="Parcours" Type="Self.Parcours" Multiplicity="1" />
+          <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcours">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Missions">
+              <PropertyRef Name="ID_Parcours" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Missions_Utilisateurs">
+          <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="0..1" />
+          <End Role="Missions" Type="Self.Missions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Missions">
+              <PropertyRef Name="ID_Formateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modele_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="Modele" Type="Self.Modele" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modele">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModeleContrat_Contrat">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+          <End Role="ModeleContrat" Type="Self.ModeleContrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModeleContrat">
+              <PropertyRef Name="ID_Contrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModeleContrat_Modele">
+          <End Role="Modele" Type="Self.Modele" Multiplicity="1" />
+          <End Role="ModeleContrat" Type="Self.ModeleContrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modele">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModeleContrat">
+              <PropertyRef Name="ID_Modele" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Contrat">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="0..1" />
+          <End Role="Parcours" Type="Self.Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="Type_Contrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Equipe">
+          <End Role="Equipe" Type="Self.Equipe" Multiplicity="0..1" />
+          <End Role="Parcours" Type="Self.Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="EquipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Utilisateurs">
+          <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="0..1" />
+          <End Role="Parcours" Type="Self.Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="ID_Resp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utilisateurs_Services_Utilisateurs">
+          <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
+          <End Role="Utilisateurs_Services" Type="Self.Utilisateurs_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateurs_Services">
+              <PropertyRef Name="ID_Utilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ParcoursIntegrationModelStoreContainer">
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contrat" EntityType="Self.Contrat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Equipe" EntityType="Self.Equipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Missions" EntityType="Self.Missions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateurs_Services" EntityType="Self.Utilisateurs_Services" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comment_Parcours" Association="Self.FK_Comment_Parcours">
+            <End Role="Parcours" EntitySet="Parcours" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employes_Services_Service" Association="Self.FK_Employes_Services_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Utilisateurs_Services" EntitySet="Utilisateurs_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Missions_Parcours" Association="Self.FK_Missions_Parcours">
+            <End Role="Parcours" EntitySet="Parcours" />
+            <End Role="Missions" EntitySet="Missions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Missions_Utilisateurs" Association="Self.FK_Missions_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Missions" EntitySet="Missions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modele_Service" Association="Self.FK_Modele_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Modele" EntitySet="Modele" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModeleContrat_Contrat" Association="Self.FK_ModeleContrat_Contrat">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModeleContrat_Modele" Association="Self.FK_ModeleContrat_Modele">
+            <End Role="Modele" EntitySet="Modele" />
+            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Contrat" Association="Self.FK_Parcours_Contrat">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Equipe" Association="Self.FK_Parcours_Equipe">
+            <End Role="Equipe" EntitySet="Equipe" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Utilisateurs" Association="Self.FK_Parcours_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utilisateurs_Services_Utilisateurs" Association="Self.FK_Utilisateurs_Services_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Utilisateurs_Services" EntitySet="Utilisateurs_Services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ParcoursIntegrationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ParcoursIntegrationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comment" EntityType="ParcoursIntegrationModel.Comment" />
+          <EntitySet Name="Contrat" EntityType="ParcoursIntegrationModel.Contrat" />
+          <EntitySet Name="Equipe" EntityType="ParcoursIntegrationModel.Equipe" />
+          <EntitySet Name="Missions" EntityType="ParcoursIntegrationModel.Missions" />
+          <EntitySet Name="Modele" EntityType="ParcoursIntegrationModel.Modele" />
+          <EntitySet Name="ModeleContrat" EntityType="ParcoursIntegrationModel.ModeleContrat" />
+          <EntitySet Name="Plan" EntityType="ParcoursIntegrationModel.Plan" />
+          <EntitySet Name="Service" EntityType="ParcoursIntegrationModel.Service" />
+          <EntitySet Name="Utilisateurs" EntityType="ParcoursIntegrationModel.Utilisateurs" />
+          <EntitySet Name="Utilisateurs_Services" EntityType="ParcoursIntegrationModel.Utilisateurs_Services" />
+          <AssociationSet Name="FK_ModeleContrat_Contrat" Association="ParcoursIntegrationModel.FK_ModeleContrat_Contrat">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Missions_Utilisateurs" Association="ParcoursIntegrationModel.FK_Missions_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Missions" EntitySet="Missions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Modele_Service" Association="ParcoursIntegrationModel.FK_Modele_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Modele" EntitySet="Modele" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModeleContrat_Modele" Association="ParcoursIntegrationModel.FK_ModeleContrat_Modele">
+            <End Role="Modele" EntitySet="Modele" />
+            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employes_Services_Service" Association="ParcoursIntegrationModel.FK_Employes_Services_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Utilisateurs_Services" EntitySet="Utilisateurs_Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Utilisateurs_Services_Utilisateurs" Association="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Utilisateurs_Services" EntitySet="Utilisateurs_Services" />
+          </AssociationSet>
+          <EntitySet Name="Parcours" EntityType="ParcoursIntegrationModel.Parcours" />
+          <AssociationSet Name="FK_Comment_Parcours" Association="ParcoursIntegrationModel.FK_Comment_Parcours">
+            <End Role="Parcours" EntitySet="Parcours" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Contrat" Association="ParcoursIntegrationModel.FK_Parcours_Contrat">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Equipe" Association="ParcoursIntegrationModel.FK_Parcours_Equipe">
+            <End Role="Equipe" EntitySet="Equipe" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Missions_Parcours" Association="ParcoursIntegrationModel.FK_Missions_Parcours">
+            <End Role="Parcours" EntitySet="Parcours" />
+            <End Role="Missions" EntitySet="Missions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcours_Utilisateurs" Association="ParcoursIntegrationModel.FK_Parcours_Utilisateurs">
+            <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+            <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommentText" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DateHeure" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ParcoursID" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Comment_Parcours" FromRole="Comment" ToRole="Parcours" />
+        </EntityType>
+        <EntityType Name="Contrat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" FromRole="Contrat" ToRole="ModeleContrat" />
+          <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Contrat" FromRole="Contrat" ToRole="Parcours" />
+        </EntityType>
+        <EntityType Name="Equipe">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Equipe" FromRole="Equipe" ToRole="Parcours" />
+        </EntityType>
+        <EntityType Name="Missions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom_Mission" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Nom_Secteur" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date_passage" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Passage" Type="Boolean" Nullable="false" />
+          <Property Name="ID_Parcours" Type="Int32" Nullable="false" />
+          <Property Name="Remarque" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Planifié" Type="Boolean" Nullable="false" />
+          <Property Name="ID_Formateur" Type="Int32" />
+          <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Missions_Utilisateurs" FromRole="Missions" ToRole="Utilisateurs" />
+          <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Missions_Parcours" FromRole="Missions" ToRole="Parcours" />
+        </EntityType>
+        <EntityType Name="Modele">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CDI" Type="Boolean" Nullable="false" />
+          <Property Name="CDD" Type="Boolean" Nullable="false" />
+          <Property Name="Stage" Type="Boolean" Nullable="false" />
+          <Property Name="Mutation" Type="Boolean" Nullable="false" />
+          <Property Name="Intérimaire" Type="Boolean" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" />
+          <NavigationProperty Name="Service" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Modele" ToRole="Service" />
+          <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Modele" FromRole="Modele" ToRole="ModeleContrat" />
+        </EntityType>
+        <EntityType Name="ModeleContrat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Modele" Type="Int32" Nullable="false" />
+          <Property Name="ID_Contrat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" FromRole="ModeleContrat" ToRole="Contrat" />
+          <NavigationProperty Name="Modele" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Modele" FromRole="ModeleContrat" ToRole="Modele" />
+        </EntityType>
+        <EntityType Name="Plan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_de_salle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nom_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Etage" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Actif" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Modele" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Service" ToRole="Modele" />
+          <NavigationProperty Name="Utilisateurs_Services" Relationship="ParcoursIntegrationModel.FK_Employes_Services_Service" FromRole="Service" ToRole="Utilisateurs_Services" />
+        </EntityType>
+        <EntityType Name="Utilisateurs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserMail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EstResponsable" Type="Boolean" Nullable="false" />
+          <Property Name="EstFormateur" Type="Boolean" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="EstAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Missions" Relationship="ParcoursIntegrationModel.FK_Missions_Utilisateurs" FromRole="Utilisateurs" ToRole="Missions" />
+          <NavigationProperty Name="Utilisateurs_Services" Relationship="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" FromRole="Utilisateurs" ToRole="Utilisateurs_Services" />
+          <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Utilisateurs" ToRole="Parcours" />
+        </EntityType>
+        <EntityType Name="Utilisateurs_Services">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Service" Type="Int32" Nullable="false" />
+          <Property Name="ID_Utilisateur" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Service" Relationship="ParcoursIntegrationModel.FK_Employes_Services_Service" FromRole="Utilisateurs_Services" ToRole="Service" />
+          <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" FromRole="Utilisateurs_Services" ToRole="Utilisateurs" />
+        </EntityType>
+        <Association Name="FK_ModeleContrat_Contrat">
+          <End Type="ParcoursIntegrationModel.Contrat" Role="Contrat" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.ModeleContrat" Role="ModeleContrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModeleContrat">
+              <PropertyRef Name="ID_Contrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Missions_Utilisateurs">
+          <End Type="ParcoursIntegrationModel.Utilisateurs" Role="Utilisateurs" Multiplicity="0..1" />
+          <End Type="ParcoursIntegrationModel.Missions" Role="Missions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Missions">
+              <PropertyRef Name="ID_Formateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Modele_Service">
+          <End Type="ParcoursIntegrationModel.Service" Role="Service" Multiplicity="0..1" />
+          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modele">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModeleContrat_Modele">
+          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.ModeleContrat" Role="ModeleContrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modele">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModeleContrat">
+              <PropertyRef Name="ID_Modele" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employes_Services_Service">
+          <End Type="ParcoursIntegrationModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.Utilisateurs_Services" Role="Utilisateurs_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateurs_Services">
+              <PropertyRef Name="ID_Service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Utilisateurs_Services_Utilisateurs">
+          <End Type="ParcoursIntegrationModel.Utilisateurs" Role="Utilisateurs" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.Utilisateurs_Services" Role="Utilisateurs_Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Utilisateurs_Services">
+              <PropertyRef Name="ID_Utilisateur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Parcours">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Prénom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date_entrée" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Type_Contrat" Type="Int32" />
+          <Property Name="Complété" Type="Boolean" Nullable="false" />
+          <Property Name="Poste" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Entrée" Type="DateTime" Precision="0" />
+          <Property Name="EquipeID" Type="Int32" />
+          <Property Name="ID_Resp" Type="Int32" />
+          <NavigationProperty Name="Comment" Relationship="ParcoursIntegrationModel.FK_Comment_Parcours" FromRole="Parcours" ToRole="Comment" />
+          <NavigationProperty Name="Contrat" Relationship="ParcoursIntegrationModel.FK_Parcours_Contrat" FromRole="Parcours" ToRole="Contrat" />
+          <NavigationProperty Name="Equipe" Relationship="ParcoursIntegrationModel.FK_Parcours_Equipe" FromRole="Parcours" ToRole="Equipe" />
+          <NavigationProperty Name="Missions" Relationship="ParcoursIntegrationModel.FK_Missions_Parcours" FromRole="Parcours" ToRole="Missions" />
+          <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Parcours" ToRole="Utilisateurs" />
+        </EntityType>
+        <Association Name="FK_Comment_Parcours">
+          <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcours">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ParcoursID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Contrat">
+          <End Type="ParcoursIntegrationModel.Contrat" Role="Contrat" Multiplicity="0..1" />
+          <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="Type_Contrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Equipe">
+          <End Type="ParcoursIntegrationModel.Equipe" Role="Equipe" Multiplicity="0..1" />
+          <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipe">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="EquipeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Missions_Parcours">
+          <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.Missions" Role="Missions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcours">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Missions">
+              <PropertyRef Name="ID_Parcours" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcours_Utilisateurs">
+          <End Type="ParcoursIntegrationModel.Utilisateurs" Role="Utilisateurs" Multiplicity="0..1" />
+          <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateurs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Parcours">
+              <PropertyRef Name="ID_Resp" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ParcoursIntegrationModelStoreContainer" CdmEntityContainer="ParcoursIntegrationEntities">
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="ParcoursID" ColumnName="ParcoursID" />
+                <ScalarProperty Name="DateHeure" ColumnName="DateHeure" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contrat">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Contrat">
+              <MappingFragment StoreEntitySet="Contrat">
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Equipe">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Equipe">
+              <MappingFragment StoreEntitySet="Equipe">
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Missions">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Missions">
+              <MappingFragment StoreEntitySet="Missions">
+                <ScalarProperty Name="ID_Formateur" ColumnName="ID_Formateur" />
+                <ScalarProperty Name="Planifié" ColumnName="Planifié" />
+                <ScalarProperty Name="Remarque" ColumnName="Remarque" />
+                <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
+                <ScalarProperty Name="Passage" ColumnName="Passage" />
+                <ScalarProperty Name="Date_passage" ColumnName="Date_passage" />
+                <ScalarProperty Name="Nom_Secteur" ColumnName="Nom_Secteur" />
+                <ScalarProperty Name="Nom_Mission" ColumnName="Nom_Mission" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modele">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Modele">
+              <MappingFragment StoreEntitySet="Modele">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Intérimaire" ColumnName="Intérimaire" />
+                <ScalarProperty Name="Mutation" ColumnName="Mutation" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="CDD" ColumnName="CDD" />
+                <ScalarProperty Name="CDI" ColumnName="CDI" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModeleContrat">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.ModeleContrat">
+              <MappingFragment StoreEntitySet="ModeleContrat">
+                <ScalarProperty Name="ID_Contrat" ColumnName="ID_Contrat" />
+                <ScalarProperty Name="ID_Modele" ColumnName="ID_Modele" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plan">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Plan">
+              <MappingFragment StoreEntitySet="Plan">
+                <ScalarProperty Name="Etage" ColumnName="Etage" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Nom_de_salle" ColumnName="Nom_de_salle" />
+                <ScalarProperty Name="Type_de_salle" ColumnName="Type_de_salle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="Actif" ColumnName="Actif" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateurs">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Utilisateurs">
+              <MappingFragment StoreEntitySet="Utilisateurs">
+                <ScalarProperty Name="EstAdmin" ColumnName="EstAdmin" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="EstFormateur" ColumnName="EstFormateur" />
+                <ScalarProperty Name="EstResponsable" ColumnName="EstResponsable" />
+                <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+                <ScalarProperty Name="UserMail" ColumnName="UserMail" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateurs_Services">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Utilisateurs_Services">
+              <MappingFragment StoreEntitySet="Utilisateurs_Services">
+                <ScalarProperty Name="ID_Utilisateur" ColumnName="ID_Utilisateur" />
+                <ScalarProperty Name="ID_Service" ColumnName="ID_Service" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parcours">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Parcours">
+              <MappingFragment StoreEntitySet="Parcours">
+                <ScalarProperty Name="ID_Resp" ColumnName="ID_Resp" />
+                <ScalarProperty Name="EquipeID" ColumnName="EquipeID" />
+                <ScalarProperty Name="Entrée" ColumnName="Entrée" />
+                <ScalarProperty Name="Poste" ColumnName="Poste" />
+                <ScalarProperty Name="Complété" ColumnName="Complété" />
+                <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
+                <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
+                <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

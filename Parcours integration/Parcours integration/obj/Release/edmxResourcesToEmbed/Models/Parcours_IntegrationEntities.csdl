@@ -6,16 +6,11 @@
     <EntitySet Name="Missions" EntityType="Parcours_IntegrationEntities.Missions" />
     <EntitySet Name="Modele" EntityType="Parcours_IntegrationEntities.Modele" />
     <EntitySet Name="ModeleContrat" EntityType="Parcours_IntegrationEntities.ModeleContrat" />
-    <EntitySet Name="Parcours" EntityType="Parcours_IntegrationEntities.Parcours" />
     <EntitySet Name="Plan" EntityType="Parcours_IntegrationEntities.Plan" />
     <EntitySet Name="Secteurs" EntityType="Parcours_IntegrationEntities.Secteurs" />
     <AssociationSet Name="FK_ModeleContrat_Contrat" Association="Parcours_IntegrationEntities.FK_ModeleContrat_Contrat">
       <End Role="Contrat" EntitySet="Contrat" />
       <End Role="ModeleContrat" EntitySet="ModeleContrat" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Parcours_Contrat" Association="Parcours_IntegrationEntities.FK_Parcours_Contrat">
-      <End Role="Contrat" EntitySet="Contrat" />
-      <End Role="Parcours" EntitySet="Parcours" />
     </AssociationSet>
     <AssociationSet Name="FK_Employes_Secteurs" Association="Parcours_IntegrationEntities.FK_Employes_Secteurs">
       <End Role="Secteurs" EntitySet="Secteurs" />
@@ -23,10 +18,6 @@
     </AssociationSet>
     <AssociationSet Name="FK_Missions_Employes" Association="Parcours_IntegrationEntities.FK_Missions_Employes">
       <End Role="Employes" EntitySet="Employes" />
-      <End Role="Missions" EntitySet="Missions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Missions_Parcours" Association="Parcours_IntegrationEntities.FK_Missions_Parcours">
-      <End Role="Parcours" EntitySet="Parcours" />
       <End Role="Missions" EntitySet="Missions" />
     </AssociationSet>
     <AssociationSet Name="FK_Modele_Secteurs" Association="Parcours_IntegrationEntities.FK_Modele_Secteurs">
@@ -38,9 +29,18 @@
       <End Role="ModeleContrat" EntitySet="ModeleContrat" />
     </AssociationSet>
     <EntitySet Name="Comment" EntityType="Parcours_IntegrationEntities.Comment" />
+    <EntitySet Name="Parcours" EntityType="Parcours_IntegrationEntities.Parcours" />
     <AssociationSet Name="FK_Comment_Parcours" Association="Parcours_IntegrationEntities.FK_Comment_Parcours">
       <End Role="Parcours" EntitySet="Parcours" />
       <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Parcours_Contrat" Association="Parcours_IntegrationEntities.FK_Parcours_Contrat">
+      <End Role="Contrat" EntitySet="Contrat" />
+      <End Role="Parcours" EntitySet="Parcours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Missions_Parcours" Association="Parcours_IntegrationEntities.FK_Missions_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Missions" EntitySet="Missions" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Contrat">
@@ -48,7 +48,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Nom" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="ModeleContrat" Relationship="Parcours_IntegrationEntities.FK_ModeleContrat_Contrat" FromRole="Contrat" ToRole="ModeleContrat" />
     <NavigationProperty Name="Parcours" Relationship="Parcours_IntegrationEntities.FK_Parcours_Contrat" FromRole="Contrat" ToRole="Parcours" />
   </EntityType>
@@ -79,6 +79,7 @@
     <Property Name="Remarque" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Employes" Relationship="Parcours_IntegrationEntities.FK_Missions_Employes" FromRole="Missions" ToRole="Employes" />
     <NavigationProperty Name="Parcours" Relationship="Parcours_IntegrationEntities.FK_Missions_Parcours" FromRole="Missions" ToRole="Parcours" />
+    <Property Name="Planifié" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Modele">
     <Key>
@@ -93,6 +94,7 @@
     <Property Name="Mutation" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Secteurs" Relationship="Parcours_IntegrationEntities.FK_Modele_Secteurs" FromRole="Modele" ToRole="Secteurs" />
     <NavigationProperty Name="ModeleContrat" Relationship="Parcours_IntegrationEntities.FK_ModeleContrat_Modele" FromRole="Modele" ToRole="ModeleContrat" />
+    <Property Name="Intérimaire" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="ModeleContrat">
     <Key>
@@ -103,22 +105,6 @@
     <Property Name="ID_Contrat" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Contrat" Relationship="Parcours_IntegrationEntities.FK_ModeleContrat_Contrat" FromRole="ModeleContrat" ToRole="Contrat" />
     <NavigationProperty Name="Modele" Relationship="Parcours_IntegrationEntities.FK_ModeleContrat_Modele" FromRole="ModeleContrat" ToRole="Modele" />
-  </EntityType>
-  <EntityType Name="Parcours">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Prénom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Date_entrée" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-    <Property Name="Type_Contrat" Type="Int32" />
-    <Property Name="Complété" Type="Boolean" Nullable="false" />
-    <Property Name="Poste" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Satisfaction" Type="Int32" />
-    <NavigationProperty Name="Contrat" Relationship="Parcours_IntegrationEntities.FK_Parcours_Contrat" FromRole="Parcours" ToRole="Contrat" />
-    <NavigationProperty Name="Missions" Relationship="Parcours_IntegrationEntities.FK_Missions_Parcours" FromRole="Parcours" ToRole="Missions" />
-    <NavigationProperty Name="Comment" Relationship="Parcours_IntegrationEntities.FK_Comment_Parcours" FromRole="Parcours" ToRole="Comment" />
   </EntityType>
   <EntityType Name="Plan">
     <Key>
@@ -151,18 +137,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Parcours_Contrat">
-    <End Type="Parcours_IntegrationEntities.Contrat" Role="Contrat" Multiplicity="0..1" />
-    <End Type="Parcours_IntegrationEntities.Parcours" Role="Parcours" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Contrat">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Parcours">
-        <PropertyRef Name="Type_Contrat" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Employes_Secteurs">
     <End Type="Parcours_IntegrationEntities.Secteurs" Role="Secteurs" Multiplicity="0..1" />
     <End Type="Parcours_IntegrationEntities.Employes" Role="Employes" Multiplicity="*" />
@@ -184,18 +158,6 @@
       </Principal>
       <Dependent Role="Missions">
         <PropertyRef Name="Login_Interlocuteur" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Missions_Parcours">
-    <End Type="Parcours_IntegrationEntities.Parcours" Role="Parcours" Multiplicity="1" />
-    <End Type="Parcours_IntegrationEntities.Missions" Role="Missions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Parcours">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Missions">
-        <PropertyRef Name="ID_Parcours" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -234,6 +196,23 @@
     <Property Name="Rating" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Parcours" Relationship="Parcours_IntegrationEntities.FK_Comment_Parcours" FromRole="Comment" ToRole="Parcours" />
   </EntityType>
+  <EntityType Name="Parcours">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Prénom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date_entrée" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Type_Contrat" Type="Int32" />
+    <Property Name="Complété" Type="Boolean" Nullable="false" />
+    <Property Name="Poste" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Entrée" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Comment" Relationship="Parcours_IntegrationEntities.FK_Comment_Parcours" FromRole="Parcours" ToRole="Comment" />
+    <NavigationProperty Name="Contrat" Relationship="Parcours_IntegrationEntities.FK_Parcours_Contrat" FromRole="Parcours" ToRole="Contrat" />
+    <NavigationProperty Name="Missions" Relationship="Parcours_IntegrationEntities.FK_Missions_Parcours" FromRole="Parcours" ToRole="Missions" />
+    <Property Name="Rythme" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+  </EntityType>
   <Association Name="FK_Comment_Parcours">
     <End Type="Parcours_IntegrationEntities.Parcours" Role="Parcours" Multiplicity="1" />
     <End Type="Parcours_IntegrationEntities.Comment" Role="Comment" Multiplicity="*" />
@@ -243,6 +222,30 @@
       </Principal>
       <Dependent Role="Comment">
         <PropertyRef Name="ParcoursID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Parcours_Contrat">
+    <End Type="Parcours_IntegrationEntities.Contrat" Role="Contrat" Multiplicity="0..1" />
+    <End Type="Parcours_IntegrationEntities.Parcours" Role="Parcours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contrat">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Parcours">
+        <PropertyRef Name="Type_Contrat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Missions_Parcours">
+    <End Type="Parcours_IntegrationEntities.Parcours" Role="Parcours" Multiplicity="1" />
+    <End Type="Parcours_IntegrationEntities.Missions" Role="Missions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Missions">
+        <PropertyRef Name="ID_Parcours" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

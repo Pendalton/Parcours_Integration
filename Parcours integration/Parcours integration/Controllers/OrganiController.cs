@@ -13,11 +13,11 @@ namespace Parcours_integration.Controllers
 {
     public class OrganiController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
         // GET: Organi
         public ActionResult Index()
         {
-            var list = from m in db.Secteurs
+            var list = from m in db.Service
                        orderby m.Nom
                        select m.Nom;
             List<string> Secteurs = new List<string>();

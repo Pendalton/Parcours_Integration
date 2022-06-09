@@ -20,10 +20,10 @@
 
             <tr style="height:50px">
                 <td class="text-center" style="width:160px; font-weight:bold">
-                    @Html.DisplayNameFor(model => model.Secteur)
+                    Service
                 </td>
                 <td>
-                    @Html.DisplayFor(model => model.Secteur)
+                    @Html.DisplayFor(model => model.Service.Nom)
                 </td>
             </tr>
 
@@ -81,6 +81,21 @@
                 </td>
                 <td>
                     @if (Model.Mutation == true)
+                    {
+                        <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
+                    }
+                </td>
+            </tr>
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Intérimaire)
+                </td>
+                <td>
+                    @if (Model.Intérimaire == true)
                     {
                         <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
                     }

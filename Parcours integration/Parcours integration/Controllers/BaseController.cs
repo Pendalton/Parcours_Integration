@@ -15,44 +15,46 @@ namespace Parcours_integration.Controllers
 {
     public class BaseController : Controller
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
-        public Employes UserSession;
+        public Utilisateurs UserSession;
+        public List<Utilisateurs_Services> UserService;
         public bool EstAdmin;
         public bool EstFormateur;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            string login = "";
-            if((User != null) && (User.Identity.Name != "")) { login = User.Identity.Name; }
+            string login;
+            if ((User != null) && (User.Identity.Name != "")) { login = User.Identity.Name; }
             else { login = Request.LogonUserIdentity.Name; }
 
             UserSession = GetAccount(login);
             ViewBag.UserSession = UserSession.Nom;
-            ViewBag.UserSecteur = UserSession.Secteur;
+            UserService = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == UserSession.ID).ToList();
 
-            EstAdmin = CheckIntervenant(UserSession.Login);
-            EstFormateur = CheckFormateur(UserSession.Login);
-            ViewBag.EstAdmin = EstAdmin;
+            ViewBag.UserSecteur = UserService;
+
+            ViewBag.EstAdmin = EstAdmin = CheckAdmin(UserSession.ID);
+            ViewBag.EstFormateur = EstFormateur = CheckFormateur(UserSession.ID);
         }
 
-        public Employes GetAccount(string login)
+        public Utilisateurs GetAccount(string login)
         {
-            IEnumerable<Employes> u = db.Employes.Where(x => x.Login == login);
-            Employes anonyme = new Models.Employes();
+            IEnumerable<Utilisateurs> u = db.Utilisateurs.Where(x => x.Login == login);
+            Utilisateurs anonyme = new Models.Utilisateurs();
             if (u.Count() == 1) { return u.Single(); }
             else if (u.Count() > 1) { anonyme.Nom = "Erreur de Login"; }
             else { anonyme.Nom = "Utilisateur inconnu"; }
             return anonyme;
         }
 
-        public bool CheckIntervenant(string login)
+        public bool CheckAdmin(int ID)
         {
-            Employes employe = db.Employes.Where(x => x.Login == login).FirstOrDefault();
+            Utilisateurs employe = db.Utilisateurs.Where(x => x.ID == ID).FirstOrDefault();
             if (employe != null)
             {
-                if(employe.Intervenant == true)
+                if(employe.EstAdmin == true)
                 {
                     return true;
                 }
@@ -67,10 +69,10 @@ namespace Parcours_integration.Controllers
             }
         }
 
-        public bool CheckFormateur(string login)
+        public bool CheckFormateur(int ID)
         {
-            Employes emp = db.Employes.Where(x => x.Login == login).FirstOrDefault();
-            if(emp != null)
+            Utilisateurs employe = db.Utilisateurs.Where(x => x.ID == ID).FirstOrDefault();
+            if (employe != null)
             {
                 return true;
             }

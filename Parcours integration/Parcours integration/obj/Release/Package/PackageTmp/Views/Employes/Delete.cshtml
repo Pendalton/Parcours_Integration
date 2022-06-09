@@ -1,4 +1,4 @@
-﻿@model Parcours_integration.Models.Employes
+﻿@model Parcours_integration.Models.Utilisateurs
 
 @{
     ViewBag.Title = "Supprimer l'interlocuteur";
@@ -15,44 +15,47 @@
                         <td class="text-center" style="width:160px; font-weight:bold">
                             @Html.DisplayNameFor(model => model.Login)
                         </td>
-                        <td>
+                        <td style="width:500px">
                             @Html.DisplayFor(model => model.Login)
                         </td>
                     </tr>
 
                     <tr style="height:50px">
-                        <td class="text-center" style="width:160px; font-weight:bold">
+                        <td class="text-center" style="font-weight:bold">
                             @Html.DisplayNameFor(model => model.Nom)
                         </td>
-                        <td style="width:100px">
+                        <td>
                             @Html.DisplayFor(model => model.Nom)
                         </td>
                     </tr>
 
                     <tr style="height:50px">
-                        <td class="text-center" style="width:160px; font-weight:bold">
-                            @Html.DisplayNameFor(model => model.Secteur)
+                        <td class="text-center" style="font-weight:bold">
+                            Service(s)
                         </td>
                         <td>
-                            @Html.DisplayFor(model => model.Secteur)
+                            @foreach (var serv in ViewBag.Services)
+                            {
+                                <a href="" class="btn btn-sm btn-outline-dark icon-edit bigger-10" style="width:auto; margin:2px">@serv.Service.Nom</a>
+                            }
                         </td>
                     </tr>
 
                     <tr style="height:50px">
-                        <td class="text-center" style="width:160px; font-weight:bold">
-                            @Html.DisplayNameFor(model => model.Mail)
+                        <td class="text-center" style="font-weight:bold">
+                            @Html.DisplayNameFor(model => model.UserMail)
                         </td>
                         <td>
-                            @Html.DisplayFor(model => model.Mail)
+                            @Html.DisplayFor(model => model.UserMail)
                         </td>
                     </tr>
 
                     <tr style="height:50px">
-                        <td class="text-center" style="width:160px; font-weight:bold">
-                            @Html.DisplayNameFor(model => model.Intervenant)
+                        <td class="text-center" style="font-weight:bold">
+                            @Html.DisplayNameFor(model => model.EstFormateur)
                         </td>
                         <td>
-                            @if (Model.Intervenant == true)
+                            @if (Model.EstFormateur == true)
                             {
                                 <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
                             }

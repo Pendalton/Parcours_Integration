@@ -13,25 +13,24 @@ namespace Parcours_integration.Controllers
 {
     public class EmployesController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         // GET: Employes
-        public ActionResult Index(string secteur)
+        public ActionResult Index(int? ServiceID)
         {
-            var employes = from m in db.Employes
+            var users = from m in db.Utilisateurs
+                        where m.EstFormateur == true
                            select m;
 
-            var SectList = new List<string>();
-            var sect = from m in db.Secteurs
-                       select m.Nom;
-            SectList.AddRange(sect);
-            ViewBag.secteur = new SelectList(SectList);
-            if (!String.IsNullOrEmpty(secteur))
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
+            if (ServiceID != null)
             {
-                employes = employes.Where(s => s.Secteur == secteur);
-            }
+                var Service = db.Utilisateurs_Services.Where(s => s.ID_Service == ServiceID).Select(s=>s.ID_Utilisateur);
 
-            return View(employes);
+                users = users.Where(s => Service.Contains(s.ID));
+            }
+            ViewBag.Services = db.Utilisateurs_Services.ToList();
+            return View(users);
         }
 
         // GET: Employes/Create
@@ -41,26 +40,19 @@ namespace Parcours_integration.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
+            ViewBag.User = new SelectList(db.Utilisateurs, "ID", "Nom");
             return View();
         }
 
-        // POST: Employes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom")] Employes employes, HttpPostedFileBase postedFile)
+        public ActionResult Create(HttpPostedFileBase postedFile, int[] Service, int User, bool EstAdmin)
         {
-            if (!employes.Login.Contains("CORPORATE\\"))
-            {
-                employes.Login = "CORPORATE\\" + employes.Login;
-            }
-            if(employes.Nom == null ||employes.Mail == null)
-            {
-                ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
-                return View(employes);
-            }
+            Utilisateurs employes = db.Utilisateurs.Find(User);
+
+            employes.EstFormateur = true;
+            employes.EstAdmin = EstAdmin;
 
             if (postedFile != null && postedFile.ContentLength > 0)
             {
@@ -74,44 +66,56 @@ namespace Parcours_integration.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Employes.Add(employes);
+                db.Entry(employes).State = EntityState.Modified;
+
+                foreach (var value in Service)
+                {
+                    Utilisateurs_Services EmpSer = new Utilisateurs_Services
+                    {
+                        ID_Utilisateur = employes.ID,
+                        ID_Service = value
+                    };
+                    db.Utilisateurs_Services.Add(EmpSer);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
+            ViewBag.User = new SelectList(db.Utilisateurs, "ID", "Nom");
             return View(employes);
         }
 
         // GET: Employes/Edit/5
-        public ActionResult Edit(string Login)
+        public ActionResult Edit(int? ID)
         {
             if (!EstAdmin)
             {
                 return RedirectToAction("Index");
             }
-            if (Login == null)
+            if (ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employes employes = db.Employes.Find(Login);
+            Utilisateurs employes = db.Utilisateurs.Find(ID);
             if (employes == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", employes.Secteur);
+            var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID_Service).ToArray();
+            ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", ump);
+            var user = db.Utilisateurs.Where(s => s.Login == employes.Login).Select(s => s.ID);
+            ViewBag.User = new SelectList(db.Utilisateurs, "ID", "Nom", user);
             return View(employes);
         }
 
-        // POST: Employes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Login,Intervenant,Mail,Secteur,Nom,Photo")] Employes employes, HttpPostedFileBase postedFile)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Login,UserMail,EstResponsable,EstFormateur,EstAdmin,Photo")] Utilisateurs employes, HttpPostedFileBase postedFile, int[] Service)
         {
-            if (employes.Nom == null || employes.Mail == null)
+            var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID).ToArray();
+            if (employes.Nom == null || employes.UserMail == null)
             {
-                ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+                ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", ump);
                 return View(employes);
             }
 
@@ -128,35 +132,65 @@ namespace Parcours_integration.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(employes).State = EntityState.Modified;
+                var Exists = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).ToList();
+
+                foreach (var value in Service)
+                {
+                    if (!Exists.Contains(db.Utilisateurs_Services.Where(s=>s.ID_Service == value).FirstOrDefault()))
+                    {
+                        Utilisateurs_Services EmpSer = new Utilisateurs_Services
+                        {
+                            ID_Utilisateur = employes.ID,
+                            ID_Service = value
+                        };
+                        db.Utilisateurs_Services.Add(EmpSer);
+                    }
+                }
+
+                foreach(var SEREMP in Exists)
+                {
+                    if (!Service.Contains(SEREMP.ID_Service))
+                    {
+                        db.Utilisateurs_Services.Remove(SEREMP);
+                    }
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", employes.Secteur);
+            ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", ump);
             return View(employes);
         }
 
         // GET: Employes/Delete/5
-        public ActionResult Delete(string login)
+        public ActionResult Delete(int? ID)
         {
-            if (login == null)
+            if (ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employes employes = db.Employes.Find(login);
+            Utilisateurs employes = db.Utilisateurs.Find(ID);
             if (employes == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Services = db.Utilisateurs_Services.Where(s=>s.ID_Utilisateur==ID).ToList();
             return View(employes);
         }
 
         // POST: Employes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string login)
+        public ActionResult DeleteConfirmed(int? ID)
         {
-            Employes employes = db.Employes.Find(login);
-            db.Employes.Remove(employes);
+            Utilisateurs employes = db.Utilisateurs.Find(ID);
+
+            var Exists = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == ID).ToList();
+
+            db.Utilisateurs_Services.RemoveRange(Exists);
+
+            employes.EstFormateur = false;
+            employes.EstAdmin = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

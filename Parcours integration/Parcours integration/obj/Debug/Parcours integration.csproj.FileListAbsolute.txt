@@ -100,8 +100,11 @@ C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Par
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\roslyn\VBCSCompiler.exe
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Antlr3.Runtime.dll
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\BouncyCastle.Crypto.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\EntityFramework.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\EntityFramework.SqlServer.dll
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.dll
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xmlworker.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Newtonsoft.Json.dll
@@ -117,24 +120,21 @@ C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Par
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\WebGrease.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\EntityFramework.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\EntityFramework.SqlServer.xml
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Newtonsoft.Json.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\PagedList.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\PagedList.Mvc.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Helpers.xml
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Mvc.xml
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Optimization.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Razor.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.WebPages.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.WebPages.Deployment.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.WebPages.Razor.xml
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Mvc.xml
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\System.Web.Optimization.xml
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Antlr3.Runtime.pdb
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\obj\Debug\Parcours integration.csproj.CoreCompileInputs.cache
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\obj\Debug\Parcours integration.csproj.CopyComplete
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\obj\Debug\Parcours integration.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\obj\Debug\Parcours integration.pdb
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\obj\Debug\Parcours integration.csproj.AssemblyReference.cache
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\BouncyCastle.Crypto.dll
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.dll
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xmlworker.dll
-C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xml

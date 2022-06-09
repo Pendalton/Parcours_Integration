@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>\\liss4022\ParcoursIntegration</_PublishTargetUrl>
-    <History>True|2022-05-11T07:39:44.9409924Z;True|2022-05-06T09:42:22.0281613+02:00;True|2022-05-06T09:40:27.4006988+02:00;True|2022-05-06T09:18:38.5102976+02:00;False|2022-05-05T16:03:19.2260532+02:00;True|2022-04-25T14:47:23.3400729+02:00;True|2022-04-01T09:33:15.0192520+02:00;</History>
+    <History>True|2022-06-09T10:02:42.3299540Z;True|2022-06-07T09:51:00.7858426+02:00;True|2022-06-03T16:35:51.9757939+02:00;True|2022-05-30T11:09:20.3394834+02:00;True|2022-05-30T10:27:59.6352909+02:00;True|2022-05-24T10:51:52.6116026+02:00;True|2022-05-20T09:33:35.6607632+02:00;True|2022-05-20T09:30:10.3899394+02:00;True|2022-05-18T15:58:33.4309232+02:00;True|2022-05-16T14:55:19.3058545+02:00;True|2022-05-11T09:39:44.9409924+02:00;True|2022-05-06T09:42:22.0281613+02:00;True|2022-05-06T09:40:27.4006988+02:00;True|2022-05-06T09:18:38.5102976+02:00;False|2022-05-05T16:03:19.2260532+02:00;True|2022-04-25T14:47:23.3400729+02:00;True|2022-04-01T09:33:15.0192520+02:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -45,10 +45,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/30/2013 20:15:20</publishTime>
     </File>
     <File Include="bin/Parcours integration.dll">
-      <publishTime>05/11/2022 09:39:41</publishTime>
+      <publishTime>06/09/2022 12:02:37</publishTime>
     </File>
     <File Include="bin/Parcours integration.pdb">
-      <publishTime>05/11/2022 09:39:41</publishTime>
+      <publishTime>06/09/2022 12:02:37</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/19/2020 03:51:56</publishTime>
@@ -335,8 +335,14 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Docs/Images/StarFade.gif">
       <publishTime>05/03/2022 13:48:54</publishTime>
     </File>
+    <File Include="Docs/Images/starFade.png">
+      <publishTime>05/20/2022 09:06:53</publishTime>
+    </File>
     <File Include="Docs/Images/StarGlow.gif">
       <publishTime>05/03/2022 13:49:00</publishTime>
+    </File>
+    <File Include="Docs/Images/starGlow.png">
+      <publishTime>05/20/2022 09:11:30</publishTime>
     </File>
     <File Include="Docs/person-icon.png">
       <publishTime>03/24/2022 13:59:01</publishTime>
@@ -374,8 +380,11 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Global.asax">
       <publishTime>02/01/2022 16:25:28</publishTime>
     </File>
+    <File Include="Models/ParcoursIntegrationEntities.edmx.diagram">
+      <publishTime>06/09/2022 09:59:24</publishTime>
+    </File>
     <File Include="Models/Parcours_IntegrationEntities.edmx.diagram">
-      <publishTime>05/03/2022 11:33:56</publishTime>
+      <publishTime>05/12/2022 09:03:39</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>02/02/2022 14:54:44</publishTime>
@@ -900,25 +909,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/02/2022 14:59:13</publishTime>
     </File>
     <File Include="Views/Employes/Create.cshtml">
-      <publishTime>05/06/2022 12:05:38</publishTime>
+      <publishTime>06/08/2022 15:30:36</publishTime>
     </File>
     <File Include="Views/Employes/Delete.cshtml">
-      <publishTime>05/06/2022 12:05:49</publishTime>
+      <publishTime>06/08/2022 14:41:10</publishTime>
     </File>
     <File Include="Views/Employes/Edit.cshtml">
-      <publishTime>05/06/2022 12:05:10</publishTime>
+      <publishTime>06/03/2022 11:50:04</publishTime>
     </File>
     <File Include="Views/Employes/Index.cshtml">
-      <publishTime>04/01/2022 12:11:06</publishTime>
+      <publishTime>06/08/2022 15:29:53</publishTime>
     </File>
     <File Include="Views/Formations/Index.cshtml">
-      <publishTime>05/03/2022 11:06:03</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Formations/Signer.cshtml">
       <publishTime>03/04/2022 15:13:53</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>04/28/2022 11:39:57</publishTime>
+      <publishTime>05/31/2022 11:17:21</publishTime>
     </File>
     <File Include="Views/Missions/Create.cshtml">
       <publishTime>05/05/2022 15:32:52</publishTime>
@@ -930,22 +939,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/24/2022 16:04:54</publishTime>
     </File>
     <File Include="Views/Missions/Edit.cshtml">
-      <publishTime>05/06/2022 11:46:28</publishTime>
+      <publishTime>05/31/2022 11:17:24</publishTime>
     </File>
     <File Include="Views/Missions/_NewMission.cshtml">
-      <publishTime>05/05/2022 15:32:48</publishTime>
+      <publishTime>05/31/2022 11:17:50</publishTime>
     </File>
     <File Include="Views/Modeles/Create.cshtml">
-      <publishTime>04/28/2022 11:05:36</publishTime>
+      <publishTime>05/31/2022 11:10:40</publishTime>
     </File>
     <File Include="Views/Modeles/Delete.cshtml">
-      <publishTime>02/24/2022 14:53:37</publishTime>
+      <publishTime>05/31/2022 11:10:02</publishTime>
     </File>
     <File Include="Views/Modeles/Edit.cshtml">
-      <publishTime>04/28/2022 11:05:51</publishTime>
+      <publishTime>05/31/2022 11:15:53</publishTime>
     </File>
     <File Include="Views/Modeles/Index.cshtml">
-      <publishTime>04/01/2022 13:58:57</publishTime>
+      <publishTime>06/09/2022 09:51:23</publishTime>
     </File>
     <File Include="Views/Organi/Carte.cshtml">
       <publishTime>04/27/2022 13:52:45</publishTime>
@@ -966,19 +975,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/28/2022 16:30:21</publishTime>
     </File>
     <File Include="Views/Parcours/Create.cshtml">
-      <publishTime>03/22/2022 15:05:42</publishTime>
+      <publishTime>06/09/2022 11:52:26</publishTime>
     </File>
     <File Include="Views/Parcours/Delete.cshtml">
-      <publishTime>03/22/2022 14:55:54</publishTime>
+      <publishTime>05/31/2022 14:02:06</publishTime>
     </File>
     <File Include="Views/Parcours/Details.cshtml">
-      <publishTime>05/10/2022 16:19:45</publishTime>
+      <publishTime>06/09/2022 12:01:20</publishTime>
     </File>
     <File Include="Views/Parcours/Edit.cshtml">
-      <publishTime>05/05/2022 11:07:42</publishTime>
+      <publishTime>06/09/2022 11:52:21</publishTime>
     </File>
     <File Include="Views/Parcours/Index.cshtml">
-      <publishTime>05/09/2022 11:46:11</publishTime>
+      <publishTime>06/09/2022 10:04:23</publishTime>
     </File>
     <File Include="Views/Secteurs/Create.cshtml">
       <publishTime>03/23/2022 11:28:25</publishTime>
@@ -987,25 +996,37 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/23/2022 14:04:45</publishTime>
     </File>
     <File Include="Views/Secteurs/Edit.cshtml">
-      <publishTime>03/23/2022 10:51:06</publishTime>
+      <publishTime>05/16/2022 15:59:35</publishTime>
     </File>
     <File Include="Views/Secteurs/Index.cshtml">
-      <publishTime>03/23/2022 10:03:48</publishTime>
+      <publishTime>05/30/2022 10:57:45</publishTime>
+    </File>
+    <File Include="Views/Services/Create.cshtml">
+      <publishTime>05/31/2022 10:58:07</publishTime>
+    </File>
+    <File Include="Views/Services/Delete.cshtml">
+      <publishTime>05/31/2022 10:59:42</publishTime>
+    </File>
+    <File Include="Views/Services/Edit.cshtml">
+      <publishTime>05/31/2022 11:14:05</publishTime>
+    </File>
+    <File Include="Views/Services/Index.cshtml">
+      <publishTime>05/31/2022 11:41:21</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>02/01/2022 16:25:43</publishTime>
     </File>
     <File Include="Views/Shared/_CommentBox.cshtml">
-      <publishTime>05/10/2022 10:00:37</publishTime>
+      <publishTime>05/20/2022 09:24:30</publishTime>
     </File>
     <File Include="Views/Shared/_HiddenMissions.cshtml">
-      <publishTime>05/10/2022 16:52:47</publishTime>
+      <publishTime>06/08/2022 15:25:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/03/2022 11:06:03</publishTime>
+      <publishTime>06/03/2022 11:46:42</publishTime>
     </File>
     <File Include="Views/Shared/_Missions.cshtml">
-      <publishTime>05/09/2022 13:38:53</publishTime>
+      <publishTime>06/08/2022 15:24:15</publishTime>
     </File>
     <File Include="Views/Shared/_Plan0.cshtml">
       <publishTime>04/27/2022 13:42:53</publishTime>
@@ -1023,7 +1044,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/01/2022 16:25:28</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/11/2022 09:39:41</publishTime>
+      <publishTime>06/03/2022 16:35:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

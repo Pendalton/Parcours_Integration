@@ -52,6 +52,15 @@
                     @Html.DisplayFor(model => model.Poste)
                 </td>
             </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    Équipe de l'employé
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Equipe.Nom)
+                </td>
+            </tr>
         </tbody>
     </table>
 

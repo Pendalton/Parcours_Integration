@@ -11,68 +11,43 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        <table style="width:600px">
-            <tbody>
-                <tr style="height:50px">
-                    <td class="text-center" style="width:200px">
-                        @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+    <div class="form-control">
+        <br />
 
-                <tr style="height:50px">
-                    <td class="text-center" style="width:130px">
-                        @Html.LabelFor(model => model.Prénom, htmlAttributes: new { @class = "control-label" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Prénom, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+        <div class="row">
+            <div class="col-md-5">@Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "NOM", required = "required" } })</div>
+            <div class="col-md-5">@Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control", placeholder = "Prénom", required = "required" } })</div>
+        </div>
 
-                <tr style="height:50px">
-                    <td class="text-center" style="width:130px">
-                        Date d'entrée dans l'entreprise
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.Date_entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })
-                        @Html.ValidationMessageFor(model => model.Date_entrée, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+        <br />
 
-                <tr style="height:50px">
-                    <td class="text-center" style="width:130px">
-                        Type de contrat
-                    </td>
-                    <td>
-                        @Html.DropDownList("Type_Contrat", null, "--Type de contrat--", htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Type_Contrat, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
+        <div class="row">
+            <div class="col-md-5">@Html.DropDownList("Type_Contrat", null, "--- Type de contrat ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
+            <div class="col-md-5">@Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })</div>
+        </div>
 
-                <tr style="height:50px">
-                    <td class="text-center" style="width:130px">
-                        Poste occupé
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Poste, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <br />
+
+        <div class="row" style="align-items:center">
+            <div class="col-md-5">@Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control" })</div>
+            <div class="col-md-5">@Html.DropDownList("EquipeID", null, "--- Équipe ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.Date_entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })
+            </div>
+        </div>
         @Html.HiddenFor(model=>model.Complété)
         @Html.Hidden("Dossier", ViewData["Dossier"])
+        @Html.Hidden("OldResp", (object)ViewBag.Resp)
         <br />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
-                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                <input type="submit" value="Enregistrer" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -92,4 +67,22 @@
             language: "fr"
         });
     });
+
+    $(".ID_Resp").select2({
+        placeholder: "--- Responsable ---",
+    });
 </script>
+
+<style>
+    .select2-container .select2-selection--single {
+        height: 38px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-top: 5px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        top: 6px;
+    }
+</style>

@@ -26,22 +26,30 @@
     </thead>
     <tbody>
        @foreach (var item in Model)
-        {
+       {
+           var Interv = "Intervenants du secteurs : \n \n";
+           foreach(var Personne in ViewBag.Intervenants)
+           {
+               if(Personne.Service.Nom == item.Nom_Secteur)
+               {
+                   Interv = String.Concat(Interv + Personne.Utilisateurs.Nom + ", ");
+               }
+           }
             <tr align="center">
                 <td>
                     @Html.DisplayFor(modelItem => item.Nom_Mission)
                 </td>
-                <td>
+                <td data-bs-toggle="tooltip" title="@Interv">
                     @Html.DisplayFor(modelItem => item.Nom_Secteur)
                 </td>
                 <td>
-                   @if (item.Employes == null)
+                   @if (item.Utilisateurs == null)
                     {
                         <p>----------------</p>
                     }
                     else
                     {
-                        @Html.DisplayFor(modelItem => item.Employes.Nom)
+                        @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)
                     }
                 </td>
                 <td>

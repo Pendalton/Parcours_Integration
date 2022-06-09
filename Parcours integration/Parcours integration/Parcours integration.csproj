@@ -144,52 +144,58 @@
     <Compile Include="Controllers\ModelesController.cs" />
     <Compile Include="Controllers\OrganiController.cs" />
     <Compile Include="Controllers\ParcoursController.cs" />
-    <Compile Include="Controllers\SecteursController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Contrat.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Employes.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+    <Compile Include="Models\Equipe.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Missions.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Modele.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModeleContrat.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Parcours.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Parcours_IntegrationEntities.Context.cs">
+    <Compile Include="Models\ParcoursIntegrationEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Parcours_IntegrationEntities.Context.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Parcours_IntegrationEntities.cs">
+    <Compile Include="Models\ParcoursIntegrationEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Parcours_IntegrationEntities.Designer.cs">
+    <Compile Include="Models\ParcoursIntegrationEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Plan.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Secteurs.cs">
-      <DependentUpon>Parcours_IntegrationEntities.tt</DependentUpon>
+    <Compile Include="Models\Service.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Utilisateurs.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Utilisateurs_Services.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -225,10 +231,8 @@
     <Content Include="Content\css\select2.css" />
     <Content Include="Content\css\select2.min.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Docs\18MartinRémy\Nouveau document texte.txt" />
-    <Content Include="Docs\18MartinRémy\Photo-test.png" />
-    <Content Include="Docs\Images\StarFade.gif" />
-    <Content Include="Docs\Images\StarGlow.gif" />
+    <Content Include="Docs\Images\starFade.png" />
+    <Content Include="Docs\Images\starGlow.png" />
     <Content Include="Docs\person-icon.png" />
     <Content Include="Docs\Plan\CantineRestaurant Sud.png" />
     <Content Include="Docs\Plan\EtageNord.png" />
@@ -241,15 +245,15 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Parcours_IntegrationEntities.Context.tt">
+    <Content Include="Models\ParcoursIntegrationEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
-      <LastGenOutput>Parcours_IntegrationEntities.Context.cs</LastGenOutput>
+      <DependentUpon>ParcoursIntegrationEntities.edmx</DependentUpon>
+      <LastGenOutput>ParcoursIntegrationEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Parcours_IntegrationEntities.tt">
+    <Content Include="Models\ParcoursIntegrationEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
-      <LastGenOutput>Parcours_IntegrationEntities.cs</LastGenOutput>
+      <DependentUpon>ParcoursIntegrationEntities.edmx</DependentUpon>
+      <LastGenOutput>ParcoursIntegrationEntities.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -291,15 +295,13 @@
     <Content Include="Scripts\bootstrap2-toggle.min.js" />
     <Content Include="Scripts\bootstrap2-toggle.min.js.map" />
     <Content Include="Scripts\bootstrap-toggle.min.js.map" />
-    <EntityDeploy Include="Models\Parcours_IntegrationEntities.edmx">
+    <EntityDeploy Include="Models\ParcoursIntegrationEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Parcours_IntegrationEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>ParcoursIntegrationEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Parcours_IntegrationEntities.edmx.diagram">
-      <DependentUpon>Parcours_IntegrationEntities.edmx</DependentUpon>
+    <Content Include="Models\ParcoursIntegrationEntities.edmx.diagram">
+      <DependentUpon>ParcoursIntegrationEntities.edmx</DependentUpon>
     </Content>
-    <Content Include="Docs\18MartinRémy\Compte-Rendu de Réunion.docx" />
-    <Content Include="Docs\18MartinRémy\Compte-Rendu de Réunion.pdf" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\i18n\af.js" />
     <Content Include="Scripts\i18n\ar.js" />
@@ -485,13 +487,7 @@
     <Content Include="Views\Missions\Edit.cshtml" />
     <Content Include="Views\Shared\_Missions.cshtml" />
     <Content Include="Views\Formations\Index.cshtml" />
-    <Content Include="Views\Formations\Signer.cshtml" />
-    <Content Include="Views\Organi\Index.cshtml" />
     <Content Include="Views\Organi\Carte.cshtml" />
-    <Content Include="Views\Secteurs\Create.cshtml" />
-    <Content Include="Views\Secteurs\Delete.cshtml" />
-    <Content Include="Views\Secteurs\Edit.cshtml" />
-    <Content Include="Views\Secteurs\Index.cshtml" />
     <Content Include="Views\Parcours\AddFile.cshtml" />
     <Content Include="Views\Organi\Create.cshtml" />
     <Content Include="Views\Organi\Edit.cshtml" />
@@ -502,15 +498,17 @@
     <Content Include="Views\Shared\_CommentBox.cshtml" />
     <Content Include="Views\Missions\_NewMission.cshtml" />
     <Content Include="Views\Shared\_HiddenMissions.cshtml" />
+    <Content Include="Views\Services\Create.cshtml" />
+    <Content Include="Views\Services\Delete.cshtml" />
+    <Content Include="Views\Services\Edit.cshtml" />
+    <Content Include="Views\Services\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
-    <Folder Include="Docs\13CorkAdrien\" />
-    <Folder Include="Docs\14PesquetThomas\" />
-    <Folder Include="Docs\15ClaarkeShirley\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Comments\" />
+    <Folder Include="Views\Utilisateurs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

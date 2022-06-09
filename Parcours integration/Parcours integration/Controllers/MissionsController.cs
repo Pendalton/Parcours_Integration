@@ -12,7 +12,7 @@ namespace Parcours_integration.Controllers
 {
     public class MissionsController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         // GET: Missions/Create
         public ActionResult Create(int ID)
@@ -47,13 +47,10 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.ID = ID;
             ViewBag.ChoixMiss = new SelectList(MissPossibles, "ID", "Nom");
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            ViewBag.Service = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
             return View(new Missions());
         }
 
-        // POST: Missions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int ChoixMiss)
@@ -63,7 +60,7 @@ namespace Parcours_integration.Controllers
             var choix = db.Modele.Find(ChoixMiss);
 
             missions.Nom_Mission = choix.Nom;
-            missions.Nom_Secteur = choix.Secteurs.Nom;
+            missions.Nom_Secteur = choix.Service.Nom;
 
             if (ModelState.IsValid)
             {
@@ -92,13 +89,13 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.ID = ID;
             ViewBag.ChoixMiss = new SelectList(MissPossibles, "ID", "Nom");
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            ViewBag.Secteur = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
             return View(missions);
         }
 
-        public ActionResult _NewMission(string Nom_Mission, string Secteur, int ID) 
+        public ActionResult _NewMission(string Nom_Mission, int Secteur, int ID) 
         {
-            var Sect = db.Secteurs.Find(Secteur);
+            var Sect = db.Service.Find(Secteur);
 
             Missions newMiss = new Missions
             {
@@ -130,19 +127,16 @@ namespace Parcours_integration.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Nom", missions.Login_Interlocuteur);
-            ViewBag.Secteurs = new SelectList(db.Secteurs.Where(s=>s.Actif==true), "Nom", "Nom", missions.Nom_Secteur);
+            ViewBag.Login_Interlocuteur = new SelectList(db.Utilisateurs, "Login", "Nom", missions.ID_Formateur);
+            ViewBag.Service = new SelectList(db.Service.Where(s=>s.Actif==true), "ID", "Nom", missions.Nom_Secteur);
             return View(missions);
         }
 
-        // POST: Missions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours,Remarque")] Missions missions,string Secteurs)
+        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours,Remarque")] Missions missions, int Secteurs)
         {
-            var sect = db.Secteurs.Find(Secteurs);
+            var sect = db.Service.Find(Secteurs);
             missions.Nom_Secteur = sect.Nom;
 
             if (ModelState.IsValid)
@@ -151,9 +145,9 @@ namespace Parcours_integration.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Parcours", new { id = missions.ID_Parcours });
             }
-            ViewBag.Login_Interlocuteur = new SelectList(db.Employes, "Login", "Mail", missions.Login_Interlocuteur);
+            ViewBag.Login_Interlocuteur = new SelectList(db.Utilisateurs, "Login", "Mail", missions.ID_Formateur);
             ViewBag.ID_Parcours = new SelectList(db.Parcours, "ID", "Nom", missions.ID_Parcours);
-            ViewBag.Secteurs = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", missions.Nom_Secteur);
+            ViewBag.Service = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", missions.Nom_Secteur);
             return View(missions);
         }
 
@@ -208,18 +202,14 @@ namespace Parcours_integration.Controllers
                 if (!Miss.Passage)
                 {
                     Miss.Passage = true;
-                    var Date = DateTime.Now.Date;
-                    var jour = Date.ToString().Substring(0, 2);
-                    var mois = Date.ToString().Substring(3, 2);
-                    var année = Date.ToString().Substring(6, 4);
-                    Miss.Date_passage = jour + "/" + mois + "/" + année;
-                    Miss.Login_Interlocuteur = UserSession.Login;
+                    Miss.Date_passage = DateTime.Now.Date.ToString().Substring(0, 10);
+                    Miss.ID_Formateur = UserSession.ID;
                 }
                 else
                 {
                     Miss.Passage = false;
                     Miss.Date_passage = "--/--/----";
-                    Miss.Login_Interlocuteur = null;
+                    Miss.ID_Formateur = null;
                     Miss.Remarque = "";
                 }
                 db.SaveChanges();

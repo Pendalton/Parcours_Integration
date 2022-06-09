@@ -24,6 +24,7 @@
     <EntitySetMapping Name="Missions">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Missions">
         <MappingFragment StoreEntitySet="Missions">
+          <ScalarProperty Name="Planifié" ColumnName="Planifié" />
           <ScalarProperty Name="Remarque" ColumnName="Remarque" />
           <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
           <ScalarProperty Name="Passage" ColumnName="Passage" />
@@ -38,6 +39,7 @@
     <EntitySetMapping Name="Modele">
       <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Modele">
         <MappingFragment StoreEntitySet="Modele">
+          <ScalarProperty Name="Intérimaire" ColumnName="Intérimaire" />
           <ScalarProperty Name="Mutation" ColumnName="Mutation" />
           <ScalarProperty Name="Stage" ColumnName="Stage" />
           <ScalarProperty Name="CDD" ColumnName="CDD" />
@@ -53,20 +55,6 @@
         <MappingFragment StoreEntitySet="ModeleContrat">
           <ScalarProperty Name="ID_Contrat" ColumnName="ID_Contrat" />
           <ScalarProperty Name="ID_Modele" ColumnName="ID_Modele" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Parcours">
-      <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Parcours">
-        <MappingFragment StoreEntitySet="Parcours">
-          <ScalarProperty Name="Satisfaction" ColumnName="Satisfaction" />
-          <ScalarProperty Name="Poste" ColumnName="Poste" />
-          <ScalarProperty Name="Complété" ColumnName="Complété" />
-          <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
-          <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
-          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
-          <ScalarProperty Name="Nom" ColumnName="Nom" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -98,6 +86,21 @@
           <ScalarProperty Name="DateHeure" ColumnName="DateHeure" />
           <ScalarProperty Name="CommentText" ColumnName="CommentText" />
           <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parcours">
+      <EntityTypeMapping TypeName="Parcours_IntegrationEntities.Parcours">
+        <MappingFragment StoreEntitySet="Parcours">
+          <ScalarProperty Name="Rythme" ColumnName="Rythme" />
+          <ScalarProperty Name="Entrée" ColumnName="Entrée" />
+          <ScalarProperty Name="Poste" ColumnName="Poste" />
+          <ScalarProperty Name="Complété" ColumnName="Complété" />
+          <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
+          <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
+          <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

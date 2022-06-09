@@ -1,34 +1,40 @@
-﻿@model IEnumerable<Parcours_integration.Models.Parcours>
+﻿@model IPagedList<Parcours_integration.Models.Parcours>
 
 @{
     ViewBag.Title = "Liste des parcours d'intégration";
 }
-
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h2>Liste des parcours d'intégration</h2>
 <hr />
+
+@using PagedList;
+@using PagedList.Mvc;
 
 @using (Html.BeginForm())
 {
     <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
         <div class="row">
-            <div class="col-md-4">
+            <div style="width:30%">
                 <div class="input-group">
                     <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
                 </div>
             </div>
 
-            <div class="col-md-5">
-                <div style="line-height:30px">
-                    CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+            <div style="width:49%">
+                <div style="line-height:30px; margin:auto">
+                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <br />
-                    Du : &nbsp;<input id="datepicker" name="Datepicker" data-format="dd/MM/yyyy" type="date">&nbsp;&nbsp;&nbsp;au&nbsp;&nbsp;<input id="datepicker2" name="Datepicker2" data-format="dd/MM/yyyy" type="date" readonly>
+                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { type = "date" })&nbsp;&nbsp;
+                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "this.form.submit()", type = "date" })&nbsp;&nbsp;
+                    @Html.DropDownList("Rythme", null, "Equipe", htmlAttributes: new { @onchange = "this.form.submit()", style = "width:160px" })
                 </div>
             </div>
-
-            <div class="col-md-3">
+            @* UwU OwO 8w8 QwQ TwT *@
+            <div style="width:21%">
                 <div class="d-grid gap-1 d-md-flex btn-group-vertical">
                     @if (!ViewBag.Term)
                     {
@@ -50,52 +56,41 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width: 28%;">
-                                Nom
-                            </th>
-                            <th class="text-center" style="width: 20%;">
-                                Date d'entrée en entreprise
-                            </th>
-                            <th class="text-center" style="width: 15%;">
-                                Type de contrat
-                            </th>
-                            <th class="text-center" style="width: 20%">
-                                Poste
-                            </th>
-                            <th class="text-center" style="width: 17%">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-
-                    @foreach (var item in Model)
+                @foreach (var item in Model)
+                {
+                    string[] colors = { "success", "secondary" };
+                    int index = 1;
+                    if (item.Complété)
                     {
-                        string[] colors = { "table-success", "table-default" };
-                        int index = 1;
-                        if(item.Complété)
-                        {
-                            index = 0;
-                        }
-                        var complété = colors[index];
-                        <tbody>
-                            <tr class="@complété" align="center">
-                                <td class="align-middle Search">
-                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
-                                </td>
-                                <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Date_entrée)
-                                </td>
-                                <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Contrat.Nom)
-                                </td>
-                                <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Poste)
-                                </td>
-                                <td class="align-middle">
-                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper()+" "+item.Prénom == ViewBag.UserSession)
+                        index = 0;
+                    }
+                    var complété = colors[index];
+                    string listeSecteurs = "";
+                    string coll = String.Concat("collapse" + item.ID);
+
+
+                    if (!item.Complété)
+                    {
+                        <div class="col-md-4" style="padding: 5px; line-height: 50px">
+                            <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
+
+                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+
+                                <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
+
+                                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
+
+                                @if (item.ID_Resp == null)
+                                {
+                                    <div>Pas de responsable</div>
+                                }
+                                else
+                                {
+                                    <div>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</div>
+                                }
+
+                                <div style="margin-top:10px; margin-bottom:10px">
+                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
                                     {
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
@@ -105,11 +100,63 @@
                                         <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
                                         <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
                                     }
-                                </td>
-                            </tr>
-                        </tbody>
+                                </div>
+
+                                <div class="accordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll">
+                                                Secteur(s) manquant(s) :
+                                            </button>
+                                        </h2>
+                                        <div id="@coll" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                @foreach (var mission in item.Missions)
+                                                {
+                                                    if (!mission.Passage)
+                                                    {
+                                                        if (!listeSecteurs.Contains(mission.Nom_Secteur))
+                                                        {
+                                                            listeSecteurs = String.Concat(listeSecteurs + mission.Nom_Secteur + ", ");
+                                                        }
+                                                    }
+                                                }
+                                                <div>@listeSecteurs</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     }
-                </table>
+                    else
+                    {
+                        <div class="col-md-4" style="padding:5px; line-height:50px; max-height:241px">
+                            <div class="h-100 border rounded-3 Search" style="padding:10px; line-height:30px; background-color:#00aa0050" align="center">
+                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+                                <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
+                                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) <br />
+                                <h4 style="font-weight:normal; margin-top:15px">COMPLÉTÉ</h4>
+                                <div style="margin-top:15px">
+                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                                    {
+                                        <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
+                                        <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-primary disabled" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
+                                        <a class="btn btn-primary disabled" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div>
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))
             </div>
         </div>
     </div>
@@ -135,9 +182,9 @@
         });
     });
     $(function () {
-        $("#datepicker").change(function () {
-            var date1 = document.getElementById("datepicker");
-            var date2 = document.getElementById("datepicker2");
+        $("#Datepicker").change(function () {
+            var date1 = document.getElementById("Datepicker");
+            var date2 = document.getElementById("Datepicker2");
             if (date1.value == '') { date2.readOnly = true; }
             else { date2.readOnly = false; }
         })
@@ -147,5 +194,10 @@
 <style>
     .sizeup {
         transform: scale(1.5);
+    }
+
+    input[name="Datepicker"],
+    input[name="Datepicker2"] {
+        width: 190px;
     }
 </style>

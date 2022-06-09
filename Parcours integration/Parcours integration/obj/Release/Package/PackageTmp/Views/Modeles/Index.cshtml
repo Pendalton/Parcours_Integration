@@ -11,29 +11,26 @@
 {
     <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="input-group">
                     <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div style="line-height:30px">
-                    Secteur :&nbsp;@Html.DropDownList("Secteurs", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp;&nbsp;&nbsp; <br />
-                    CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+                    Service :&nbsp;&nbsp;&nbsp;@Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp; <br />
+                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="d-grid gap-1 d-md-flex btn-group-vertical">
                     @if (ViewBag.EstAdmin)
-                    {
-                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
-                    }
-                    else
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
                     }
@@ -51,28 +48,34 @@
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 30%;">
+                            <th class="text-center" style="width: 35%;">
                                 Nom de formation
                             </th>
                             <th class="text-center" style="width: 15%;">
-                                Secteur
+                                Service
                             </th>
-                            <th class="text-center" style="width: 10%;">
+                            <th class="text-center" style="width: 8%;">
                                 CDI
                             </th>
-                            <th class="text-center" style="width: 10%;">
+                            <th class="text-center" style="width: 8%;">
                                 CDD
                             </th>
-                            <th class="text-center" style="width: 10%;">
+                            <th class="text-center" style="width: 8%;">
                                 Stage
                             </th>
-                            <th class="text-center" style="width: 10%;">
+                            <th class="text-center" style="width: 8%;">
                                 Mutation
                             </th>
-                            <th class="text-center" style="width: 15%">
-                                Actions
+                            <th class="text-center" style="width: 8%;">
+                                Intérimaire
                             </th>
-                        </tr>
+                            @if (ViewBag.EstAdmin)
+                            {
+                                <th class="text-center" style="width: 10%">
+                                    Actions
+                                </th>
+                            }
+                            </tr>
                     </thead>
 
                     @foreach (var item in Model)
@@ -83,9 +86,9 @@
                                     @Html.DisplayFor(modelItem => item.Nom)
                                 </td>
                                 <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Secteur)
+                                    @Html.DisplayFor(modelItem => item.Service.Nom)
                                 </td>
-                                <td class="align-middle CDITri">
+                                <td class="align-middle">
                                     @if (item.CDI)
                                     {
                                         <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
@@ -95,7 +98,7 @@
                                         <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
                                     }
                                 </td>
-                                <td class="align-middle CDDTri">
+                                <td class="align-middle">
                                     @if (item.CDD)
                                     {
                                         <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
@@ -105,7 +108,7 @@
                                         <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
                                     }
                                 </td>
-                                <td class="align-middle StageTri">
+                                <td class="align-middle">
                                     @if (item.Stage)
                                     {
                                         <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
@@ -115,7 +118,7 @@
                                         <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
                                     }
                                 </td>
-                                <td class="align-middle MutaTri">
+                                <td class="align-middle">
                                     @if (item.Mutation)
                                     {
                                         <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
@@ -126,15 +129,23 @@
                                     }
                                 </td>
                                 <td class="align-middle">
-                                    @if (ViewBag.EstAdmin)
+                                    @if (item.Intérimaire)
                                     {
-                                        <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-primary icon-edit bigger-10">Modifier</a>
+                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-primary icon-edit bigger-10 disabled">Modifier</a>
+                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
                                     }
                                 </td>
+                                @if (ViewBag.EstAdmin)
+                                {
+                                    <td class="align-middle">
+
+                                        <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-primary icon-edit bigger-10">Modifier</a>
+
+                                    </td>
+                                }
                             </tr>
                         </tbody>
                     }

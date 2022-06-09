@@ -12,14 +12,22 @@
                     <h2 style="font-weight:normal"><span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
                 </td>
                 <td class="text-center" style="width:33%">
-                    <h2 style="font-weight:normal"><span>@ViewBag.TypeContrat</span></h2>
+                    <h2 style="font-weight:normal"><span>@Html.DisplayFor(model => model.Contrat.Nom) - @Html.DisplayFor(model => model.Equipe.Nom)</span></h2>
                 </td>
                 <td class="text-end" style="width:33%">
                     <h2 style="font-weight:normal"><span>@ViewBag.PosteOccupé</span></h2>
                 </td>
             </tr>
         </table>
-        <h3 style="font-weight:normal; padding-left:8px"><span>Entré(e) le : @ViewBag.Entrée</span></h3>
+
+        <div class="row">
+            <div class="col-md-5">
+                <h3 style="font-weight:normal; padding-left:8px"><span>Entré(e) le : @Html.DisplayFor(model => model.Date_entrée)</span></h3>
+            </div>
+            <div class="col-md-6">
+                <h3 style="font-weight:normal; padding-left:13px"><span>Responsable : @Html.DisplayFor(model => model.Utilisateurs.Nom)</span></h3>
+            </div>
+        </div>
     </div>
     <hr />
 
@@ -75,10 +83,12 @@
         </div>
     </div>
 
-    <div id="Grid" style="display:none">
+    <div id="Grid" style="display: none">
         @Html.Partial("_HiddenMissions", Model.Missions)
     </div>
     
+    
+
     @if (Model.Complété)
     {
         <hr />
@@ -105,7 +115,7 @@
     }
 
     .starFade {
-        background-image: url('/Docs/Images/StarFade.gif');
+        background-image: url('../../Docs/Images/starFade.png');
         min-width: 30px;
         min-height: 30px;
         display: inline-block;
@@ -113,14 +123,14 @@
     }
 
     .starFadeN {
-        background-image: url('/Docs/Images/StarFade.gif');
+        background-image: url('../../Docs/Images/starFade.png');
         min-width: 30px;
         min-height: 30px;
         display: inline-block;
     }
 
     .starGlow {
-        background-image: url('/Docs/Images/StarGlow.gif');
+        background-image: url('../../Docs/Images/starGlow.png');
         min-width: 30px;
         min-height: 30px;
         display: inline-block;
@@ -128,7 +138,7 @@
     }
 
     .starGlowN {
-        background-image: url('/Docs/Images/StarGlow.gif');
+        background-image: url('../../Docs/Images/starGlow.png');
         min-width: 30px;
         min-height: 30px;
         display: inline-block;

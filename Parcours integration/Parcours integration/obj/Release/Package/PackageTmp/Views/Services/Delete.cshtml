@@ -1,0 +1,55 @@
+﻿@model Parcours_integration.Models.Service
+
+@{
+    ViewBag.Title = "Supprimer le service";
+}
+
+<h3>Êtes-vous sûr de vouloir supprimer ce service?</h3>
+
+<div>
+    <hr />
+    <table>
+        <tbody>
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Nom)
+                </td>
+                <td style="width:300px">
+                    @Html.DisplayFor(model => model.Nom)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    Actif
+                </td>
+                <td>
+                    @if (Model.Actif == true)
+                    {
+                        <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Supprimer" class="btn btn-danger" />
+            </div>
+        </div>
+    }
+</div>
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>

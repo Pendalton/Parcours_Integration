@@ -22,13 +22,14 @@ namespace Parcours_integration.Models
     
         public int ID { get; set; }
         public string Nom { get; set; }
-        public string Secteur { get; set; }
         public bool CDI { get; set; }
         public bool CDD { get; set; }
         public bool Stage { get; set; }
         public bool Mutation { get; set; }
+        public bool Intérimaire { get; set; }
+        public Nullable<int> ServiceID { get; set; }
     
-        public virtual Secteurs Secteurs { get; set; }
+        public virtual Service Service { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ModeleContrat> ModeleContrat { get; set; }
     }

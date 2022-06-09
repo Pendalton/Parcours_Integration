@@ -15,7 +15,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="nchar" MaxLength="10" />
+    <Property Name="Nom" Type="nchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Employes">
     <Key>
@@ -40,6 +40,7 @@
     <Property Name="Passage" Type="bit" Nullable="false" />
     <Property Name="ID_Parcours" Type="int" Nullable="false" />
     <Property Name="Remarque" Type="nvarchar(max)" />
+    <Property Name="Planifié" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Modele">
     <Key>
@@ -52,6 +53,7 @@
     <Property Name="CDD" Type="bit" Nullable="false" />
     <Property Name="Stage" Type="bit" Nullable="false" />
     <Property Name="Mutation" Type="bit" Nullable="false" />
+    <Property Name="Intérimaire" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ModeleContrat">
     <Key>
@@ -72,7 +74,8 @@
     <Property Name="Type_Contrat" Type="int" />
     <Property Name="Complété" Type="bit" Nullable="false" />
     <Property Name="Poste" Type="nvarchar" MaxLength="50" />
-    <Property Name="Satisfaction" Type="int" />
+    <Property Name="Entrée" Type="date" />
+    <Property Name="Rythme" Type="nchar" MaxLength="10" />
   </EntityType>
   <EntityType Name="Plan">
     <Key>

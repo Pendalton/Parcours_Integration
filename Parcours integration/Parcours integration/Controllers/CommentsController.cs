@@ -12,7 +12,7 @@ namespace Parcours_integration.Controllers
 {
     public class CommentsController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         [HttpPost]
         [ValidateAntiForgeryToken]

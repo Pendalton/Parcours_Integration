@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Parcours_integration.Models.Service>
+
+@{
+    ViewBag.Title = "Liste des service";
+}
+
+<h2>Liste des service</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group" style="position:relative">
+        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+            <div class="input-group">
+                <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:230px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div style="position:absolute; right:15px;top:25px">
+                @if (ViewBag.EstAdmin)
+                {
+                    <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau Service</a>
+                }
+                else { }
+            </div>
+        </div>
+    </div>
+}
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <table class="table table-striped table-hover table-bordered" style="width:90%;margin:auto">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="">
+                                Nom
+                            </th>
+                            <th class="text-center" style="width:40px;">
+                                Actif
+                            </th>
+                            @if (ViewBag.EstAdmin)
+                            {
+                                <th class="text-center" style="width:40px;">
+                                    Actions
+                                </th>
+                            }
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model)
+                    {
+                        <tbody>
+                            <tr align="center">
+                                <td class="align-middle Search">
+                                    @Html.DisplayFor(modelItem => item.Nom)
+                                </td>
+                                <td>
+                                    @if (item.Actif == true)
+                                    {
+                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
+                                    }
+                                </td>
+                                @if (ViewBag.EstAdmin)
+                                {
+                                    <td class="align-middle">
+
+                                        @if (item.Actif)
+                                        {
+                                        <a href="@Url.Action("Desactiver", new { ID = item.ID })" class="btn btn-primary icon-edit bigger-10">Desactiver</a>
+                                        }
+                                        else
+                                        {
+                                        <a href="@Url.Action("Desactiver", new { ID = item.ID })" class="btn btn-primary icon-edit bigger-10">Ractiver</a>
+                                        }
+
+                                    </td>
+                                }
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).parent().hide();
+                }
+                else {
+                    $(this).parent().show();
+                }
+            });
+        });
+    });
+</script>

@@ -27,11 +27,11 @@
 
                 <tr style="height:50px">
                     <td class="text-center" style="width:130px">
-                        @Html.LabelFor(model => model.Secteur, htmlAttributes: new { @class = "control-label" })
+                        Service
                     </td>
                     <td>
-                        @Html.DropDownList("Secteur", null, "--Secteur sélectionné--", htmlAttributes: new { @class = "dropdwn form-control" })
-                        @Html.ValidationMessageFor(model => model.Secteur, "", new { @class = "text-danger" })
+                        @Html.DropDownList("ServiceID", null, "--Service sélectionné--", htmlAttributes: new { @class = "dropdwn form-control" })
+                        @Html.ValidationMessageFor(model => model.ServiceID, "", new { @class = "text-danger" })
                     </td>
                 </tr>
 
@@ -68,6 +68,15 @@
                     </td>
                     <td>
                         @Html.CheckBoxFor(model => model.Mutation, new { @checked = "checked", data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
+                    </td>
+                </tr>
+
+                <tr style="height:50px">
+                    <td class="text-center" style="width:130px">
+                        @Html.LabelFor(model => model.Intérimaire, htmlAttributes: new { @class = "control-label" })
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.Intérimaire, new { @checked = "checked", data_toggle = "toggle", data_onstyle = "success", data_on = "OUI", data_off = "NON", data_width = "75", data_offstyle = "danger" })
                     </td>
                 </tr>
             </tbody>

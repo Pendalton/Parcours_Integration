@@ -15,49 +15,52 @@ namespace Parcours_integration.Controllers
 {
     public class ModelesController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         // GET: Modeles
-        public ActionResult Index(string Secteurs, bool? CDI=false, bool? CDD=false, bool? Stage=false, bool? Mutation=false)
+        public ActionResult Index(int? ServiceID, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Intérim = true)
         {
             var Modeles = from m in db.Modele
                           select m;
 
-            var SecteurList = new List<string>();
-            var SecteurQry = from m in db.Secteurs
-                             orderby m.Nom
-                             select m.Nom;
-            SecteurList.AddRange(SecteurQry.Distinct());
-            ViewBag.Secteurs = new SelectList(SecteurList);
-            if (!String.IsNullOrEmpty(Secteurs))
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
+            if (ServiceID != null)
             {
-                Modeles = Modeles.Where(d => d.Secteurs.Nom == Secteurs);
+                Modeles = Modeles.Where(d => d.Service.ID == ServiceID);
             }
 
-            if (CDI == true)
-            {
-                Modeles = Modeles.Where(s => s.CDI == true);
-            }
-            if (CDD == true)
-            {
-                Modeles = Modeles.Where(s => s.CDD == true);
-            }
-            if (Stage == true)
-            {
-                Modeles = Modeles.Where(s => s.Stage == true);
-            }
-            if (Mutation == true)
-            {
-                Modeles = Modeles.Where(s => s.Mutation == true);
-            }
+            List<Modele> Résultat = new List<Modele>();
+            Résultat.AddRange(Modeles);
 
+            if (!CDI)
+            {
+                Résultat.RemoveAll(s => s.CDI);
+            }
+            if (!CDD)
+            {
+                Résultat.RemoveAll(s => s.CDD);
+            }
+            if (!Stage)
+            {
+                Résultat.RemoveAll(s => s.Stage);
+            }
+            if (!Mutation)
+            {
+                Résultat.RemoveAll(s => s.Mutation);
+            }
+            if (!Intérim)
+            {
+                Résultat.RemoveAll(s => s.Intérimaire);
+            }
 
             ViewBag.CDI = CDI;
             ViewBag.CDD = CDD;
             ViewBag.Stage = Stage;
-            ViewBag.Mutat = Mutation;
-            ViewBag.SectSelec = Secteurs;
-            return View(Modeles);
+            ViewBag.Mutation = Mutation;
+            ViewBag.Intérim = Intérim;
+            ViewBag.SectSelec = ServiceID;
+
+            return View(Résultat);
         }
 
         // GET: Modeles/Create
@@ -67,7 +70,7 @@ namespace Parcours_integration.Controllers
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom","Nom");
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif == true), "ID","Nom");
             return View();
         }
 
@@ -76,7 +79,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,Secteur,CDI,CDD,Stage,Mutation")] Modele modele)
+        public ActionResult Create([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation")] Modele modele)
         {
             if (ModelState.IsValid)
             {
@@ -116,12 +119,21 @@ namespace Parcours_integration.Controllers
                     };
                     db.ModeleContrat.Add(MC);
                 }
+                if (modele.Intérimaire)
+                {
+                    ModeleContrat MC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 5
+                    };
+                    db.ModeleContrat.Add(MC);
+                }
 
                 db.Modele.Add(modele);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom");
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
             return View(modele);
         }
 
@@ -137,7 +149,7 @@ namespace Parcours_integration.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif == true), "Nom", "Nom", modele.Secteur);
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", modele.ServiceID);
             return View(modele);
         }
 
@@ -146,7 +158,7 @@ namespace Parcours_integration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Secteur,CDI,CDD,Stage,Mutation")] Modele modele)
+        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation")] Modele modele)
         {
             var MC = db.ModeleContrat.Where(s=>s.ID_Modele == modele.ID);
 
@@ -168,6 +180,11 @@ namespace Parcours_integration.Controllers
                     continue;
                 }
                 if (!modele.Mutation && item.ID_Contrat == 4)
+                {
+                    db.ModeleContrat.Remove(item);
+                    continue;
+                }
+                if (!modele.Intérimaire && item.ID_Contrat == 5)
                 {
                     db.ModeleContrat.Remove(item);
                     continue;
@@ -210,6 +227,15 @@ namespace Parcours_integration.Controllers
                 };
                 db.ModeleContrat.Add(MaC);
             }
+            if (MC.Where(s => s.ID_Contrat == 5).FirstOrDefault() == null && modele.Intérimaire)
+            {
+                ModeleContrat MaC = new ModeleContrat
+                {
+                    ID_Modele = modele.ID,
+                    ID_Contrat = 5
+                };
+                db.ModeleContrat.Add(MaC);
+            }
 
             if (ModelState.IsValid)
             {
@@ -217,7 +243,7 @@ namespace Parcours_integration.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Secteur = new SelectList(db.Secteurs.Where(s => s.Actif==true), "Nom", "Nom",modele.Secteur);
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif==true), "ID", "Nom", modele.ServiceID);
             return View(modele);
         }
 

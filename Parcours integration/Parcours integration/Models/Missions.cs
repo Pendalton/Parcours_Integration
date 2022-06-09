@@ -17,13 +17,14 @@ namespace Parcours_integration.Models
         public int ID { get; set; }
         public string Nom_Mission { get; set; }
         public string Nom_Secteur { get; set; }
-        public string Login_Interlocuteur { get; set; }
         public string Date_passage { get; set; }
         public bool Passage { get; set; }
         public int ID_Parcours { get; set; }
         public string Remarque { get; set; }
+        public bool Planifié { get; set; }
+        public Nullable<int> ID_Formateur { get; set; }
     
-        public virtual Employes Employes { get; set; }
+        public virtual Utilisateurs Utilisateurs { get; set; }
         public virtual Parcours Parcours { get; set; }
     }
 }

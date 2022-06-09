@@ -10,62 +10,98 @@ using System.Web.Mvc;
 using Parcours_integration.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf.security;
 using iTextSharp.tool.xml;
+using PagedList;
 
 namespace Parcours_integration.Controllers
 {
     public class ParcoursController : BaseController
     {
-        private Parcours_IntegrationEntities db = new Parcours_IntegrationEntities();
+        private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         // GET: Parcours
-        public ActionResult Index(bool? CDI, bool? CDD, bool? Stage, bool? Mutation, bool Terminé = false)
+        public ActionResult Index(int? page, string Datepicker, string Datepicker2, int? Rythme, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
         {
             var parcour = from p in db.Parcours
                           select p;
+            DateTime Picked = DateTime.MinValue;
+            DateTime Picked1 = DateTime.MinValue;
+
+            List<Parcours> Résultat = new List<Parcours>();
 
             if (Terminé)
             {
-                parcour = parcour.Where(s => s.Complété==true|| s.Complété == false);
+                parcour = db.Parcours.Where(s => s.Complété==true|| s.Complété == false);
             }
             else
             {
-                parcour = parcour.Where(s => s.Complété == false);
+                parcour = db.Parcours.Where(s => s.Complété == false);
             }
 
-            if (CDI == true)
+            ViewBag.Rythme = new SelectList(db.Equipe, "ID", "Nom");
+
+            if (Rythme != null)
             {
-                parcour = parcour.Where(s => s.Type_Contrat == 1);
-            }
-            if (CDD == true)
-            {
-                parcour = parcour.Where(s => s.Type_Contrat == 2);
-            }
-            if (Stage == true)
-            {
-                parcour = parcour.Where(s => s.Type_Contrat == 3);
-            }
-            if (Mutation == true)
-            {
-                parcour = parcour.Where(s => s.Type_Contrat == 4);
+                parcour = parcour.Where(s => s.EquipeID == Rythme);
             }
 
-            foreach(var item in parcour)
+            if (String.IsNullOrEmpty(Datepicker2))
             {
-                var jour = item.Date_entrée.Substring(8, 2);
-                var mois = item.Date_entrée.Substring(5, 2);
-                var année = item.Date_entrée.Substring(0, 4);
-                item.Date_entrée = jour + "/" + mois + "/" + année;
+                if (!String.IsNullOrEmpty(Datepicker))
+                {
+                    Picked = Convert.ToDateTime(Datepicker).Date;
+                    parcour = parcour.Where(s => s.Entrée >= Picked);
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(Datepicker))
+                {
+                    Picked = Convert.ToDateTime(Datepicker).Date;
+                    Picked1 = Convert.ToDateTime(Datepicker2).Date;
+                    parcour = parcour.Where(s => s.Entrée >= Picked && s.Entrée < Picked1);
+                }
+            }
+
+            if (CDI)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 1));
+            }
+            if (CDD)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 2));
+            }
+            if (Stage)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 3));
+            }
+            if (Mutation)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 4));
+            }
+            if (Intérim)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 7));
+            }
+
+            foreach (var item in Résultat)
+            {
+                item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
             }
 
             ViewBag.CDI = CDI;
             ViewBag.CDD = CDD;
             ViewBag.Stage = Stage;
-            ViewBag.Mutat = Mutation;
+            ViewBag.Mutation = Mutation;
+            ViewBag.Intérim = Intérim;
             ViewBag.Term = Terminé;
+            ViewBag.Datepicker = Datepicker;
+            ViewBag.Datepicker2 = Datepicker2;
 
-            return View(parcour);
+            Résultat = Résultat.OrderByDescending(s=>s.ID).ToList();
+
+            return View(Résultat.ToList().ToPagedList(page?? 1,15));
         }
 
         // GET: Parcours/Details/5
@@ -81,9 +117,7 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ParcoursID = id.Value;
             var comments = db.Comment.Where(s => s.ParcoursID == parcours.ID).FirstOrDefault();
-            ViewBag.Comments = comments;
 
             if (comments != null)
             {
@@ -96,24 +130,20 @@ namespace Parcours_integration.Controllers
                 ViewBag.Commenté = false;
             }
 
-            var jour = parcours.Date_entrée.Substring(8, 2);
-            var mois = parcours.Date_entrée.Substring(5, 2);
-            var année = parcours.Date_entrée.Substring(0, 4);
-            parcours.Date_entrée = jour + "/" + mois + "/" + année;
-
+            ViewBag.Comments = comments;
+            ViewBag.ParcoursID = id.Value;
             ViewBag.Identity = parcours.Nom + " " + parcours.Prénom;
-            ViewBag.TypeContrat = parcours.Contrat.Nom;
+            ViewBag.TypeContrat = parcours.Contrat.Nom + " - " + parcours.Equipe.Nom;
             ViewBag.PosteOccupé = parcours.Poste;
-            ViewBag.Entrée = parcours.Date_entrée;
+            ViewBag.Entrée = parcours.Entrée.ToString().Substring(0,10);
 
-            List<string> Emplois = new List<string>();
-            var adding = from m in db.Employes
-                         orderby m.Secteur
-                         select m.Secteur;
-            Emplois.AddRange(adding.Distinct());
-            ViewBag.Lieux = Emplois;
+            List<string> Lieux = new List<string>();
+            var adding = from m in db.Utilisateurs_Services
+                         select m.Service.Nom;
+            Lieux.AddRange(adding.Distinct());
+            ViewBag.Lieux = Lieux;
 
-            ViewBag.Intervenants = db.Employes.OrderBy(s=>s.Nom).ToList();
+            ViewBag.Intervenants = db.Utilisateurs_Services.ToList();
 
             return View(parcours);
         }
@@ -122,26 +152,31 @@ namespace Parcours_integration.Controllers
         public ActionResult Create()
         {
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
+            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom");
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste")] Parcours parcours)
+        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,EquipeID,ID_Resp")] Parcours parcours)
         {
             var Date = DateTime.Now.Date;
 
-            var jour = Date.ToString().Substring(0, 2);
-            var mois = Date.ToString().Substring(3, 2);
-            var année = Date.ToString().Substring(6, 4);
-            parcours.Date_entrée = année + "-" + mois + "-" + jour;
+            parcours.Entrée = Date;
+
+            parcours.Date_entrée = parcours.Entrée.ToString().Substring(0,10);
             parcours.Complété = false;
 
             if (ModelState.IsValid)
             {
                 db.Parcours.Add(parcours);
-                var mods = db.ModeleContrat.Where(s => s.ID_Contrat == parcours.Type_Contrat);
+                var mods = db.ModeleContrat.Where(s => s.ID_Contrat == parcours.Type_Contrat).ToArray();
+                Utilisateurs resp = db.Utilisateurs.Find(parcours.ID_Resp);
 
+                resp.EstResponsable = true;
+                db.Entry(resp).State = EntityState.Modified;
                 foreach (var item in mods)
                 {
                     Missions miss = new Missions
@@ -149,7 +184,7 @@ namespace Parcours_integration.Controllers
                         ID_Parcours = parcours.ID,
                         Date_passage = "--/--/----",
                         Nom_Mission = item.Modele.Nom,
-                        Nom_Secteur = item.Modele.Secteur,
+                        Nom_Secteur = item.Modele.Service.Nom,
                         Passage = false,
                     };
 
@@ -168,6 +203,8 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
+            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom");
             return View(parcours);
         }
 
@@ -185,29 +222,48 @@ namespace Parcours_integration.Controllers
             }
             ViewData["Dossier"] = parcours.ID + parcours.Nom + parcours.Prénom;
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom", parcours.Type_Contrat);
+            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom", parcours.EquipeID);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", parcours.ID_Resp);
+            ViewBag.Resp = parcours.ID_Resp;
             return View(parcours);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété")] Parcours parcours, string Dossier)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété,Entrée,EquipeID,ID_Resp")] Parcours parcours, string Dossier, int OldResp)
         {
+            parcours.Entrée = Convert.ToDateTime(parcours.Date_entrée);
+
             if(parcours.Type_Contrat != null)
             {
                 if (ModelState.IsValid)
                 {
                     string folder = @"~/Docs/" + Dossier;
                     string newFold = @"~/Docs/" + parcours.ID + parcours.Nom + parcours.Prénom;
-                    if (Directory.Exists(Server.MapPath(folder)))
+                    if(folder != newFold) 
                     {
-                        Directory.Move(Server.MapPath(folder), Server.MapPath(newFold));
+                        if (Directory.Exists(Server.MapPath(folder)))
+                        {
+                            Directory.Move(Server.MapPath(folder), Server.MapPath(newFold));
+                        }
                     }
+
+                    if(parcours.ID_Resp != OldResp)
+                    {
+                        var resp = db.Utilisateurs.Find(parcours.ID_Resp);
+                        resp.EstResponsable = true;
+                        var oldres = db.Utilisateurs.Find(OldResp);
+                        oldres.EstResponsable = false;
+                    }
+
                     db.Entry(parcours).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = parcours.ID });
                 }
             }
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom", parcours.Type_Contrat);
+            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom", parcours.EquipeID);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", parcours.ID_Resp);
             return View(parcours);
         }
 
@@ -224,10 +280,7 @@ namespace Parcours_integration.Controllers
                 return HttpNotFound();
             }
 
-            var jour = parcours.Date_entrée.Substring(8, 2);
-            var mois = parcours.Date_entrée.Substring(5, 2);
-            var année = parcours.Date_entrée.Substring(0, 4);
-            parcours.Date_entrée = jour + "/" + mois + "/" + année;
+            parcours.Date_entrée = parcours.Entrée.ToString().Substring(0, 10);
 
             return View(parcours);
         }
@@ -357,7 +410,7 @@ namespace Parcours_integration.Controllers
             using (MemoryStream stream = new System.IO.MemoryStream())
             {
                 StringReader sr = new StringReader(GridHtml);
-                Document pdfDoc = new Document(PageSize.A4, 30f, 10f, 40f, 0f);
+                Document pdfDoc = new Document(PageSize.A4, 30f, 10f, 40f, 40f);
                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
                 pdfDoc.Open();
                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);

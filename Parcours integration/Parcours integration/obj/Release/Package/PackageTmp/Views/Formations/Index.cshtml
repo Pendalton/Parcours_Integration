@@ -19,10 +19,11 @@
 
             <div class="col-md-8">
                 <div style="line-height:30px">
-                    CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;
-                    Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })
+                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
                 </div>
             </div>
         </div>
@@ -46,9 +47,8 @@
         </tr>
     </thead>
 
-    @foreach (var item in Model)
+   @foreach (var item in Model)
     {
-
         var jours = item.Date_entrée.Substring(0, 2);
         var mois = item.Date_entrée.Substring(3, 2);
         var an = item.Date_entrée.Substring(6, 4);
@@ -69,7 +69,7 @@
             retard = "Normal";
         }
         var N = item.ID;
-        var test = "test" + N;
+        var test = "Parcours" + N;
 
         <tr align="center" class="@retard">
             <td class="Search" data-bs-toggle="collapse" href="#@test">
@@ -97,20 +97,21 @@
 
         <tr>
             <td colspan="12" class="hiddenRow">
-                <div class="collapse" id="@test">
+                <div class="collapse show" id="@test">
 
-                    <table class="table table-bordered table-hover" style="border-color: #bdbdbd; margin-bottom: 0px">
+                    <table class="table table-bordered" style="border: 8px solid #bdbdbd; margin-bottom: 0px">
                         <thead>
                             <tr>
                                 <th class="text-center" style="background-color: #ffffff; width: 25%">Mission</th>
-                                <th class="text-center" style="background-color: #ffffff; width: 55%">Remarque</th>
-                                <th class="text-center" style="background-color: #ffffff; width: 10%">Signer</th>
-                                <th class="text-center" style="background-color: #ffffff; width: 10%">Effectuée</th>
+                                <th class="text-center" style="background-color: #ffffff; width: 8%">Planifiée</th>
+                                <th class="text-center" style="background-color: #ffffff; width: 40%">Remarque</th>
+                                <th class="text-center" style="background-color: #ffffff; width: 9%">Signer</th>
+                                <th class="text-center" style="background-color: #ffffff; width: 8%">Effectuée</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach (var miss in ViewBag.Missions)
+                           @foreach (var miss in ViewBag.Missions)
                             {
                                 foreach (var format in miss)
                                 {
@@ -118,27 +119,40 @@
                                     {
                                         continue;
                                     }
-                                    <tr align="center">
-                                        <td>
-                                            @format.Nom_Mission
-                                        </td>
-                                        <td>
-                                            @format.Remarque Changer texte ici par textarea pour simplifier signature
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-secondary btn-mini" href="@Url.Action("Signer", new { id = format.ID})" role="button">Signer</a>
-                                        </td>
-                                        <td>
-                                            @if (format.Passage)
-                                            {
-                                                <a class="btn btn-success btn-mini disabled" href="" role="button">OUI</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn btn-danger btn-mini disabled" href="" role="button">NON</a>
-                                            }
-                                        </td>
-                                    </tr>
+                                    using (Html.BeginForm("Sign", "Formations", FormMethod.Post))
+                                    {
+                                        <tr align="center">
+                                            <td>
+                                                @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" /> 
+                                            </td>
+                                            <td>
+                                                @if (format.Planifié)
+                                                {
+                                                    <a class="btn btn-success btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">OUI</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-danger btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">NON</a>
+                                                }
+                                            </td>
+                                            <td>
+                                                <textarea name="RemarqueTxt" id="RemarqueTxt" rows="1" style="width: 100%; max-width: 1300px !important; min-height: 60px" class="form-control">@format.Remarque</textarea>
+                                            </td>
+                                            <td>
+                                                <input type="submit" id="btnRegister" name="btnRegister" value="Signer" class="btn btn-secondary" />
+                                            </td>
+                                            <td>
+                                               @if (format.Passage)
+                                                {
+                                                    <a class="btn btn-success btn-mini disabled" href="" role="button">OUI</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-danger btn-mini disabled" href="" role="button">NON</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
                         </tbody>

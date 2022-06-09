@@ -17,8 +17,8 @@ namespace Parcours_integration.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Parcours()
         {
-            this.Missions = new HashSet<Missions>();
             this.Comment = new HashSet<Comment>();
+            this.Missions = new HashSet<Missions>();
         }
     
         public int ID { get; set; }
@@ -28,12 +28,16 @@ namespace Parcours_integration.Models
         public Nullable<int> Type_Contrat { get; set; }
         public bool Complété { get; set; }
         public string Poste { get; set; }
-        public Nullable<int> Satisfaction { get; set; }
+        public Nullable<System.DateTime> Entrée { get; set; }
+        public Nullable<int> EquipeID { get; set; }
+        public Nullable<int> ID_Resp { get; set; }
     
-        public virtual Contrat Contrat { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Missions> Missions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
+        public virtual Contrat Contrat { get; set; }
+        public virtual Equipe Equipe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Missions> Missions { get; set; }
+        public virtual Utilisateurs Utilisateurs { get; set; }
     }
 }

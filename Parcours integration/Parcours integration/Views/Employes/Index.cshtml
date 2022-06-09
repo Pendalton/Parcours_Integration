@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Parcours_integration.Models.Employes>
+﻿@model IEnumerable<Parcours_integration.Models.Utilisateurs>
 
 @{
     ViewBag.Title = "Liste des interlocuteurs";
@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-md-5">
-                Secteur de l'interlocuteur :&nbsp; @Html.DropDownList("secteur", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" })
+                Service de l'interlocuteur :&nbsp; @Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" })
             </div>
 
             <div class="col-md-3">
@@ -26,10 +26,7 @@
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
                     }
-                    else
-                    {
-                        <a class="btn btn-primary disabled btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
-                    }
+                    else {<a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a> }
                 </div>
             </div>
         </div>
@@ -54,23 +51,32 @@
                             <img src="~/Docs/person-icon.png" class="picture" style="margin-bottom:10px" />
                         }
                         <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</div>
-                        <div>@Html.DisplayFor(modelItem => item.Secteur)</div>
-                        @if (item.Intervenant)
+
+                        <div>
+                            @foreach (var serv in ViewBag.Services)
+                            {
+                                if (serv.ID_Utilisateur == item.ID)
+                                {
+                                    <a href="@Url.Action("Index", new { ServiceID = serv.ID_Service })" class="btn btn-sm btn-outline-dark icon-edit bigger-10" style="width:auto; margin:2px">@serv.Service.Nom</a>
+                                }
+                            }
+                        </div>
+
+                        @if (item.EstAdmin)
                         {
-                            <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.Mail)</div>
+                            <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.UserMail)</div>
                         }
                         else
                         {
-                            <div>@Html.DisplayFor(modelItem => item.Mail)</div>
+                            <div>@Html.DisplayFor(modelItem => item.UserMail)</div>
                         }
                         <div style="margin-bottom:5px">
                             @if (ViewBag.EstAdmin)
                             {
-                                <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>
+                                <a href="@Url.Action("Edit", new { ID = item.ID })" class="btn btn-primary icon-edit bigger-10" style="width:100px">Modifier</a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Edit", new { Login = item.Login })" class="btn btn-primary icon-edit bigger-10 disabled" style="width:100px">Modifier</a>
                             }
                         </div>
                     </div>
