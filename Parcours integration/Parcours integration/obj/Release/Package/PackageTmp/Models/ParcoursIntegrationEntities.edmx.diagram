@@ -6,32 +6,29 @@
     <edmx:Diagrams>
       <Diagram DiagramId="986c635d36f346bcb3b1447b23152112" Name="Diagram1">
         <EntityTypeShape EntityType="ParcoursIntegrationModel.Comment" Width="1.5" PointX="3" PointY="0.5" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Contrat" Width="1.5" PointX="0.5" PointY="3.125" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Equipe" Width="1.5" PointX="0.5" PointY="0.875" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Missions" Width="1.5" PointX="5.5" PointY="2.25" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Contrat" Width="1.5" PointX="0.5" PointY="2.875" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Equipe" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Missions" Width="1.5" PointX="5.5" PointY="1.875" />
         <EntityTypeShape EntityType="ParcoursIntegrationModel.Modele" Width="1.5" PointX="0.5" PointY="7.875" />
         <EntityTypeShape EntityType="ParcoursIntegrationModel.ModeleContrat" Width="1.5" PointX="0.5" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ParcoursIntegrationModel.Plan" Width="1.5" PointX="7.5" PointY="4.25" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Service" Width="1.5" PointX="3" PointY="9.625" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Service" Width="1.5" PointX="3" PointY="9.875" />
         <EntityTypeShape EntityType="ParcoursIntegrationModel.Utilisateurs" Width="1.5" PointX="5.5" PointY="5.625" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Utilisateurs_Services" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Utilisateurs_Services" Width="1.5" PointX="3" PointY="7.5" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Missions_Utilisateurs" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Modele_Service" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_ModeleContrat_Modele" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Employes_Services_Service" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Parcours" Width="1.5" PointX="3" PointY="3.25" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Parcours" Width="1.5" PointX="3" PointY="3" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Comment_Parcours" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Contrat" ></AssociationConnector>
-        <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Equipe" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2" PointY="1.6889891394841357" />
-          <ConnectorPoint PointX="2.3958333333333339" PointY="2.8445287475961538" />
-          <ConnectorPoint PointX="2.3958333333333339" PointY="3.8684998914930464" />
-          <ConnectorPoint PointX="3" PointY="3.8684998914930464" />
+        <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Equipe" ManuallyRouted="false" >
         </AssociationConnector>
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Missions_Parcours" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" />
+        <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

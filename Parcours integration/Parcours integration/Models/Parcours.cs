@@ -31,6 +31,7 @@ namespace Parcours_integration.Models
         public Nullable<System.DateTime> Entrée { get; set; }
         public Nullable<int> EquipeID { get; set; }
         public Nullable<int> ID_Resp { get; set; }
+        public Nullable<int> ID_Employé { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
@@ -39,5 +40,6 @@ namespace Parcours_integration.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Missions> Missions { get; set; }
         public virtual Utilisateurs Utilisateurs { get; set; }
+        public virtual Utilisateurs CompteInformatique { get; set; }
     }
 }

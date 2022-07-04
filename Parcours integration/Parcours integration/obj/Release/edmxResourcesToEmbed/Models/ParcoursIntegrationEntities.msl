@@ -15,6 +15,7 @@
     <EntitySetMapping Name="Contrat">
       <EntityTypeMapping TypeName="ParcoursIntegrationModel.Contrat">
         <MappingFragment StoreEntitySet="Contrat">
+          <ScalarProperty Name="Actif" ColumnName="Actif" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
@@ -23,6 +24,7 @@
     <EntitySetMapping Name="Equipe">
       <EntityTypeMapping TypeName="ParcoursIntegrationModel.Equipe">
         <MappingFragment StoreEntitySet="Equipe">
+          <ScalarProperty Name="Actif" ColumnName="Actif" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
@@ -31,6 +33,7 @@
     <EntitySetMapping Name="Missions">
       <EntityTypeMapping TypeName="ParcoursIntegrationModel.Missions">
         <MappingFragment StoreEntitySet="Missions">
+          <ScalarProperty Name="Applicable" ColumnName="Applicable" />
           <ScalarProperty Name="ID_Formateur" ColumnName="ID_Formateur" />
           <ScalarProperty Name="Planifié" ColumnName="Planifié" />
           <ScalarProperty Name="Remarque" ColumnName="Remarque" />
@@ -113,6 +116,7 @@
     <EntitySetMapping Name="Parcours">
       <EntityTypeMapping TypeName="ParcoursIntegrationModel.Parcours">
         <MappingFragment StoreEntitySet="Parcours">
+          <ScalarProperty Name="ID_Employé" ColumnName="ID_Employé" />
           <ScalarProperty Name="ID_Resp" ColumnName="ID_Resp" />
           <ScalarProperty Name="EquipeID" ColumnName="EquipeID" />
           <ScalarProperty Name="Entrée" ColumnName="Entrée" />

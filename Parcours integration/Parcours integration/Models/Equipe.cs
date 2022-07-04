@@ -22,6 +22,7 @@ namespace Parcours_integration.Models
     
         public int ID { get; set; }
         public string Nom { get; set; }
+        public bool Actif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Parcours> Parcours { get; set; }

@@ -28,24 +28,36 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav">
+                        @if (ViewBag.EstRH || ViewBag.IsAdmin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Liste des ressources
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" style="width:235px">
+                                    <li><a class="nav-link" href="@Url.Action("Index","Services")">Ressources de l'entreprise</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a class="nav-link" href="@Url.Action("Index","Utilisateurs")">Liste des Interlocuteurs</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                        }
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                Liste des ressources
+                                Informations pratiques
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" style="width:200px">
                                 <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Organigramme <i class="bi bi-box-arrow-up-right"></i></a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a class="nav-link" href="@Url.Action("Index","Services")">Liste des Secteurs</a></li>
+                                <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Infos Légales <i class="bi bi-box-arrow-up-right"></i></a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
-                                <li role="separator" class="divider"></li>
+                                <li><a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a>
-                        </li>
+
                         <li>
                             <a class="nav-link" href="@Url.Action("Index","Parcours")">Liste des Parcours</a>
                         </li>
@@ -59,11 +71,18 @@
             {
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav">
-                        <li>
-                            <a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a>
-                        </li>
-                        <li>
-                            <a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                Informations pratiques
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" style="width:200px">
+                                <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Organigramme <i class="bi bi-box-arrow-up-right"></i></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a class="nav-link" href="@Url.Action("Index","Employes")">Liste des Interlocuteurs</a></li>
+                            </ul>
                         </li>
                         <li>
                             <a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Organigramme <i class="bi bi-box-arrow-up-right"></i></a>

@@ -21,16 +21,16 @@
             </div>
 
             <div style="width:49%">
-                <div style="line-height:30px; margin:auto">
+                <div style="line-height:35px; margin:auto">
                     <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
                     <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
                     <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
                     <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <br />
-                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { type = "date" })&nbsp;&nbsp;
-                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "this.form.submit()", type = "date" })&nbsp;&nbsp;
-                    @Html.DropDownList("Rythme", null, "Equipe", htmlAttributes: new { @onchange = "this.form.submit()", style = "width:160px; margin-top:5px" })
+                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { type = "date", style="line-height : 30px"})&nbsp;&nbsp;
+                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "this.form.submit()", type = "date", style = "line-height : 30px" })<br />
+                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "this.form.submit()", style = "width:160px; margin-top:5px; height:35px;margin-left:30%" })
                 </div>
             </div>
             @* UwU OwO 8w8 QwQ TwT *@
@@ -44,7 +44,10 @@
                     {
                         <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
                     }
-                    <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+                    @if (ViewBag.EstRH)
+                    {
+                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+                    }
                 </div>
             </div>
         </div>
@@ -66,6 +69,7 @@
                     }
                     var complété = colors[index];
                     string listeSecteurs = "";
+                    List<String> serv = new List<string>();
                     string coll = String.Concat("collapse" + item.ID);
 
 
@@ -90,15 +94,10 @@
                                 }
 
                                 <div style="margin-top:10px; margin-bottom:10px">
-                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                                    @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
                                     {
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
                                         <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
-                                        <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
                                     }
                                 </div>
 
@@ -111,17 +110,36 @@
                                         </h2>
                                         <div id="@coll" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                @foreach (var mission in item.Missions)
-                                                {
-                                                    if (!mission.Passage)
+                                                @{ 
+                                                    foreach (var mission in item.Missions)
                                                     {
-                                                        if (!listeSecteurs.Contains(mission.Nom_Secteur))
+                                                        if (!mission.Passage)
                                                         {
-                                                            listeSecteurs = String.Concat(listeSecteurs + mission.Nom_Secteur + ", ");
+                                                            if (!serv.Contains(mission.Nom_Secteur))
+                                                            {
+                                                                serv.Add(mission.Nom_Secteur);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    var lastitem = serv.Last();
+                                                    foreach(var service in serv)
+                                                    {
+                                                        if(service == lastitem)
+                                                        {
+                                                            listeSecteurs = String.Concat(listeSecteurs + service);
+                                                        }
+                                                        else
+                                                        {
+                                                            {
+                                                                listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                                            }
                                                         }
                                                     }
                                                 }
                                                 <div>@listeSecteurs</div>
+
+                                                <button type="button" id="Relance_@item.ID" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
                                             </div>
                                         </div>
                                     </div>
@@ -139,15 +157,9 @@
                                 <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) <br />
                                 <h4 style="font-weight:normal; margin-top:15px">COMPLÉTÉ</h4>
                                 <div style="margin-top:15px">
-                                    @if (ViewBag.EstAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                                    @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
                                     {
-                                        <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
                                         <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-primary disabled" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
-                                        <a class="btn btn-primary disabled" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
                                     }
                                 </div>
                             </div>
@@ -162,13 +174,23 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).scroll(function () {
+        localStorage['page'] = document.URL;
+        localStorage['scrollTop'] = $(document).scrollTop();
+    });
+
     $(document).ready(function () {
         function Contains(text_one, text_two) {
             if (text_one.indexOf(text_two) != -1)
                 return true;
-        }
+        };
+
+        if (localStorage['page'] == document.URL) {
+            $(document).scrollTop(localStorage['scrollTop']);
+        };
+
         $("#Search").keyup(function () {
             var searchText = $("#Search").val().toLowerCase();
             $(".Search").each(function () {
@@ -189,6 +211,11 @@
             else { date2.readOnly = false; }
         })
     });
+
+    function Relance(ID) {
+        var text = "Voulez-vous relancer les secteurs suivants ? ";
+        confirm(text + ID);
+    }
 </script>
 
 <style>

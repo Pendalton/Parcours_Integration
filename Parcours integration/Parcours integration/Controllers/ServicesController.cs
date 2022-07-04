@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Dynamic;
 using Parcours_integration.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Parcours_integration.Controllers
 {
@@ -17,29 +19,22 @@ namespace Parcours_integration.Controllers
         // GET: Services
         public ActionResult Index()
         {
-            var Sects = from m in db.Service
-                        orderby m.Nom
-                        select m;
+            dynamic Ressources = new ExpandoObject();
 
-            return View(Sects);
+            var Serv = db.Service.OrderBy(s => s.Nom).ToList();
+            var Cont = db.Contrat.OrderBy(s => s.Nom).ToList();
+            var Equ = db.Equipe.OrderBy(s => s.Nom).ToList();
+
+
+            Ressources.Services = Serv.OrderByDescending(s => s.Actif);
+            Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
+            Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
+
+            return View(Ressources);
         }
 
-        // GET: Services/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Service service = db.Service.Find(id);
-            if (service == null)
-            {
-                return HttpNotFound();
-            }
-            return View(service);
-        }
+        //############################################# Partie Services ###########################################
 
-        // GET: Services/Create
         public ActionResult Create()
         {
             if (!EstAdmin)
@@ -49,9 +44,6 @@ namespace Parcours_integration.Controllers
             return View();
         }
 
-        // POST: Services/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Nom,Actif")] Service service)
@@ -85,9 +77,6 @@ namespace Parcours_integration.Controllers
             return View(service);
         }
 
-        // POST: Services/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nom,Actif")] Service service)
@@ -101,7 +90,169 @@ namespace Parcours_integration.Controllers
             return View(service);
         }
 
-        // GET: Services/Delete/5
+        public ActionResult Desactiver(int? id)
+        {
+            Service sect = db.Service.Find(id);
+            sect.Actif = !sect.Actif;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //############################################# Partie Contrats ###########################################
+
+        public ActionResult CreateCont()
+        {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateCont([Bind(Include = "ID,Nom")] Contrat contrat)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Contrat.Add(contrat);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(contrat);
+        }
+
+        public ActionResult EditCont(int? id)
+        {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Contrat contrat = db.Contrat.Find(id);
+            if (contrat == null)
+            {
+                return HttpNotFound();
+            }
+            return View(contrat);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCont([Bind(Include = "ID,Nom")] Contrat contrat)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(contrat).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(contrat);
+        }
+
+        public ActionResult DesactiverCont(int? id)
+        {
+            Contrat contrat = db.Contrat.Find(id);
+            contrat.Actif = !contrat.Actif;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //############################################# Partie Equipes ###########################################
+
+        public ActionResult CreateEqu()
+        {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEqu([Bind(Include = "ID,Nom")] Equipe equipe)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Equipe.Add(equipe);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(equipe);
+        }
+
+        [HttpPost]
+        public JsonResult InsertEqu(Equipe equipe)
+        {
+            using (db)
+            {
+                db.Equipe.Add(equipe);
+                db.SaveChanges();
+            }
+
+            return Json(equipe);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateEqu(Equipe equipe)
+        {
+            using (db)
+            {
+                Equipe UpdatedEqu = db.Equipe.Where(s => s.ID == equipe.ID).FirstOrDefault();
+                UpdatedEqu.Nom = equipe.Nom;
+                UpdatedEqu.Actif = equipe.Actif;
+                db.SaveChanges();
+            }
+            return new EmptyResult();
+        }
+
+
+        public ActionResult EditEqu(int? id)
+        {
+            if (!EstAdmin)
+            {
+                return RedirectToAction("Index");
+            }
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Equipe equipe = db.Equipe.Find(id);
+            if (equipe == null)
+            {
+                return HttpNotFound();
+            }
+            return View(equipe);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditEqu([Bind(Include = "ID,Nom")] Equipe equipe)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(equipe).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(equipe);
+        }
+
+        public ActionResult DesactiverEqu(int? id)
+        {
+            Equipe equipe = db.Equipe.Find(id);
+            equipe.Actif = !equipe.Actif;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        //######################################################################################################################
+
         public ActionResult Delete(int? id)
         {
             if (!EstAdmin)
@@ -127,21 +278,6 @@ namespace Parcours_integration.Controllers
         {
             Service service = db.Service.Find(id);
             db.Service.Remove(service);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult Desactiver(int? id)
-        {
-            Service sect = db.Service.Find(id);
-            if (sect.Actif == false)
-            {
-                sect.Actif = true;
-            }
-            else
-            {
-                sect.Actif = false;
-            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }

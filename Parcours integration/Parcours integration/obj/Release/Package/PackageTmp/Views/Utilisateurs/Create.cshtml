@@ -1,0 +1,117 @@
+﻿@model Parcours_integration.Models.Utilisateurs
+
+@{
+    ViewBag.Title = "Nouveau formateur";
+}
+
+<h2>Nouveau formateur</h2>
+
+
+@using (Html.BeginForm("Create", "Utilisateurs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-control">
+
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                @Html.DropDownList("User", null, "--- Utilisateur ---", htmlAttributes: new { @class = "User form-control", required = "required" })
+            </div>
+            <div class="col-md-5">
+                @Html.DropDownList("Service", null, "--- Services ---", htmlAttributes: new { @class = "Service form-control", required = "required", name = "Service[]", multiple = "multiple", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <br />
+        <div class="row">
+            <div class="col-md-5">
+                <label style="font-weight:bold">Photo &nbsp;&nbsp;<input type="file" id="postedFile" name="postedFile" style="max-width:500px !important" /></label>
+            </div>
+            <div class="col-md-5">
+                @Html.CheckBox("EstAdmin", new { data_toggle = "toggle", data_onstyle = "success", data_on = "Administrateur", data_off = "Formateur", data_width = "140", data_height = "36", data_offstyle = "danger" })&nbsp;&nbsp;
+                <div class="tooltip">
+                    <i class="bi bi-question-circle-fill"></i>
+                    <span class="tooltiptext">Un administrateur peut modifier les ressources de l'usine comme les services, contrats, autres employés ou les parcours des nouveaux arrivants. Ce rôle est souvant destiné aux employés des ressources humaines.</span>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>
+
+<script>
+    $('.Service').select2({
+        placeholder: "Service(s) du formateur",
+        disabled: true,
+        allowClear: true
+    });
+
+    $(".User").select2({
+        placeholder: "--- Utilisateur ---",
+        allowClear: true
+    });
+
+    $(function () {
+        $(".User").change(function () {
+            var User = document.getElementById("User");
+            var Services = document.getElementById("Service");
+            if (User.value == '') {
+                Services.disabled = true;
+            }
+            else {
+                Services.disabled = false;
+            }
+        })
+    });
+</script>
+
+<style>
+    .select2-container .select2-selection--single {
+        height: 38px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-top: 5px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        top: 6px;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+        opacity:1 !important;
+    }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 350px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px 5px 10px;
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 105%;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+</style>

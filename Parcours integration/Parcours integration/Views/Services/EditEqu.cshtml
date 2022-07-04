@@ -1,0 +1,42 @@
+﻿@model Parcours_integration.Models.Equipe
+
+@{
+    ViewBag.Title = "Modifier l'équipe";
+}
+
+<h2>Modifier l'équipe</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        <table style="width:600px">
+            <tbody>
+                <tr style="height:50px">
+                    <td class="text-center" style="width:160px; font-weight:bold">
+                        Renommer l'équipe
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Enregistrer" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+</div>

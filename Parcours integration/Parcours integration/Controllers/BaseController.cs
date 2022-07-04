@@ -21,6 +21,8 @@ namespace Parcours_integration.Controllers
         public List<Utilisateurs_Services> UserService;
         public bool EstAdmin;
         public bool EstFormateur;
+        public bool EstRH;
+        public bool EstResponsable;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
@@ -35,8 +37,11 @@ namespace Parcours_integration.Controllers
 
             ViewBag.UserSecteur = UserService;
 
-            ViewBag.EstAdmin = EstAdmin = CheckAdmin(UserSession.ID);
-            ViewBag.EstFormateur = EstFormateur = CheckFormateur(UserSession.ID);
+            ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin;
+            ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur;
+            ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault());
+            ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable;
+
         }
 
         public Utilisateurs GetAccount(string login)
@@ -47,36 +52,6 @@ namespace Parcours_integration.Controllers
             else if (u.Count() > 1) { anonyme.Nom = "Erreur de Login"; }
             else { anonyme.Nom = "Utilisateur inconnu"; }
             return anonyme;
-        }
-
-        public bool CheckAdmin(int ID)
-        {
-            Utilisateurs employe = db.Utilisateurs.Where(x => x.ID == ID).FirstOrDefault();
-            if (employe != null)
-            {
-                if(employe.EstAdmin == true)
-                {
-                    return true;
-                }
-                else 
-                { 
-                    return false; 
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool CheckFormateur(int ID)
-        {
-            Utilisateurs employe = db.Utilisateurs.Where(x => x.ID == ID).FirstOrDefault();
-            if (employe != null)
-            {
-                return true;
-            }
-            else { return false; }
         }
     }
 }

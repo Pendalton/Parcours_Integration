@@ -20,33 +20,28 @@ namespace Parcours_integration.Controllers
             Parcours parc = db.Parcours.Find(ID);
             if (!EstAdmin)
             {
-                return View("Index", "Parcours");
+                return Redirect(Request.UrlReferrer.ToString());
             }
             if (parc == null)
             {
-                return View("Index", "Parcours");
+                return Redirect(Request.UrlReferrer.ToString());
             }
 
-            var Mods = from m in db.ModeleContrat
-                       select m.Modele;
-            List<Modele> MissPossibles = new List<Modele>();
 
-            MissPossibles.AddRange(Mods.Distinct());
+            var Mods = db.Modele.ToList();
 
-            var MissPrésentes = db.Missions.Where(s => s.ID_Parcours == ID);
+            var MissPré = db.Missions.Where(s => s.ID_Parcours == ID);
 
-            foreach (var Mission in MissPrésentes)
+            foreach (var Modele in Mods.ToList())
             {
-                foreach (var item in MissPossibles.ToList())
+                if(MissPré.Where(s=>s.Nom_Mission == Modele.Nom).FirstOrDefault() != null)
                 {
-                    if (Mission.Nom_Mission == item.Nom)
-                    {
-                        MissPossibles.Remove(item);
-                    }
+                    Mods.Remove(Modele);
                 }
             }
             ViewBag.ID = ID;
-            ViewBag.ChoixMiss = new SelectList(MissPossibles, "ID", "Nom");
+            ViewBag.Parc = parc.Nom + " " + parc.Prénom;
+            ViewBag.ChoixMiss = new SelectList(Mods, "ID", "Nom");
             ViewBag.Service = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom");
             return View(new Missions());
         }
@@ -127,7 +122,7 @@ namespace Parcours_integration.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Login_Interlocuteur = new SelectList(db.Utilisateurs, "Login", "Nom", missions.ID_Formateur);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", missions.ID_Formateur);
             ViewBag.Service = new SelectList(db.Service.Where(s=>s.Actif==true), "ID", "Nom", missions.Nom_Secteur);
             return View(missions);
         }
@@ -145,7 +140,7 @@ namespace Parcours_integration.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Parcours", new { id = missions.ID_Parcours });
             }
-            ViewBag.Login_Interlocuteur = new SelectList(db.Utilisateurs, "Login", "Mail", missions.ID_Formateur);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", missions.ID_Formateur);
             ViewBag.ID_Parcours = new SelectList(db.Parcours, "ID", "Nom", missions.ID_Parcours);
             ViewBag.Service = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", missions.Nom_Secteur);
             return View(missions);
@@ -213,19 +208,28 @@ namespace Parcours_integration.Controllers
                     Miss.Remarque = "";
                 }
                 db.SaveChanges();
-                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Passage==false).FirstOrDefault();
+                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable==true).Where(s=>s.Passage==false).ToList();
                 if(MissComp == null)
                 {
-                    Parcours parc = db.Parcours.Find(Miss.ID_Parcours);
-                    parc.Complété = true;
+                    db.Parcours.Find(Miss.ID_Parcours).Complété = true;
                 }
                 else
                 {
-                    Parcours parc = db.Parcours.Find(Miss.ID_Parcours);
-                    parc.Complété = false;
+                    db.Parcours.Find(Miss.ID_Parcours).Complété = false;
                 }
                 db.SaveChanges();
             }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public ActionResult NonApplicable(int ID)
+        {
+            var MissionNA = db.Missions.Find(ID);
+            MissionNA.Applicable = !MissionNA.Applicable;
+
+            db.Entry(MissionNA).State = EntityState.Modified;
+            db.SaveChanges();
+
             return Redirect(Request.UrlReferrer.ToString());
         }
     }

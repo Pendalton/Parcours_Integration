@@ -74,12 +74,9 @@ namespace Parcours_integration.Controllers
             return View();
         }
 
-        // POST: Modeles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation")] Modele modele)
+        public ActionResult Create([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation,Intérimaire")] Modele modele)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +121,7 @@ namespace Parcours_integration.Controllers
                     ModeleContrat MC = new ModeleContrat
                     {
                         ID_Modele = modele.ID,
-                        ID_Contrat = 5
+                        ID_Contrat = 7
                     };
                     db.ModeleContrat.Add(MC);
                 }
@@ -137,7 +134,6 @@ namespace Parcours_integration.Controllers
             return View(modele);
         }
 
-        // GET: Modeles/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -153,14 +149,13 @@ namespace Parcours_integration.Controllers
             return View(modele);
         }
 
-        // POST: Modeles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation")] Modele modele)
+        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation,Intérimaire")] Modele modele)
         {
-            var MC = db.ModeleContrat.Where(s=>s.ID_Modele == modele.ID);
+            var MC = db.ModeleContrat.Where(s=>s.ID_Modele == modele.ID).ToList();
+
+            var IDPossibles = db.Contrat.Select(s => s.ID).ToList();
 
             foreach(var item in MC)
             {
@@ -184,7 +179,7 @@ namespace Parcours_integration.Controllers
                     db.ModeleContrat.Remove(item);
                     continue;
                 }
-                if (!modele.Intérimaire && item.ID_Contrat == 5)
+                if (!modele.Intérimaire && item.ID_Contrat == 7)
                 {
                     db.ModeleContrat.Remove(item);
                     continue;
@@ -227,12 +222,12 @@ namespace Parcours_integration.Controllers
                 };
                 db.ModeleContrat.Add(MaC);
             }
-            if (MC.Where(s => s.ID_Contrat == 5).FirstOrDefault() == null && modele.Intérimaire)
+            if (MC.Where(s => s.ID_Contrat == 7).FirstOrDefault() == null && modele.Intérimaire)
             {
                 ModeleContrat MaC = new ModeleContrat
                 {
                     ID_Modele = modele.ID,
-                    ID_Contrat = 5
+                    ID_Contrat = 7
                 };
                 db.ModeleContrat.Add(MaC);
             }

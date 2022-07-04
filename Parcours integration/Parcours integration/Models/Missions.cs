@@ -23,6 +23,7 @@ namespace Parcours_integration.Models
         public string Remarque { get; set; }
         public bool Planifié { get; set; }
         public Nullable<int> ID_Formateur { get; set; }
+        public bool Applicable { get; set; }
     
         public virtual Utilisateurs Utilisateurs { get; set; }
         public virtual Parcours Parcours { get; set; }

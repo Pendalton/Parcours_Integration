@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Documents du parcours";
+    ViewBag.Title = "Documents de " + ViewBag.Parc;
 }
 
-<h2>Fichiers du parcours</h2>
+<h2>Fichiers du parcours de @ViewBag.Parc</h2>
 <hr />
 
 <div class="col-md-7" style="margin-left:30px">
@@ -27,15 +27,10 @@
                             @item.FileName
                         </td>
                         <td class="align-middle">
-                            @if (ViewBag.EstAdmin)
+                            <a class="btn btn-primary btn-mini" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
+                            @if (ViewBag.EstRH)
                             {
-                                <a class="btn btn-primary btn-mini" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
-                                <a class="btn btn-primary btn-mini" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DownloadFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Télécharger</a>
-                                <a class="btn btn-primary btn-mini disabled" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" role="button">Supprimer</a>
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("DeleteFile", new {fileName=item.FileName, id = ViewData["ID"] })" onclick="return confirm('Voulez vous envoyer ce document ?')" role="button">Supprimer</a>
                             }
                         </td>
                     </tr>
@@ -48,7 +43,7 @@
 <hr />
 <h2>Envoi de fichiers</h2>
 <hr />
-@using (Html.BeginForm("AddFile", "Parcours", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddFile", "Parcours", FormMethod.Post, new { enctype = "multipart/form-data", @id="Send" }))
 {
     <div class="form-horizontal">
         @Html.Hidden("ID", ViewData["ID"])
@@ -76,3 +71,10 @@
 <div>
     <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
 </div>
+
+<script type="text/javascript">
+    $("body").on("submit", "#Send", function () {
+        return confirm("Voulez vous envoyer ce document ?");
+    });
+
+</script>

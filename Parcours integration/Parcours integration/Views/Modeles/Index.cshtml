@@ -30,7 +30,7 @@
 
             <div class="col-md-3">
                 <div class="d-grid gap-1 d-md-flex btn-group-vertical">
-                    @if (ViewBag.EstAdmin)
+                    @if (ViewBag.IsAdmin)
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
                     }
@@ -69,7 +69,7 @@
                             <th class="text-center" style="width: 8%;">
                                 Intérimaire
                             </th>
-                            @if (ViewBag.EstAdmin)
+                            @if (ViewBag.IsAdmin)
                             {
                                 <th class="text-center" style="width: 10%">
                                     Actions
@@ -138,7 +138,7 @@
                                         <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
                                     }
                                 </td>
-                                @if (ViewBag.EstAdmin)
+                                @if (ViewBag.IsAdmin)
                                 {
                                     <td class="align-middle">
 
@@ -155,7 +155,7 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         function Contains(text_one, text_two) {

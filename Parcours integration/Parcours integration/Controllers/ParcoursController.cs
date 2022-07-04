@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using Parcours_integration.Models;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.pdf.security;
+using System.Net.Mail;
 using iTextSharp.tool.xml;
 using PagedList;
 
@@ -153,20 +153,19 @@ namespace Parcours_integration.Controllers
         {
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
             ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
-            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom");
-
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s=>s.Nom), "ID", "Nom");
+            ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,EquipeID,ID_Resp")] Parcours parcours)
+        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,EquipeID,ID_Resp,ID_Employé")] Parcours parcours)
         {
             var Date = DateTime.Now.Date;
 
             parcours.Entrée = Date;
 
-            parcours.Date_entrée = parcours.Entrée.ToString().Substring(0,10);
             parcours.Complété = false;
 
             if (ModelState.IsValid)
@@ -204,7 +203,8 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
             ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
-            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom");
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
+            ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
             return View(parcours);
         }
 
@@ -220,17 +220,19 @@ namespace Parcours_integration.Controllers
             {
                 return HttpNotFound();
             }
+
             ViewData["Dossier"] = parcours.ID + parcours.Nom + parcours.Prénom;
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom", parcours.Type_Contrat);
             ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom", parcours.EquipeID);
-            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", parcours.ID_Resp);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom", parcours.ID_Resp);
+            ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom", parcours.ID_Employé);
             ViewBag.Resp = parcours.ID_Resp;
             return View(parcours);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété,Entrée,EquipeID,ID_Resp")] Parcours parcours, string Dossier, int OldResp)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété,Entrée,EquipeID,ID_Resp,ID_Employé")] Parcours parcours, string Dossier, int OldResp)
         {
             parcours.Entrée = Convert.ToDateTime(parcours.Date_entrée);
 
@@ -263,7 +265,8 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom", parcours.Type_Contrat);
             ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom", parcours.EquipeID);
-            ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", parcours.ID_Resp);
+            ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom", parcours.ID_Resp);
+            ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom", parcours.ID_Employé);
             return View(parcours);
         }
 
@@ -330,7 +333,7 @@ namespace Parcours_integration.Controllers
             }
 
             ViewBag.Fichers = list;
-
+            ViewBag.Parc = parcours.Nom + " " + parcours.Prénom;
             ViewData["id"] = parcours.ID;
             return View(parcours);
         }
@@ -346,7 +349,7 @@ namespace Parcours_integration.Controllers
             if (System.IO.File.Exists(path))
             {
                 byte[] bytes = System.IO.File.ReadAllBytes(path);
-                return File(bytes, "application/octet-stream", NomFichier + parc.Nom + parc.Prénom + ExtFichier);
+                return File(bytes, "application/octet-stream", NomFichier + "_" + parc.Nom + "_" + parc.Prénom + ExtFichier);
             }
             else
             {
@@ -403,7 +406,7 @@ namespace Parcours_integration.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public FileResult Export(string GridHtml,int ID)
+        public FileResult Export(string GridHtml, int ID)
         {
             Parcours parcours = db.Parcours.Find(ID);
 
@@ -417,6 +420,28 @@ namespace Parcours_integration.Controllers
                 pdfDoc.Close();
                 return File(stream.ToArray(), "application/pdf", parcours.Nom+parcours.Prénom+".pdf");
             }
+        }
+
+        public EmptyResult SendMail(int ID)
+        {
+            var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Select(s => s.Nom_Secteur).ToList();
+
+            List<Service> Serv = new List<Service>();
+
+            foreach(var item in servMiss)
+            {
+                var original = db.Service.Where(s => s.Nom == item).FirstOrDefault();
+                if(original!= null)
+                {
+                    Serv.Add(original);
+                }
+            }
+
+            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.Service));
+
+            
+
+            return new EmptyResult();
         }
 
         protected override void Dispose(bool disposing)

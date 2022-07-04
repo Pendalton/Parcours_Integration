@@ -56,6 +56,10 @@
       <End Role="Utilisateurs" EntitySet="Utilisateurs" />
       <End Role="Parcours" EntitySet="Parcours" />
     </AssociationSet>
+    <AssociationSet Name="FK_Parcours_Utilisateurs1" Association="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Parcours" EntitySet="Parcours" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Comment">
     <Key>
@@ -76,6 +80,7 @@
     <Property Name="Nom" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" FromRole="Contrat" ToRole="ModeleContrat" />
     <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Contrat" FromRole="Contrat" ToRole="Parcours" />
+    <Property Name="Actif" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Equipe">
     <Key>
@@ -84,6 +89,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
     <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Equipe" FromRole="Equipe" ToRole="Parcours" />
+    <Property Name="Actif" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>
@@ -100,6 +106,7 @@
     <Property Name="ID_Formateur" Type="Int32" />
     <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Missions_Utilisateurs" FromRole="Missions" ToRole="Utilisateurs" />
     <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Missions_Parcours" FromRole="Missions" ToRole="Parcours" />
+    <Property Name="Applicable" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Modele">
     <Key>
@@ -161,7 +168,8 @@
     <Property Name="EstAdmin" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Missions" Relationship="ParcoursIntegrationModel.FK_Missions_Utilisateurs" FromRole="Utilisateurs" ToRole="Missions" />
     <NavigationProperty Name="Utilisateurs_Services" Relationship="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" FromRole="Utilisateurs" ToRole="Utilisateurs_Services" />
-    <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Utilisateurs" ToRole="Parcours" />
+    <NavigationProperty Name="ParcoursResponsable" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Utilisateurs" ToRole="Parcours" />
+    <NavigationProperty Name="ParcoursEmployé" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1" FromRole="Utilisateurs" ToRole="Parcours" />
   </EntityType>
   <EntityType Name="Utilisateurs_Services">
     <Key>
@@ -264,6 +272,8 @@
     <NavigationProperty Name="Equipe" Relationship="ParcoursIntegrationModel.FK_Parcours_Equipe" FromRole="Parcours" ToRole="Equipe" />
     <NavigationProperty Name="Missions" Relationship="ParcoursIntegrationModel.FK_Missions_Parcours" FromRole="Parcours" ToRole="Missions" />
     <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Parcours" ToRole="Utilisateurs" />
+    <Property Name="ID_Employé" Type="Int32" />
+    <NavigationProperty Name="CompteInformatique" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1" FromRole="Parcours" ToRole="Utilisateurs" />
   </EntityType>
   <Association Name="FK_Comment_Parcours">
     <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="1" />
@@ -322,6 +332,18 @@
       </Principal>
       <Dependent Role="Parcours">
         <PropertyRef Name="ID_Resp" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Parcours_Utilisateurs1">
+    <End Type="ParcoursIntegrationModel.Utilisateurs" Role="Utilisateurs" Multiplicity="0..1" />
+    <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Parcours">
+        <PropertyRef Name="ID_Employé" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

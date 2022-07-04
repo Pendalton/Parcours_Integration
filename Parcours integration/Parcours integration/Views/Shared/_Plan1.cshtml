@@ -23,7 +23,7 @@
                     {
                         <li>
                             <span class="indent"></span><a href="#" id="@type@Room.Nom_de_salle" style="text-decoration: none" onclick="changePlan1('@type@Room.Nom_de_salle')">@Room.Nom_de_salle</a>
-                            @if (ViewBag.EstAdmin)
+                            @if (ViewBag.IsAdmin)
                             {
                                 <a href="@Url.Action("Edit", new { id=Room.Id })" role="button"><i class="bi bi-wrench"></i></a>
                                 <a href="@Url.Action("Delete", new { id=Room.Id })" role="button"><i class="bi bi-trash-fill"></i></a>
@@ -54,7 +54,7 @@
 <script>
     function changePlan1(source) {
         var Plan = document.getElementById("plan1");
-        var addr = "/Docs/Plan/" + source + ".png";
+        var addr = "/ParcoursIntegration/Docs/Plan/" + source + ".png";
         $(Plan).attr("src", addr);
     }
 </script>

@@ -15,22 +15,23 @@
         <br />
 
         <div class="row">
-            <div class="col-md-5">@Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "NOM", required = "required" } })</div>
-            <div class="col-md-5">@Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control", placeholder = "Prénom", required = "required" } })</div>
+            <div class="col-md-4">@Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "NOM", required = "required" } })</div>
+            <div class="col-md-4">@Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control", placeholder = "Prénom", required = "required" } })</div>
+            <div class="col-md-4">@Html.DropDownList("ID_Employé", null, "--- Compte informatique de l'employé ---", htmlAttributes: new { @class = "ID_Employé form-control" })</div>
         </div>
 
         <br />
 
         <div class="row">
-            <div class="col-md-5">@Html.DropDownList("Type_Contrat", null, "--- Type de contrat ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
-            <div class="col-md-5">@Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })</div>
+            <div class="col-md-4">@Html.DropDownList("Type_Contrat", null, "--- Type de contrat ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
+            <div class="col-md-4">@Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })</div>
         </div>
 
         <br />
 
         <div class="row" style="align-items:center">
-            <div class="col-md-5">@Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control" })</div>
-            <div class="col-md-5">@Html.DropDownList("EquipeID", null, "--- Équipe ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
+            <div class="col-md-4">@Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required="required" })</div>
+            <div class="col-md-4">@Html.DropDownList("EquipeID", null, "--- Équipe ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
         </div>
 
         <br />
@@ -50,6 +51,11 @@
 <script>
     $(".ID_Resp").select2({
         placeholder: "--- Responsable ---",
+        allowClear: true
+    });
+
+    $(".ID_Employé").select2({
+        placeholder: "--- Compte informatique de l'employé ---",
         allowClear: true
     });
 </script>

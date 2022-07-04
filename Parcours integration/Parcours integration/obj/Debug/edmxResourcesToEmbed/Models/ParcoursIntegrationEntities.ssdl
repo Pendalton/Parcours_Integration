@@ -16,6 +16,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nom" Type="nchar" MaxLength="50" />
+    <Property Name="Actif" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Equipe">
     <Key>
@@ -23,6 +24,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nom" Type="nchar" MaxLength="10" />
+    <Property Name="Actif" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Missions">
     <Key>
@@ -37,6 +39,7 @@
     <Property Name="Remarque" Type="nvarchar(max)" />
     <Property Name="Planifié" Type="bit" Nullable="false" />
     <Property Name="ID_Formateur" Type="int" />
+    <Property Name="Applicable" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Modele">
     <Key>
@@ -73,6 +76,7 @@
     <Property Name="Entrée" Type="date" />
     <Property Name="EquipeID" Type="int" />
     <Property Name="ID_Resp" Type="int" />
+    <Property Name="ID_Employé" Type="int" />
   </EntityType>
   <EntityType Name="Plan">
     <Key>
@@ -234,6 +238,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Parcours_Utilisateurs1">
+    <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="0..1" />
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Parcours">
+        <PropertyRef Name="ID_Employé" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Utilisateurs_Services_Utilisateurs">
     <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
     <End Role="Utilisateurs_Services" Type="Self.Utilisateurs_Services" Multiplicity="*" />
@@ -295,6 +311,10 @@
       <End Role="Parcours" EntitySet="Parcours" />
     </AssociationSet>
     <AssociationSet Name="FK_Parcours_Utilisateurs" Association="Self.FK_Parcours_Utilisateurs">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Parcours" EntitySet="Parcours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Parcours_Utilisateurs1" Association="Self.FK_Parcours_Utilisateurs1">
       <End Role="Utilisateurs" EntitySet="Utilisateurs" />
       <End Role="Parcours" EntitySet="Parcours" />
     </AssociationSet>

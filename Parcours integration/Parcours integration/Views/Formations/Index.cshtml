@@ -42,7 +42,7 @@ else
 
 
 
-    <table class="table table-bordered table-hover table-responsive" style="border-color: #bdbdbd">
+    <table class="table table-bordered table-hover table-responsive temp" style="border-color: #bdbdbd">
         <thead>
             <tr>
                 <th class="text-center" style="background-color: #efefef; width: 26%">
@@ -57,125 +57,119 @@ else
                 <th class="text-center" style="background-color: #efefef; width: 15%">Actions</th>
             </tr>
         </thead>
-
-        @foreach (var item in Model)
-        {
-            var jours = item.Date_entrée.Substring(0, 2);
-            var mois = item.Date_entrée.Substring(3, 2);
-            var an = item.Date_entrée.Substring(6, 4);
-
-            var day = int.Parse(jours);
-            var month = int.Parse(mois);
-            var year = int.Parse(an);
-
-            var retard = "";
-
-            var date = new DateTime(year, month, day);
-            if ((DateTime.Now.Date - date).TotalDays >= 30)
+        <tbody>
+           @foreach (var item in Model)
             {
-                retard = "Urgent";
-            }
-            else
-            {
-                retard = "Normal";
-            }
-            var N = item.ID;
-            var test = "Parcours" + N;
+                var jours = item.Date_entrée.Substring(0, 2);
+                var mois = item.Date_entrée.Substring(3, 2);
+                var an = item.Date_entrée.Substring(6, 4);
 
-            <tr align="center" class="@retard">
-                <td class="Search" data-bs-toggle="collapse" href="#@test">
-                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
-                </td>
-                <td data-bs-toggle="collapse" href="#@test">
-                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Poste)</span> - @Html.DisplayFor(modelItem => item.Contrat.Nom)
-                </td>
-                <td data-bs-toggle="collapse" href="#@test">
-                    @Html.DisplayFor(modelItem => item.Date_entrée)
-                </td>
-                <td>
-                    @if (ViewBag.EstAdmin)
-                    {
-                        <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", "Parcours", new { id = item.ID })" role="button">Modifier</a>
-                        <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary btn-mini disabled" href="@Url.Action("Edit", "Parcours", new { id = item.ID })" role="button">Modifier</a>
-                        <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
-                    }
-                </td>
-            </tr>
+                var day = int.Parse(jours);
+                var month = int.Parse(mois);
+                var year = int.Parse(an);
 
-            <tr>
-                <td colspan="12" class="hiddenRow">
-                    <div class="collapse show" id="@test">
+                var retard = "";
 
-                        <table class="table table-bordered" style="border: 8px solid #bdbdbd; margin-bottom: 0px">
-                            <thead>
-                                <tr>
-                                    <th class="text-center" style="background-color: #ffffff; width: 25%">Mission</th>
-                                    <th class="text-center" style="background-color: #ffffff; width: 8%">Planifiée</th>
-                                    <th class="text-center" style="background-color: #ffffff; width: 40%">Remarque</th>
-                                    <th class="text-center" style="background-color: #ffffff; width: 9%">Signer</th>
-                                    <th class="text-center" style="background-color: #ffffff; width: 8%">Effectuée</th>
-                                </tr>
-                            </thead>
+                var date = new DateTime(year, month, day);
+                if ((DateTime.Now.Date - date).TotalDays >= 30)
+                {
+                    retard = "Urgent";
+                }
+                else
+                {
+                    retard = "Normal";
+                }
+                var N = item.ID;
+                var test = "Parcours" + N;
 
-                            <tbody>
-                                @foreach (var miss in ViewBag.Missions)
-                                {
-                                    foreach (var format in miss)
+                <tr align="center" class="@retard">
+                    <td class="Search" data-bs-toggle="collapse" href="#@test">
+                        <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Nom)</span> @Html.DisplayFor(modelItem => item.Prénom)
+                    </td>
+                    <td data-bs-toggle="collapse" href="#@test">
+                        <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Poste)</span> - @Html.DisplayFor(modelItem => item.Contrat.Nom)
+                    </td>
+                    <td data-bs-toggle="collapse" href="#@test">
+                        @Html.DisplayFor(modelItem => item.Date_entrée)
+                    </td>
+                    <td>
+                        @if (ViewBag.EstRH)
+                        {
+                            <a class="btn btn-primary btn-mini" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
+                            <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                        }
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="12" class="hiddenRow">
+                        <div class="collapse show" id="@test">
+
+                            <table class="table table-bordered" style="border: 0 solid #bdbdbd; margin-bottom: 0px">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="background-color: #ffffff; width:37%">Mission</th>
+                                        <th class="text-center" style="background-color: #ffffff; width:18%">Service</th>
+                                        <th class="text-center" style="background-color: #ffffff; width: 7%">Planifiée</th>
+                                        <th class="text-center" style="background-color: #ffffff; width:30%">Remarque</th>
+                                        <th class="text-center" style="background-color: #ffffff; width: 8%">Signer</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var miss in ViewBag.Missions)
                                     {
-                                        if (format.ID_Parcours != item.ID)
+                                        foreach (var format in miss)
                                         {
-                                            continue;
-                                        }
-                                        using (Html.BeginForm("Sign", "Formations", FormMethod.Post))
-                                        {
-                                            <tr align="center">
-                                                <td>
-                                                    @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
-                                                </td>
-                                                <td>
-                                                    @if (format.Planifié)
-                                                    {
-                                                        <a class="btn btn-success btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">OUI</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a class="btn btn-danger btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">NON</a>
-                                                    }
-                                                </td>
-                                                <td>
-                                                    <textarea name="RemarqueTxt" id="RemarqueTxt" rows="1" style="width: 100%; max-width: 1300px !important; min-height: 60px" class="form-control">@format.Remarque</textarea>
-                                                </td>
-                                                <td>
-                                                    <input type="submit" id="btnRegister" name="btnRegister" value="Signer" class="btn btn-secondary" />
-                                                </td>
-                                                <td>
-                                                    @if (format.Passage)
-                                                    {
-                                                        <a class="btn btn-success btn-mini disabled" href="" role="button">OUI</a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a class="btn btn-danger btn-mini disabled" href="" role="button">NON</a>
-                                                    }
-                                                </td>
-                                            </tr>
+                                            if (format.ID_Parcours != item.ID)
+                                            {
+                                                continue;
+                                            }
+                                            using (Html.BeginForm("Sign", "Formations", FormMethod.Post))
+                                            {
+                                                <tr align="center">
+                                                    <td>
+                                                        @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
+                                                    </td>
+                                                    <td>
+                                                        @format.Nom_Secteur
+                                                    </td>
+                                                    <td>
+                                                        @if (format.Planifié)
+                                                        {
+                                                            <a class="btn btn-success btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">OUI</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-danger btn-mini" href="@Url.Action("Plan", new { ID = format.ID })" role="button">NON</a>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="RemarqueTxt" id="RemarqueTxt" style="width: 100%; max-width: 1300px !important; height: 40px; min-height:40px" class="form-control">@format.Remarque</textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="submit" id="btnRegister" name="btnRegister" value="Signer" class="btn btn-secondary" />
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
         function Contains(text_one, text_two) {
@@ -204,5 +198,20 @@ else
 
     .hiddenRow {
         padding: 0 !important;
+    }
+
+    .temp tbody > :nth-child(4n+0){ @*Les deux styles suivants sont ceux des tables de missions à faire*@
+        background: white;
+    }
+    .temp tbody > :nth-child(4n+2) {
+        background: white;
+    }
+
+
+    .temp tbody > :nth-child(4n+1) { @*Les deux styles suivants sont ceux des tables de parcorus en cours*@
+        background-color: rgba(66, 218, 245, 0.3);
+    }
+    .temp tbody > :nth-child(4n+3) {
+        background-color: rgba(66, 183, 255, 0.3);
     }
 </style>

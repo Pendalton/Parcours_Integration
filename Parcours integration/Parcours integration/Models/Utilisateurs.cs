@@ -19,7 +19,8 @@ namespace Parcours_integration.Models
         {
             this.Missions = new HashSet<Missions>();
             this.Utilisateurs_Services = new HashSet<Utilisateurs_Services>();
-            this.Parcours = new HashSet<Parcours>();
+            this.ParcoursResponsable = new HashSet<Parcours>();
+            this.ParcoursEmployé = new HashSet<Parcours>();
         }
     
         public int ID { get; set; }
@@ -37,6 +38,8 @@ namespace Parcours_integration.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Utilisateurs_Services> Utilisateurs_Services { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Parcours> Parcours { get; set; }
+        public virtual ICollection<Parcours> ParcoursResponsable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Parcours> ParcoursEmployé { get; set; }
     }
 }

@@ -65,7 +65,7 @@ namespace Parcours_integration.Controllers
             {
                 foreach (var item in Résultat.ToList())
                 {
-                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Passage == false);
+                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s=>s.Applicable==true).Where(s => s.Passage == false);
                     if (Miss.Count() == 0)
                     {
                         Résultat.Remove(item);
@@ -81,7 +81,8 @@ namespace Parcours_integration.Controllers
                 {
                     if(item.ID_Resp == UserSession.ID)
                     {
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur== "Responsable service").Where(s => s.Passage == false);
+                        var RespService = db.Service.Find(7).Nom;
+                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable == true).Where(s => s.Passage == false);
                         if (Miss.Count() == 0)
                         {
                             Résultat.Remove(item);
@@ -92,7 +93,7 @@ namespace Parcours_integration.Controllers
                     }
                     else
                     {
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Passage == false);
+                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable == true).Where(s => s.Passage == false);
                         if (Miss.Count() == 0)
                         {
                             Résultat.Remove(item);

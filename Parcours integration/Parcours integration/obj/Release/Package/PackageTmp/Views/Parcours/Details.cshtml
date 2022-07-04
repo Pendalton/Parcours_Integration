@@ -6,25 +6,24 @@
 
 <div>
     <div>
-        <table class="table" style="margin: 0 auto; border-color: #ffffff00">
-            <tr>
-                <td style="width:33%">
-                    <h2 style="font-weight:normal"><span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
-                </td>
-                <td class="text-center" style="width:33%">
-                    <h2 style="font-weight:normal"><span>@Html.DisplayFor(model => model.Contrat.Nom) - @Html.DisplayFor(model => model.Equipe.Nom)</span></h2>
-                </td>
-                <td class="text-end" style="width:33%">
-                    <h2 style="font-weight:normal"><span>@ViewBag.PosteOccupé</span></h2>
-                </td>
-            </tr>
-        </table>
+        <br/>
+        <div class="row">
+            <div class="col-md-4">
+                <h2 style="font-weight: normal; padding-left: 10px "><span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
+            </div>
+            <div class="col-md-4 text-center">
+                <h2 style="font-weight:normal"><span>@Html.DisplayFor(model => model.Contrat.Nom) - @Html.DisplayFor(model => model.Equipe.Nom)</span></h2>
+            </div>
+            <div class="col-md-4 text-end">
+                <h2 style="font-weight:normal"><span>@ViewBag.PosteOccupé</span></h2>
+            </div>
+        </div>
 
         <div class="row">
-            <div class="col-md-5">
-                <h3 style="font-weight:normal; padding-left:8px"><span>Entré(e) le : @Html.DisplayFor(model => model.Date_entrée)</span></h3>
+            <div class="col-md-4">
+                <h3 style="font-weight:normal; padding-left:10px"><span>Entré(e) le : @ViewBag.Entrée</span></h3>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h3 style="font-weight:normal; padding-left:13px"><span>Responsable : @Html.DisplayFor(model => model.Utilisateurs.Nom)</span></h3>
             </div>
         </div>
@@ -36,11 +35,14 @@
             <a href="@Url.Action("Index")" class="btn btn-mini btn-primary bigger-10" style="width:100px">Retour</a>
         </div>
 
-        @if (ViewBag.EstAdmin)
+        @if (ViewBag.EstRH)
         {
             <div class="col-md-8" style="height:38px; display:inline-flex">
                 <div class="btn-group" style="margin-left: auto">
-                    <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary bigger-10" style="max-width:120px;">Modifier</a>
+                    @if (!Model.Complété)
+                    {
+                        <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary bigger-10" style="max-width:120px;">Modifier</a>
+                    }
                     <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-info bigger-10" style="max-width: 200px">Documents du parcours</a>
                 </div>
                 @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-right: auto;margin-left:5px" }))
@@ -51,7 +53,10 @@
                 }
             </div>
             <div class="col-md-2">
-                <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 float-end">Nouvelle mission</a>
+                @if (!Model.Complété)
+                {
+                    <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn btn-mini btn-primary icon-edit bigger-10 float-end">Nouvelle mission</a>
+                }
             </div>
             <br /><br />
         }
@@ -59,8 +64,7 @@
         {
             <div class="col-md-8 btn-group" style="height:38px">
                 <div class="btn-group" style="margin-left: auto">
-                    <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-mini btn-primary bigger-10 disabled" style="max-width:120px;">Modifier</a>
-                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-info bigger-10 disabled" style="max-width: 200px">Documents du parcours</a>
+                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-mini btn-outline-info bigger-10" style="max-width: 200px">Documents du parcours</a>
                 </div>
                 @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-right: auto;margin-left:5px" }))
                 {
@@ -68,9 +72,6 @@
                     <input type="hidden" value="@Model.ID" name="ID" />
                     <input class="btn btn-mini btn-warning icon-edit bigger-10" type="submit" id="btnSubmit" value="Exporter le parcours" />
                 }
-            </div>
-            <div class="col-md-2">
-                <a href="@Url.Action("Create", "Missions", new { id = Model.ID })" class="btn disabled btn-mini btn-primary icon-edit bigger-10 float-end">Nouvelle mission</a>
             </div>
             <br /><br />
         }
@@ -101,11 +102,22 @@
 </div>
 
 <script type="text/javascript">
-        $(function () {
-            $("#btnSubmit").click(function () {
-                $("input[name='GridHtml']").val($("#Grid").html());
-            });
+    $(function () {
+        $("#btnSubmit").click(function () {
+            $("input[name='GridHtml']").val($("#Grid").html());
         });
+    });
+
+    $(document).scroll(function () {
+        localStorage['page'] = document.URL;
+        localStorage['scrollTop'] = $(document).scrollTop();
+    });
+
+    $(document).ready(function () {
+        if (localStorage['page'] == document.URL) {
+            $(document).scrollTop(localStorage['scrollTop']);
+        }
+    });
 </script>
 
 <style>
