@@ -13,218 +13,22 @@
         <div class="row">
 
             <div class="col-md-4" style="padding:5px">
-                <div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
-                    <span style="font-weight:bold">Services</span>
-                    <br />
-                    <table id="TableServ" class="table table-hover table-bordered" style="display:block; overflow-y: scroll; width: 90%; height:240px; background-color: white">
-                        @foreach (var item in Model.Services)
-                        {
-                            <tr>
-                                <td id="@item.ID" style="width:80%;border-right:0">
-                                    <span>@item.Nom</span>
-                                    <input type="text" value="@item.Nom" style="display:none" />
-                                </td>
-
-                                <td id="@item.ID" style="width:20%;border-left:0">
-                                    @if (ViewBag.IsAdmin)
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("Desactiver", new { ID = item.ID})" class="btn btn-success btn-sm" style="float:right"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Desactiver", new { ID = item.ID})" class="btn btn-danger btn-sm" style="float:right"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("Desactiver", new { ID = item.ID})" class="btn btn-success btn-sm disabled" style="float:right; opacity:1"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Desactiver", new { ID = item.ID})" class="btn btn-danger btn-sm disabled" style="float: right; opacity: 1"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </table>
-
-                    <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-                        @if (ViewBag.IsAdmin)
-                        {
-                            <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau Service</a>
-                        }
-                        <button type="button" disabled id="RenameServ" class="btn btn-primary" onclick="">Renommer</button>
-                    </div>
-                </div>
+                @Html.Partial("ListServ")
             </div>
-            @*###############################################################################################################################*@
+
             <div class="col-md-4" style="padding:5px">
-                <div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
-                    <span style="font-weight:bold">Contrats</span>
-                    <br />
-                    <table id="TableCont" class="table table-hover table-bordered" style="display: block; overflow-y: scroll; width: 90%; background-color: white">
-                        @foreach (var item in Model.Contrats)
-                        {
-                            <tr>
-                                <td id="@item.ID" style="width:1%;border-right:0">
-                                    <span>@item.Nom</span>
-                                    <input type="text" value="@item.Nom" style="display:none" />
-                                </td>
-
-                                <td id="@item.ID" style="border-left:0">
-                                    @if (ViewBag.IsAdmin)
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-success btn-sm" style="float:right"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-danger btn-sm" style="float:right"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-success btn-sm disabled" style="float:right; opacity:1"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-danger btn-sm disabled" style="float: right; opacity: 1"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </table>
-
-                    <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-                        @if (ViewBag.IsAdmin)
-                        {
-                            <a class="btn btn-primary btn-mini" href="@Url.Action("CreateCont")" role="button">Nouveau Contrat</a>
-                        }
-                        <button type="button" disabled id="RenameCont" class="btn btn-primary" onclick="">Renommer</button>
-                    </div>
-                </div>
+                @Html.Partial("ListCont")
             </div>
-            @*###############################################################################################################################*@
+
             <div class="col-md-4" style="padding:5px">
-                <div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
-                    <span style="font-weight:bold">Equipes de travail</span>
-                    <br />
-                    <table id="TableEqu" class="table table-hover table-bordered" style="display: block; overflow-y: scroll; width: 90%; background-color: white">
-                        @foreach (var item in Model.Equipes)
-                        {
-                            <tr>
-                                <td id="@item.ID" style="width:1%;border-right:0">
-                                    <span>@item.Nom</span>
-                                    <input type="text" value="@item.Nom" style="display:none" />
-                                </td>
-
-                                <td id="@item.ID" style="border-left:0">
-                                    @if (ViewBag.IsAdmin)
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("DesactiverEqu", new { ID = item.ID})" class="btn btn-success btn-sm" style="float:right"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("DesactiverEqu", new { ID = item.ID})" class="btn btn-danger btn-sm" style="float:right"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (item.Actif)
-                                        {
-                                            <a href="@Url.Action("DesactiverEqu", new { ID = item.ID})" class="btn btn-success btn-sm disabled" style="float:right; opacity:1"><i class="bi bi-check-lg"></i></a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("DesactiverEqu", new { ID = item.ID})" class="btn btn-danger btn-sm disabled" style="float: right; opacity: 1"><i class="bi bi-x-lg"></i></a>
-                                        }
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </table>
-
-                    <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-                        @if (ViewBag.IsAdmin)
-                        {
-                            <a class="btn btn-primary btn-mini" href="@Url.Action("CreateEqu")" role="button">Nouvelle Equipe</a>
-                        }
-                        <button type="button" disabled id="EditEqu" class="btn btn-primary" onclick="">Edit</button>
-                        <button type="button" disabled id="UpdateEqu" class="btn btn-primary" onclick="">Update</button>
-                        <button type="button" disabled id="EditEqu" class="btn btn-primary" onclick="">Cancel</button>
-
-                        @*<a class="Edit" href="javascript:;">Edit</a>
-                            <a class="Update" href="javascript:;" style="display:none">Update</a>
-                            <a class="Cancel" href="javascript:;" style="display:none">Cancel</a>*@
-
-                    </div>
-                </div>
+                @Html.Partial("ListEqu")
             </div>
         </div>
     </div>
 </div>
 
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-<script>
-    var btnS = document.getElementById("RenameServ");
-    var btnC = document.getElementById("RenameCont");
-    var btnE = document.getElementById("EditEqu");
 
-    $('#TableServ').on('click', 'tbody tr', function (event) { // Active la modification lors de la sélection d'un service
-        $(this).addClass('highlight').siblings().removeClass('highlight');
-
-        var Row = event.target.getAttribute('id')
-        btnS.disabled = false;
-
-        var URLAction = '@Url.Action("Edit")/' + Row;
-
-        var UrlF = "location.href='"+ URLAction + "'"
-
-        btnS.setAttribute('onclick',UrlF);
-    });
-    @*############################################################################################################################### *@
-    $('#TableCont').on('click', 'tbody tr', function (event) { // Active la modification lors de la sélection d'un contrat
-        $(this).addClass('highlight').siblings().removeClass('highlight');
-
-        var Row = event.target.getAttribute('id')
-        btnC.disabled = false;
-
-        var URLAction = '@Url.Action("EditCont")/' + Row;
-
-        var UrlF = "location.href='"+ URLAction + "'"
-
-        btnC.setAttribute('onclick',UrlF);
-    });
-    @*############################################################################################################################### *@
-    $('#TableEqu').on('click', 'tbody tr', function (event) { // Active la modification lors de la sélection d'une equipe
-        $(this).addClass('highlight').siblings().removeClass('highlight');
-
-        var Row = event.target.getAttribute('id')
-        btnE.disabled = false;
-
-        var URLAction = '@Url.Action("EditEqu")/' + Row;
-
-        var UrlF = "location.href='"+ URLAction + "'"
-
-        btnE.setAttribute('onclick',UrlF);
-    });
-
-
-
-    function AppendRow(row, equipeID, actif)
-
-</script>
 
 <style>
     .table tbody tr.highlight td {

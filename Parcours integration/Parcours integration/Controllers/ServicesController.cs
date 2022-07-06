@@ -95,7 +95,7 @@ namespace Parcours_integration.Controllers
             Service sect = db.Service.Find(id);
             sect.Actif = !sect.Actif;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return new EmptyResult();
         }
 
         //############################################# Partie Contrats ###########################################
@@ -159,7 +159,7 @@ namespace Parcours_integration.Controllers
             Contrat contrat = db.Contrat.Find(id);
             contrat.Actif = !contrat.Actif;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return new EmptyResult();
         }
 
         //############################################# Partie Equipes ###########################################
@@ -249,7 +249,7 @@ namespace Parcours_integration.Controllers
             Equipe equipe = db.Equipe.Find(id);
             equipe.Actif = !equipe.Actif;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return new EmptyResult();
         }
         //######################################################################################################################
 

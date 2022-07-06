@@ -1,0 +1,68 @@
+﻿<div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
+    <span style="font-weight:bold">Contrats</span>
+    <br />
+    <table id="TableCont" class="table table-hover table-bordered" style="display: block; overflow-y: scroll; width: 90%; background-color: white">
+        @foreach (var item in Model.Contrats)
+        {
+            <tr>
+                <td id="@item.ID" style="width:1%;border-right:0">
+                    <span>@item.Nom</span>
+                    <input type="text" value="@item.Nom" style="display:none" />
+                </td>
+
+                <td id="@item.ID" style="border-left:0">
+                    @if (ViewBag.IsAdmin)
+                    {
+                        if (item.Actif)
+                        {
+                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-success btn-sm" style="float:right"><i class="bi bi-check-lg"></i></a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-danger btn-sm" style="float:right"><i class="bi bi-x-lg"></i></a>
+                        }
+                    }
+                    else
+                    {
+                        if (item.Actif)
+                        {
+                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-success btn-sm disabled" style="float:right; opacity:1"><i class="bi bi-check-lg"></i></a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("DesactiverCont", new { ID = item.ID})" class="btn btn-danger btn-sm disabled" style="float: right; opacity: 1"><i class="bi bi-x-lg"></i></a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="btn-group btn-group-sm" style="margin-bottom:10px">
+        @if (ViewBag.IsAdmin)
+        {
+            <a class="btn btn-primary btn-mini" href="@Url.Action("CreateCont")" role="button">Nouveau Contrat</a>
+            <button type="button" disabled id="RenameCont" class="btn btn-primary" onclick="">Renommer</button>
+
+            <button type="button" id="UpdateCont" class="btn btn-primary" onclick="" style="display:none">Confirmer</button>
+            <button type="button" id="CancelCont" class="btn btn-primary" onclick="" style="display:none">Annuler</button>
+        }
+    </div>
+</div>
+
+<script>
+    var btnC = document.getElementById("RenameCont");
+
+    $('#TableCont').on('click', 'tbody tr', function (event) { // Active la modification lors de la sélection d'un contrat
+        $(this).addClass('highlight').siblings().removeClass('highlight');
+
+        var Row = event.target.getAttribute('id')
+        btnC.disabled = false;
+
+        var URLAction = '@Url.Action("EditCont")/' + Row;
+
+        var UrlF = "location.href='"+ URLAction + "'"
+
+        btnC.setAttribute('onclick',UrlF);
+    });
+</script>
