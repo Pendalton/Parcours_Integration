@@ -15,7 +15,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="nchar" MaxLength="50" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="50" />
     <Property Name="Actif" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Equipe">
@@ -23,7 +23,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="nchar" MaxLength="10" />
+    <Property Name="Nom" Type="nvarchar" MaxLength="50" />
     <Property Name="Actif" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Missions">

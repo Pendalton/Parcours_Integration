@@ -30,64 +30,75 @@ namespace Parcours_integration.Controllers
             Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
             Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
 
+            List<string> ServicesID = new List<string>();
+            ServicesID.AddRange(Serv.Select(s => s.ID.ToString()));
+            List<string> ContratsID = new List<string>();
+            ContratsID.AddRange(Cont.Select(s => s.ID.ToString()));
+            List<string> EquipesID = new List<string>();
+            EquipesID.AddRange(Equ.Select(s => s.ID.ToString()));
+
+            ViewBag.ServicesID = ServicesID;
+            ViewBag.ContratsID = ContratsID;
+            ViewBag.EquipesID = EquipesID;
+
             return View(Ressources);
         }
 
-        //############################################# Partie Services ###########################################
-
-        public ActionResult Create()
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+        //############################################# Partie Services ##########################################
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,Actif")] Service service)
+        public ActionResult Insert(string Name, bool Actif)
         {
+            dynamic Ressources = new ExpandoObject();
+
+            List<Service> Serv = new List<Service>();
+            List<string> ServicesID = new List<string>();
+
+            Service service = new Service
+            {
+                Actif = Actif,
+                Nom = Name,
+            };
             if (ModelState.IsValid)
             {
                 db.Service.Add(service);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(service);
-        }
+                Serv = db.Service.OrderBy(s => s.Nom).ToList();
 
-        // GET: Services/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
+                Ressources.Services = Serv.OrderByDescending(s => s.Actif);
+                ServicesID.AddRange(Serv.Select(s => s.ID.ToString()));
+                ViewBag.ServicesID = ServicesID;
+
+                return PartialView("ListServ", Ressources);
             }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Service service = db.Service.Find(id);
-            if (service == null)
-            {
-                return HttpNotFound();
-            }
-            return View(service);
+            Serv = db.Service.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Services = Serv.OrderByDescending(s => s.Actif);
+            ServicesID.AddRange(Serv.Select(s => s.ID.ToString()));
+            ViewBag.ServicesID = ServicesID;
+
+            return PartialView("ListServ", Ressources);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Actif")] Service service)
+        public ActionResult Rename(int ID, string Name)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(service).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(service);
+            var service = db.Service.Find(ID);
+            service.Nom = Name;
+            db.Entry(service).State = EntityState.Modified;
+            db.SaveChanges();
+
+            dynamic Ressources = new ExpandoObject();
+
+            var Serv = db.Service.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Services = Serv.OrderByDescending(s => s.Actif);
+            List<string> ServicesID = new List<string>();
+            ServicesID.AddRange(Serv.Select(s => s.ID.ToString()));
+            ViewBag.ServicesID = ServicesID;
+
+            return PartialView("ListServ", Ressources);
         }
 
         public ActionResult Desactiver(int? id)
@@ -95,192 +106,180 @@ namespace Parcours_integration.Controllers
             Service sect = db.Service.Find(id);
             sect.Actif = !sect.Actif;
             db.SaveChanges();
-            return new EmptyResult();
+
+            dynamic Ressources = new ExpandoObject();
+
+            var Serv = db.Service.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Services = Serv.OrderByDescending(s => s.Actif);
+            List<string> ServicesID = new List<string>();
+            ServicesID.AddRange(Serv.Select(s => s.ID.ToString()));
+            ViewBag.ServicesID = ServicesID;
+
+            return PartialView("ListServ", Ressources);
         }
 
-        //############################################# Partie Contrats ###########################################
-
-        public ActionResult CreateCont()
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
+        //############################################# Partie Contrats ##########################################
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateCont([Bind(Include = "ID,Nom")] Contrat contrat)
+        public ActionResult InsertCont(string Name, bool Actif)
         {
+            dynamic Ressources = new ExpandoObject();
+
+            List<Contrat> Cont = new List<Contrat>();
+            List<string> ContratsID = new List<string>();
+
+
+            Contrat contrat = new Contrat
+            {
+                Actif = Actif,
+                Nom = Name,
+            };
             if (ModelState.IsValid)
             {
                 db.Contrat.Add(contrat);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                Cont = db.Contrat.OrderBy(s => s.Nom).ToList();
+
+                Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
+                ContratsID.AddRange(Cont.Select(s => s.ID.ToString()));
+                ViewBag.ContratsID = ContratsID;
+
+                return PartialView("ListCont", Ressources);
             }
 
-            return View(contrat);
-        }
+            Cont = db.Contrat.OrderBy(s => s.Nom).ToList();
 
-        public ActionResult EditCont(int? id)
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contrat contrat = db.Contrat.Find(id);
-            if (contrat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contrat);
+            Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
+            ContratsID.AddRange(Cont.Select(s => s.ID.ToString()));
+            ViewBag.ContratsID = ContratsID;
+
+            return PartialView("ListCont", Ressources);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditCont([Bind(Include = "ID,Nom")] Contrat contrat)
+        public ActionResult RenameCont(int ID, string Name)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(contrat).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(contrat);
+            var contrat = db.Contrat.Find(ID);
+            contrat.Nom = Name;
+            db.Entry(contrat).State = EntityState.Modified;
+            db.SaveChanges();
+
+            dynamic Ressources = new ExpandoObject();
+
+            var Cont = db.Contrat.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
+            List<string> ContratsID = new List<string>();
+            ContratsID.AddRange(Cont.Select(s => s.ID.ToString()));
+            ViewBag.ContratsID = ContratsID;
+
+            return PartialView("ListCont", Ressources);
         }
 
         public ActionResult DesactiverCont(int? id)
         {
             Contrat contrat = db.Contrat.Find(id);
             contrat.Actif = !contrat.Actif;
+            db.Entry(contrat).State = EntityState.Modified;
             db.SaveChanges();
-            return new EmptyResult();
+
+            dynamic Ressources = new ExpandoObject();
+
+            var Cont = db.Contrat.OrderBy(s => s.Nom).ToList();
+            
+            Ressources.Contrats = Cont.OrderByDescending(s => s.Actif);
+            List<string> ContratsID = new List<string>();
+            ContratsID.AddRange(Cont.Select(s => s.ID.ToString()));
+            ViewBag.ContratsID = ContratsID;
+
+            return PartialView("ListCont", Ressources);
         }
 
         //############################################# Partie Equipes ###########################################
 
-        public ActionResult CreateEqu()
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateEqu([Bind(Include = "ID,Nom")] Equipe equipe)
+        public ActionResult InsertEqu(string Name, bool Actif)
         {
+            dynamic Ressources = new ExpandoObject();
+
+            List<Equipe> Equ = new List<Equipe>();
+            List<string> EquipesID = new List<string>();
+
+            Equipe equipe = new Equipe
+            {
+                Actif = Actif,
+                Nom = Name,
+            };
             if (ModelState.IsValid)
             {
                 db.Equipe.Add(equipe);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                Equ = db.Equipe.OrderBy(s => s.Nom).ToList();
+
+                Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
+
+                EquipesID.AddRange(Equ.Select(s => s.ID.ToString()));
+
+                ViewBag.EquipesID = EquipesID;
+
+                return PartialView("ListEqu", Ressources);
             }
 
-            return View(equipe);
+            Equ = db.Equipe.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
+            EquipesID.AddRange(Equ.Select(s => s.ID.ToString()));
+
+            ViewBag.EquipesID = EquipesID;
+
+            return PartialView("ListEqu", Ressources);
         }
 
         [HttpPost]
-        public JsonResult InsertEqu(Equipe equipe)
+        public ActionResult RenameEqu(int ID, string Name)
         {
-            using (db)
-            {
-                db.Equipe.Add(equipe);
-                db.SaveChanges();
-            }
+            dynamic Ressources = new ExpandoObject();
 
-            return Json(equipe);
-        }
+            var equipe = db.Equipe.Find(ID);
+            equipe.Nom = Name;
+            db.Entry(equipe).State = EntityState.Modified;
+            db.SaveChanges();
 
-        [HttpPost]
-        public ActionResult UpdateEqu(Equipe equipe)
-        {
-            using (db)
-            {
-                Equipe UpdatedEqu = db.Equipe.Where(s => s.ID == equipe.ID).FirstOrDefault();
-                UpdatedEqu.Nom = equipe.Nom;
-                UpdatedEqu.Actif = equipe.Actif;
-                db.SaveChanges();
-            }
-            return new EmptyResult();
-        }
+            var Equ = db.Equipe.OrderBy(s => s.Nom).ToList();
 
+            Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
+            List<string> EquipesID = new List<string>();
+            EquipesID.AddRange(Equ.Select(s => s.ID.ToString()));
 
-        public ActionResult EditEqu(int? id)
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Equipe equipe = db.Equipe.Find(id);
-            if (equipe == null)
-            {
-                return HttpNotFound();
-            }
-            return View(equipe);
-        }
+            ViewBag.EquipesID = EquipesID;
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditEqu([Bind(Include = "ID,Nom")] Equipe equipe)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(equipe).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(equipe);
+            return PartialView("ListEqu", Ressources);
         }
 
         public ActionResult DesactiverEqu(int? id)
         {
             Equipe equipe = db.Equipe.Find(id);
             equipe.Actif = !equipe.Actif;
+            db.Entry(equipe).State = EntityState.Modified;
             db.SaveChanges();
-            return new EmptyResult();
-        }
-        //######################################################################################################################
 
-        public ActionResult Delete(int? id)
-        {
-            if (!EstAdmin)
-            {
-                return RedirectToAction("Index");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Service service = db.Service.Find(id);
-            if (service == null)
-            {
-                return HttpNotFound();
-            }
-            return View(service);
+            dynamic Ressources = new ExpandoObject();
+
+            var Equ = db.Equipe.OrderBy(s => s.Nom).ToList();
+
+            Ressources.Equipes = Equ.OrderByDescending(s => s.Actif);
+            List<string> EquipesID = new List<string>();
+            EquipesID.AddRange(Equ.Select(s => s.ID.ToString()));
+
+            ViewBag.EquipesID = EquipesID;
+
+            return PartialView("ListEqu", Ressources);
         }
 
-        // POST: Services/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Service service = db.Service.Find(id);
-            db.Service.Remove(service);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //########################################################################################################
 
         protected override void Dispose(bool disposing)
         {

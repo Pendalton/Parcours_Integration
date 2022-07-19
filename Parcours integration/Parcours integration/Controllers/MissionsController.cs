@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Parcours_integration.Models;
 
@@ -196,13 +195,13 @@ namespace Parcours_integration.Controllers
             {
                 if (!Miss.Passage)
                 {
-                    Miss.Passage = true;
+                    Miss.Passage = !Miss.Passage;
                     Miss.Date_passage = DateTime.Now.Date.ToString().Substring(0, 10);
                     Miss.ID_Formateur = UserSession.ID;
                 }
                 else
                 {
-                    Miss.Passage = false;
+                    Miss.Passage = !Miss.Passage;
                     Miss.Date_passage = "--/--/----";
                     Miss.ID_Formateur = null;
                     Miss.Remarque = "";
@@ -219,7 +218,11 @@ namespace Parcours_integration.Controllers
                 }
                 db.SaveChanges();
             }
-            return Redirect(Request.UrlReferrer.ToString());
+            Parcours parcours = db.Parcours.Find(Miss.ID_Parcours);
+            var ListeDesMissions = parcours.Missions.OrderBy(s=>s.ID).ToList();
+
+            ViewBag.Intervenants = db.Utilisateurs_Services.ToList();
+            return PartialView("_Missions", ListeDesMissions);
         }
 
         public ActionResult NonApplicable(int ID)
@@ -230,7 +233,11 @@ namespace Parcours_integration.Controllers
             db.Entry(MissionNA).State = EntityState.Modified;
             db.SaveChanges();
 
-            return Redirect(Request.UrlReferrer.ToString());
+            Parcours parcours = db.Parcours.Find(MissionNA.ID_Parcours);
+            var ListeDesMissions = parcours.Missions.OrderBy(s => s.ID).ToList();
+
+            ViewBag.Intervenants = db.Utilisateurs_Services.ToList();
+            return PartialView("_Missions", ListeDesMissions);
         }
     }
 }

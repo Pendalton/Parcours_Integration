@@ -497,13 +497,6 @@
     <Content Include="Views\Shared\_CommentBox.cshtml" />
     <Content Include="Views\Missions\_NewMission.cshtml" />
     <Content Include="Views\Shared\_HiddenMissions.cshtml" />
-    <Content Include="Views\Services\Create.cshtml" />
-    <Content Include="Views\Services\Delete.cshtml" />
-    <Content Include="Views\Services\Edit.cshtml" />
-    <Content Include="Views\Services\CreateCont.cshtml" />
-    <Content Include="Views\Services\CreateEqu.cshtml" />
-    <Content Include="Views\Services\EditCont.cshtml" />
-    <Content Include="Views\Services\EditEqu.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Services\ListEqu.cshtml" />
     <Content Include="Views\Services\ListServ.cshtml" />

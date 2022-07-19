@@ -94,7 +94,7 @@ textarea {
 }
 
 .Urgent {
-    background-color: #ffd9d9;
+    background-color: #ffd9d9 !important;
 }
 
 .Normal {

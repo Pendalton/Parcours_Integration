@@ -15,8 +15,8 @@
             <th class="text-center" style="background-color: #efefef; width: 7%">
                 Finie?
             </th>
-            <th class="text-center" style="background-color: #efefef; width: 13%">
-                Date de passage
+            <th class="text-center" style="background-color: #efefef; width: 10%">
+                Passage
             </th>
             @if (ViewBag.EstRH)
             {
@@ -49,7 +49,7 @@
                         <span>NON APPLICABLE</span>
                     </td>
                     <td>
-                        <a class="btn btn-secondary disabled" href="" role="button">N/A</a>
+                        <button type="button" disabled class="btn btn-secondary" style="opacity: 1">N/A</button>
                     </td>
                     <td>
                         <span>NON APPLICABLE</span>
@@ -58,7 +58,7 @@
                     @if (ViewBag.EstRH)
                     {
                         <td>
-                            <a class="btn btn-primary poof" href="@Url.Action("NonApplicable", "Missions", new { id = item.ID })" style="display:block" role="button">Applicable</a>
+                            <button type="button" onclick="NonApplicable(@item.ID)" style="display:block" class="btn btn-primary poof">Applicable</button>
                         </td>
                     }
                 </tr>
@@ -87,23 +87,25 @@
                         {
                             if (item.Passage)
                             {
-                                <a class="btn btn-success" href="@Url.Action("Compléter", "Missions", new { id = item.ID})" role="button">OUI</a>
+                                <button type="button" onclick="Completer(@item.ID)" class="btn btn-success">Complétée</button>
                             }
                             else
                             {
-                                <a class="btn btn-danger" href="@Url.Action("Compléter", "Missions", new { id = item.ID})" role="button">NON</a>
+                                <button type="button" onclick="Completer(@item.ID)" class="btn btn-danger">En cours</button>
                             }
                         }
                         else
                         {
                             if (item.Passage)
                             {
-                                <a class="btn btn-success disabled" href="@Url.Action("Compléter", "Missions", new { id = item.ID})" role="button">OUI</a>
+                                <button type="button" disabled class="btn btn-success" style="opacity: 1">Complétée</button>
                             }
                             else
                             {
-                                <a class="btn btn-danger disabled" href="@Url.Action("Compléter", "Missions", new { id = item.ID})" role="button">NON</a>
+                                <button type="button" disabled class="btn btn-danger" style="opacity: 1">En cours</button>
                             }
+
+
                         }
                     </td>
                     <td>
@@ -115,7 +117,7 @@
                         <td>
                             <div class="btn-group" role="group">
                                 <a class="btn btn-primary poof" href="@Url.Action("Edit", "Missions", new { id = item.ID })" role="button">Modifier</a>
-                                <a class="btn btn-primary poof" href="@Url.Action("NonApplicable", "Missions", new { id = item.ID })" role="button">N/A</a>
+                                <button type="button" onclick="NonApplicable(@item.ID)" class="btn btn-primary poof">N/A</button>
                             </div>
                         </td>
                     }
@@ -138,3 +140,37 @@
         opacity:1;
     }
 </style>
+
+<script>
+    function Completer(ID) {
+        var link = "/Missions/Compléter/" + ID;
+        $.ajax({
+            type: "POST",
+            url: link,
+            success: function (data) {
+                $("#ViewMission").html(data);
+            },
+            error: function (data) {
+                alert("Error");
+                $("#ViewMission").html(data);
+            }
+        });
+    }
+
+    function NonApplicable(ID) {
+        var link = "/Missions/NonApplicable/" + ID;
+
+        $.ajax({
+            type: "POST",
+            url: link,
+            success: function (data) {
+                $("#ViewMission").html(data);
+            },
+            error: function (data) {
+                alert("Error");
+                $("#ViewMission").html(data);
+            }
+        })
+    }
+
+</script>

@@ -20,7 +20,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nom" Type="nchar" MaxLength="50" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
           <Property Name="Actif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Equipe">
@@ -28,7 +28,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nom" Type="nchar" MaxLength="10" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" />
           <Property Name="Actif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Missions">
@@ -409,7 +409,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" FromRole="Contrat" ToRole="ModeleContrat" />
           <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Contrat" FromRole="Contrat" ToRole="Parcours" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
@@ -419,7 +419,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Parcours_Equipe" FromRole="Equipe" ToRole="Parcours" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
         </EntityType>
