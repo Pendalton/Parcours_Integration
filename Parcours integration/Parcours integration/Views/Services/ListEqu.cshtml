@@ -66,7 +66,6 @@
 </div>
 
 <script>
-
     var equipes = document.getElementById('TableEqu');
     var NewEquLine = equipes.querySelector("#NewEquLine");
 
@@ -132,12 +131,17 @@
         CancelEquBtn.style.display = "block";
     };
 
-    function ActiverEqu(ID) { //Remplace le lien vers DesactiverEqu dans le controlleur, à compléter le load
-        var link = "/Services/DesactiverEqu/" + ID;
+    function ActiverEqu(ID) { //Remplace le lien vers DesactiverEqu dans le controlleur
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Services/DesactiverEqu",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $("#ViewEquipes").html(data);
+            },
+            error: function (data) {
+                alert("poof");
                 $("#ViewEquipes").html(data);
             }
         });
@@ -187,6 +191,11 @@
             equipes.querySelector('.highlight').classList.remove('highlight');
         }
         NewEquLine.classList.add('highlight');
+
+        equipes.scrollBy({
+            top: equipes.offsetHeight,
+            behavior: "smooth",
+        });
 
         NewEqu.style.display = "none";
         RenameEqu.style.display = "none";

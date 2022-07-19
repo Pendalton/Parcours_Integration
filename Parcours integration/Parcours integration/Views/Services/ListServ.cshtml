@@ -131,11 +131,12 @@
         CancelServBtn.style.display = "block";
     };
 
-    function ActiverServ(ID) { //Remplace le lien vers Desactiver dans le controlleur, à compléter le load
-        var link = "/Services/Desactiver/" + ID;
+    function ActiverServ(ID) { //Remplace le lien vers Desactiver dans le controlleur
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Services/Desactiver",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ViewServices").html(data);
             }
@@ -186,6 +187,11 @@
             Services.querySelector('.highlight').classList.remove('highlight');
         }
         NewServLine.classList.add('highlight');
+
+        Services.scrollBy({
+            top: Services.offsetHeight,
+            behavior: "smooth",
+        });
 
         NewServ.style.display = "none";
         RenameServ.style.display = "none";

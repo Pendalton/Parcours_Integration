@@ -143,10 +143,11 @@
 
 <script>
     function Completer(ID) {
-        var link = "/Missions/Compléter/" + ID;
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Missions/Compléter",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ViewMission").html(data);
             },
@@ -158,11 +159,11 @@
     }
 
     function NonApplicable(ID) {
-        var link = "/Missions/NonApplicable/" + ID;
-
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Missions/NonApplicable",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ViewMission").html(data);
             },

@@ -151,87 +151,8 @@ namespace Parcours_integration.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID,CDI,CDD,Stage,Mutation,Intérimaire")] Modele modele)
+        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID")] Modele modele)
         {
-            var MC = db.ModeleContrat.Where(s=>s.ID_Modele == modele.ID).ToList();
-
-            var IDPossibles = db.Contrat.Select(s => s.ID).ToList();
-
-            foreach(var item in MC)
-            {
-                if (!modele.CDI && item.ID_Contrat == 1)
-                {
-                    db.ModeleContrat.Remove(item);
-                    continue;
-                }
-                if (!modele.CDD && item.ID_Contrat == 2)
-                {
-                    db.ModeleContrat.Remove(item);
-                    continue;
-                }
-                if (!modele.Stage && item.ID_Contrat == 3)
-                {
-                    db.ModeleContrat.Remove(item);
-                    continue;
-                }
-                if (!modele.Mutation && item.ID_Contrat == 4)
-                {
-                    db.ModeleContrat.Remove(item);
-                    continue;
-                }
-                if (!modele.Intérimaire && item.ID_Contrat == 7)
-                {
-                    db.ModeleContrat.Remove(item);
-                    continue;
-                }
-            }
-
-            if (MC.Where(s => s.ID_Contrat == 1).FirstOrDefault() == null && modele.CDI)
-            {
-                ModeleContrat MaC = new ModeleContrat
-                {
-                    ID_Modele = modele.ID,
-                    ID_Contrat = 1
-                };
-                db.ModeleContrat.Add(MaC);
-            }
-            if (MC.Where(s => s.ID_Contrat == 2).FirstOrDefault() == null && modele.CDD)
-            {
-                ModeleContrat MaC = new ModeleContrat
-                {
-                    ID_Modele = modele.ID,
-                    ID_Contrat = 2
-                };
-                db.ModeleContrat.Add(MaC);
-            }
-            if (MC.Where(s => s.ID_Contrat == 3).FirstOrDefault() == null && modele.Stage)
-            {
-                ModeleContrat MaC = new ModeleContrat
-                {
-                    ID_Modele = modele.ID,
-                    ID_Contrat = 3
-                };
-                db.ModeleContrat.Add(MaC);
-            }
-            if (MC.Where(s => s.ID_Contrat == 4).FirstOrDefault() == null && modele.Mutation)
-            {
-                ModeleContrat MaC = new ModeleContrat
-                {
-                    ID_Modele = modele.ID,
-                    ID_Contrat = 4
-                };
-                db.ModeleContrat.Add(MaC);
-            }
-            if (MC.Where(s => s.ID_Contrat == 7).FirstOrDefault() == null && modele.Intérimaire)
-            {
-                ModeleContrat MaC = new ModeleContrat
-                {
-                    ID_Modele = modele.ID,
-                    ID_Contrat = 7
-                };
-                db.ModeleContrat.Add(MaC);
-            }
-
             if (ModelState.IsValid)
             {
                 db.Entry(modele).State = EntityState.Modified;
@@ -240,6 +161,206 @@ namespace Parcours_integration.Controllers
             }
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif==true), "ID", "Nom", modele.ServiceID);
             return View(modele);
+        }
+
+        public ActionResult ChangeCDI(int ID)
+        {
+            var ListModeles = db.Modele.ToList();
+            var modele = db.Modele.Find(ID);
+            var MC_CDI = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 1).FirstOrDefault();
+
+            if(!modele.CDI)
+            {
+                if (MC_CDI == null)
+                {
+                    ModeleContrat MaC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 1
+                    };
+                    db.ModeleContrat.Add(MaC);
+                }
+            }
+            else
+            {
+                if (MC_CDI != null)
+                {
+                    db.ModeleContrat.Remove(MC_CDI);
+                }
+            }
+
+            modele.CDI = !modele.CDI;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(modele).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ListModeles = db.Modele.ToList();
+
+                return PartialView("TableModeles", ListModeles);
+            }
+            return PartialView("TableModeles", ListModeles);
+        }
+
+        public ActionResult ChangeCDD(int ID)
+        {
+            var ListModeles = db.Modele.ToList();
+            var modele = db.Modele.Find(ID);
+            var MC_CDD = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 2).FirstOrDefault();
+
+            if (!modele.CDD)
+            {
+                if (MC_CDD == null)
+                {
+                    ModeleContrat MaC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 2
+                    };
+                    db.ModeleContrat.Add(MaC);
+                }
+            }
+            else
+            {
+                if (MC_CDD != null)
+                {
+                    db.ModeleContrat.Remove(MC_CDD);
+                }
+            }
+
+            modele.CDD = !modele.CDD;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(modele).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ListModeles = db.Modele.ToList();
+
+                return PartialView("TableModeles", ListModeles);
+            }
+            return PartialView("TableModeles", ListModeles);
+        }
+
+        public ActionResult ChangeStage(int ID)
+        {
+            var ListModeles = db.Modele.ToList();
+            var modele = db.Modele.Find(ID);
+            var MC_Stage = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 3).FirstOrDefault();
+
+            if (!modele.Stage)
+            {
+                if (MC_Stage == null)
+                {
+                    ModeleContrat MaC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 3
+                    };
+                    db.ModeleContrat.Add(MaC);
+                }
+            }
+            else
+            {
+                if (MC_Stage != null)
+                {
+                    db.ModeleContrat.Remove(MC_Stage);
+                }
+            }
+
+            modele.Stage = !modele.Stage;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(modele).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ListModeles = db.Modele.ToList();
+
+                return PartialView("TableModeles", ListModeles);
+            }
+            return PartialView("TableModeles", ListModeles);
+        }
+
+        public ActionResult ChangeMutation(int ID)
+        {
+            var ListModeles = db.Modele.ToList();
+            var modele = db.Modele.Find(ID);
+            var MC_Mutation = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 4).FirstOrDefault();
+
+            if (!modele.CDI)
+            {
+                if (MC_Mutation == null)
+                {
+                    ModeleContrat MaC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 4
+                    };
+                    db.ModeleContrat.Add(MaC);
+                }
+            }
+            else
+            {
+                if (MC_Mutation != null)
+                {
+                    db.ModeleContrat.Remove(MC_Mutation);
+                }
+            }
+
+            modele.Mutation = !modele.Mutation;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(modele).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ListModeles = db.Modele.ToList();
+
+                return PartialView("TableModeles", ListModeles);
+            }
+            return PartialView("TableModeles", ListModeles);
+        }
+
+        public ActionResult ChangeIntérimaire(int ID)
+        {
+            var ListModeles = db.Modele.ToList();
+            var modele = db.Modele.Find(ID);
+            var MC_Intérim = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 7).FirstOrDefault();
+
+            if (!modele.CDI)
+            {
+                if (MC_Intérim == null)
+                {
+                    ModeleContrat MaC = new ModeleContrat
+                    {
+                        ID_Modele = modele.ID,
+                        ID_Contrat = 7
+                    };
+                    db.ModeleContrat.Add(MaC);
+                }
+            }
+            else
+            {
+                if (MC_Intérim != null)
+                {
+                    db.ModeleContrat.Remove(MC_Intérim);
+                }
+            }
+
+            modele.Intérimaire = !modele.Intérimaire;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(modele).State = EntityState.Modified;
+                db.SaveChanges();
+
+                ListModeles = db.Modele.ToList();
+
+                return PartialView("TableModeles", ListModeles);
+            }
+            return PartialView("TableModeles", ListModeles);
         }
 
         // GET: Modeles/Delete/5

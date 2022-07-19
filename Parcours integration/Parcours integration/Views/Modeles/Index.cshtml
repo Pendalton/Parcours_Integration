@@ -41,118 +41,8 @@
 }
 <br />
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width: 35%;">
-                                Nom de formation
-                            </th>
-                            <th class="text-center" style="width: 15%;">
-                                Service
-                            </th>
-                            <th class="text-center" style="width: 8%;">
-                                CDI
-                            </th>
-                            <th class="text-center" style="width: 8%;">
-                                CDD
-                            </th>
-                            <th class="text-center" style="width: 8%;">
-                                Stage
-                            </th>
-                            <th class="text-center" style="width: 8%;">
-                                Mutation
-                            </th>
-                            <th class="text-center" style="width: 8%;">
-                                Intérimaire
-                            </th>
-                            @if (ViewBag.IsAdmin)
-                            {
-                                <th class="text-center" style="width: 10%">
-                                    Actions
-                                </th>
-                            }
-                            </tr>
-                    </thead>
-
-                    @foreach (var item in Model)
-                    {
-                        <tbody>
-                            <tr align="center">
-                                <td class="align-middle Search">
-                                    @Html.DisplayFor(modelItem => item.Nom)
-                                </td>
-                                <td class="align-middle">
-                                    @Html.DisplayFor(modelItem => item.Service.Nom)
-                                </td>
-                                <td class="align-middle">
-                                    @if (item.CDI)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                <td class="align-middle">
-                                    @if (item.CDD)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                <td class="align-middle">
-                                    @if (item.Stage)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                <td class="align-middle">
-                                    @if (item.Mutation)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                <td class="align-middle">
-                                    @if (item.Intérimaire)
-                                    {
-                                        <a href="#" class="disabled btn btn-success icon-edit bigger-10">OUI</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#" class="disabled btn btn-danger icon-edit bigger-10">NON</a>
-                                    }
-                                </td>
-                                @if (ViewBag.IsAdmin)
-                                {
-                                    <td class="align-middle">
-
-                                        <a href="@Url.Action("Edit", new { id = item.ID })" class="btn btn-primary icon-edit bigger-10">Modifier</a>
-
-                                    </td>
-                                }
-                            </tr>
-                        </tbody>
-                    }
-                </table>
-            </div>
-        </div>
-    </div>
+<div id="TableMods" class="container-fluid">
+    @Html.Partial("TableModeles")
 </div>
 
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
@@ -174,6 +64,67 @@
             });
         });
     });
+
+    function ChangeCDI(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeCDI",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#TableMods").html(data);
+            }
+        });
+    }
+
+    function ChangeCDD(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeCDD",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#TableMods").html(data);
+            }
+        });
+    }
+
+    function ChangeStage(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeStage",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#TableMods").html(data);
+            }
+        });
+    }
+
+    function ChangeMutation(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeMutation",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#TableMods").html(data);
+            }
+        });
+    }
+
+    function ChangeIntérimaire(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeIntérimaire",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#TableMods").html(data);
+            }
+        });
+    }
+
 </script>
 
 <style>

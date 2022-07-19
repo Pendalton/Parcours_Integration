@@ -131,11 +131,12 @@
         CancelContBtn.style.display = "block";
     };
 
-    function ActiverCont(ID) { //Remplace le lien vers Desactiver dans le controlleur, à compléter le load
-        var link = "/Services/DesactiverCont/" + ID;
+    function ActiverCont(ID) { //Remplace le lien vers Desactiver dans le controlleur
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Services/DesactiverCont",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ViewContrats").html(data);
             }
@@ -182,10 +183,15 @@
     function NewLigneCont() {
         NewContLine.style.display = "table-row";
 
-        if (Services.querySelector('.highlight') != null) {
-            Services.querySelector('.highlight').classList.remove('highlight');
+        if (Contrats.querySelector('.highlight') != null) {
+            Contrats.querySelector('.highlight').classList.remove('highlight');
         }
         NewContLine.classList.add('highlight');
+
+        Contrats.scrollBy({
+            top: Contrats.offsetHeight,
+            behavior: "smooth",
+        });
 
         NewCont.style.display = "none";
         RenameCont.style.display = "none";
