@@ -136,6 +136,7 @@ namespace Parcours_integration.Controllers
             ViewBag.TypeContrat = parcours.Contrat.Nom + " - " + parcours.Equipe.Nom;
             ViewBag.PosteOccupé = parcours.Poste;
             ViewBag.Entrée = parcours.Entrée.ToString().Substring(0,10);
+            ViewBag.Responsable = parcours.Utilisateurs.Nom;
 
             List<string> Lieux = new List<string>();
             var adding = from m in db.Utilisateurs_Services

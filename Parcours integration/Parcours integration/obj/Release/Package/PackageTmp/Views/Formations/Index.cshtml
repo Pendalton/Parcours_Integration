@@ -30,7 +30,7 @@
     </div>
 }
 <br />
-
+@* UwU OwO 8w8 QwQ TwT *@
 @if (Model.Count() == 0)
 {
     <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
@@ -39,9 +39,6 @@
 }
 else
 {
-
-
-
     <table class="table table-bordered table-hover table-responsive temp" style="border-color: #bdbdbd">
         <thead>
             <tr>
@@ -58,7 +55,7 @@ else
             </tr>
         </thead>
         <tbody>
-           @foreach (var item in Model)
+            @foreach (var item in Model)
             {
                 var jours = item.Date_entrée.Substring(0, 2);
                 var mois = item.Date_entrée.Substring(3, 2);

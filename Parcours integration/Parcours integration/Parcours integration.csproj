@@ -469,7 +469,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Modeles\Create.cshtml" />
     <Content Include="Views\Modeles\Delete.cshtml" />
-    <Content Include="Views\Modeles\Edit.cshtml" />
     <Content Include="Views\Modeles\Index.cshtml" />
     <Content Include="Views\Utilisateurs\Create.cshtml" />
     <Content Include="Views\Utilisateurs\Delete.cshtml" />

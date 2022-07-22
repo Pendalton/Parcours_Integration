@@ -28,11 +28,19 @@
         @foreach (var item in Model)
         {
             var Interv = "Intervenants du secteurs : \n \n";
-            foreach (var Personne in ViewBag.Intervenants)
+            if (item.Nom_Secteur == "Responsable service")
             {
-                if (Personne.Service.Nom == item.Nom_Secteur)
+                Interv = String.Concat(Interv + ViewBag.Responsable);
+            }
+            else
+            {
+                foreach (var Personne in ViewBag.Intervenants)
                 {
-                    Interv = String.Concat(Interv + Personne.Utilisateurs.Nom + ", ");
+
+                    if (Personne.Service.Nom == item.Nom_Secteur)
+                    {
+                        Interv = String.Concat(Interv + Personne.Utilisateurs.Nom + ", ");
+                    }
                 }
             }
 

@@ -134,38 +134,10 @@ namespace Parcours_integration.Controllers
             return View(modele);
         }
 
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Modele modele = db.Modele.Find(id);
-            if (modele == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif == true), "ID", "Nom", modele.ServiceID);
-            return View(modele);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,ServiceID")] Modele modele)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(modele).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif==true), "ID", "Nom", modele.ServiceID);
-            return View(modele);
-        }
-
         public ActionResult ChangeCDI(int ID)
         {
             var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_CDI = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 1).FirstOrDefault();
 
@@ -206,6 +178,7 @@ namespace Parcours_integration.Controllers
         public ActionResult ChangeCDD(int ID)
         {
             var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_CDD = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 2).FirstOrDefault();
 
@@ -246,6 +219,7 @@ namespace Parcours_integration.Controllers
         public ActionResult ChangeStage(int ID)
         {
             var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Stage = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 3).FirstOrDefault();
 
@@ -286,6 +260,7 @@ namespace Parcours_integration.Controllers
         public ActionResult ChangeMutation(int ID)
         {
             var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Mutation = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 4).FirstOrDefault();
 
@@ -326,6 +301,7 @@ namespace Parcours_integration.Controllers
         public ActionResult ChangeIntérimaire(int ID)
         {
             var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Intérim = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 7).FirstOrDefault();
 
@@ -360,6 +336,23 @@ namespace Parcours_integration.Controllers
 
                 return PartialView("TableModeles", ListModeles);
             }
+            return PartialView("TableModeles", ListModeles);
+        }
+
+        public ActionResult Update(int ID, string Name, int ServID)
+        {
+            var Modele = db.Modele.Find(ID);
+
+            if(Modele != null)
+            {
+                Modele.Nom = Name;
+                Modele.ServiceID = ServID;
+            }
+            db.Entry(Modele).State = EntityState.Modified;
+            db.SaveChanges();
+            var ListModeles = db.Modele.ToList();
+            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
+
             return PartialView("TableModeles", ListModeles);
         }
 

@@ -30,12 +30,12 @@
                     <br />
                     Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { type = "date", style="line-height : 30px"})&nbsp;&nbsp;
                     au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "this.form.submit()", type = "date", style = "line-height : 30px" })<br />
-                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "this.form.submit()", style = "width:160px; margin-top:5px; height:35px;margin-left:30%" })
+                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "this.form.submit()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
                 </div>
             </div>
-            @* UwU OwO 8w8 QwQ TwT *@
+
             <div style="width:21%">
-                <div class="d-grid gap-1 d-md-flex btn-group-vertical">
+                <div class="gap-1 d-md-flex btn-group-vertical">
                     @if (!ViewBag.Term)
                     {
                         <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Afficher les parcours terminés</a>
@@ -137,7 +137,7 @@
                                                         }
                                                     }
                                                 }
-                                                <div>@listeSecteurs</div>
+                                                <div id="listServ">@listeSecteurs</div>
 
                                                 <button type="button" id="Relance_@item.ID" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
                                             </div>
@@ -213,8 +213,11 @@
     });
 
     function Relance(ID) {
+        var list = document.getElementById("listServ").text;
         var text = "Voulez-vous relancer les secteurs suivants ? ";
-        confirm(text + ID);
+        confirm(text + ID +" "+ list );
+
+
     }
 </script>
 
