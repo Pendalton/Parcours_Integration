@@ -61,6 +61,11 @@ namespace Parcours_integration.Controllers
                 Résultat.AddRange(Parcours.Where(s => s.Type_Contrat == 7));
             }
 
+            if (Numéro != null)
+            {
+                Résultat = Résultat.Where(s => s.ID == Numéro).ToList();
+            }
+
             if (!UserSession.EstResponsable)
             {
                 foreach (var item in Résultat.ToList())
@@ -112,7 +117,6 @@ namespace Parcours_integration.Controllers
             ViewBag.Stage = Stage;
             ViewBag.Mutation = Mutation;
             ViewBag.Intérim = Intérim;
-            ViewBag.Numéro = Numéro;
 
             Résultat = Résultat.OrderBy(s => s.ID).ToList();
             return View(Résultat);
@@ -162,7 +166,7 @@ namespace Parcours_integration.Controllers
             Miss.Planifié = !Miss.Planifié;
             db.Entry(Miss).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index", new { Numéro = ID });
+            return RedirectToAction("Index");
         }
     }
 }

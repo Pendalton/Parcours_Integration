@@ -180,7 +180,7 @@ namespace Parcours_integration.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Compléter(int id)
+        public ActionResult Completer(int id)
         {
             if (!EstAdmin)
             {

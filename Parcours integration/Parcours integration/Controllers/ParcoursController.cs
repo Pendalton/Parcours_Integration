@@ -423,26 +423,96 @@ namespace Parcours_integration.Controllers
             }
         }
 
-        public EmptyResult SendMail(int ID)
+        public ActionResult SendMail(int ID)
         {
-            var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Select(s => s.Nom_Secteur).ToList();
-
-            List<Service> Serv = new List<Service>();
+            var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Select(s => s.Nom_Secteur).Distinct().ToList();
+            var NomParcours = db.Parcours.Find(ID).Prénom + " " + db.Parcours.Find(ID).Nom;
+            List<int> Serv = new List<int>();
 
             foreach(var item in servMiss)
             {
                 var original = db.Service.Where(s => s.Nom == item).FirstOrDefault();
                 if(original!= null)
                 {
-                    Serv.Add(original);
+                    Serv.Add(original.ID);
                 }
             }
+            var testmail = db.Utilisateurs.Find(199);
+            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s=>s.Utilisateurs).Distinct().ToList(); //là que ça foire : cherche à faire la liste des utilisateurs qui ont comme services ceux sélectionnés
+            foreach(var util in formateurs)
+            {
+                var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
 
-            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.Service));
+                var MissP = db.Missions.Where(s => ServP.Contains(s.Nom_Secteur)).Where(s => s.ID_Parcours == ID).Where(s=>!s.Passage).OrderBy(s => s.Nom_Secteur).ToList();
 
-            
+                if(util.UserMail != null)
+                {
+                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
 
-            return new EmptyResult();
+                    var receiverMail = new MailAddress(testmail.UserMail);
+
+                    var password = "";
+                    
+                    var sub = "Relance des parcours d'intégration";
+
+                    var body = "Il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez le lien suivant pour avoir accès aux formations en question." +
+                        "<br/><br/>" +
+                        "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
+                        "<br/><br/>" +
+                        "Liste des formations concernées : " +
+                        "<br/><br/>" +
+                        "<table>" +
+                            "<th>" +
+                                "<tr style=\"background-color:#efefef\">" +
+                                    "<td>Nom de la formation</td>" +
+                                    "<td>Service</td>" +
+                                    "<td>Déjà planifiée?</td>" +
+                                "</tr>" +
+                            "</th>" +
+                            "<tbody>";
+
+                    var Content = "";
+                    foreach(var item in MissP)
+                    {
+                        var check = "";
+                        if (item.Planifié)
+                        {
+                            check = "Oui";
+                        }
+                        else
+                        {
+                            check = "Non";
+                        }
+                        Content += "<tr>" +
+                                       "<td>" + item.Nom_Mission + "</td>" +
+                                       "<td>" + item.Nom_Secteur + "</td>" +
+                                       "<td>" + check + "</td>" +
+                                   "</tr>";
+                    }
+
+                    var end = "</tbody>" + "</table>";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "mail-lis.corp.knorr-bremse.com",
+                        Port = 25,
+                        EnableSsl = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderMail.Address, password),
+                    };
+
+                    using(MailMessage mm = new MailMessage(senderMail, receiverMail))
+                    {
+                        mm.Subject = sub;
+                        mm.Body = body + Content + end;
+                        mm.IsBodyHtml = true;
+                        smtp.Send(mm);
+                        ViewBag.Message = "Mail envoyé";
+                    }
+                }
+            }
+            return View();
         }
 
         protected override void Dispose(bool disposing)

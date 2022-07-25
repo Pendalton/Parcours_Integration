@@ -151,17 +151,15 @@
 
 <script>
     function Completer(ID) {
+        var link = "/Missions/Completer/" + ID;
         $.ajax({
             type: "POST",
-            url: "Missions/Compléter",
-            data: '{ ID: "' + ID + '" }',
-            contentType: "application/json; charset=utf-8",
+            url: link,
             success: function (data) {
                 $("#ViewMission").html(data);
             },
             error: function (data) {
                 alert("Error");
-                $("#ViewMission").html(data);
             }
         });
     }

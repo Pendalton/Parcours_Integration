@@ -3,13 +3,13 @@
 @{
     ViewBag.Title = "Liste des parcours d'intégration";
 }
-<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 <h2>Liste des parcours d'intégration</h2>
 <hr />
 
 @using PagedList;
 @using PagedList.Mvc;
-
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 @using (Html.BeginForm())
 {
     <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
@@ -213,11 +213,12 @@
     });
 
     function Relance(ID) {
-        var list = document.getElementById("listServ").text;
-        var text = "Voulez-vous relancer les secteurs suivants ? ";
-        confirm(text + ID +" "+ list );
-
-
+        $.ajax({
+            type: "POST",
+            url: "Parcours/SendMail",
+            data: '{ ID: "' + ID + '"}',
+            contentType: "application/json; charset=utf-8",
+        })
     }
 </script>
 
