@@ -54,11 +54,23 @@ namespace Parcours_integration.Controllers
             }
 
             ViewBag.CDI = CDI;
+            TempData["CDI"] = CDI;
+
             ViewBag.CDD = CDD;
+            TempData["CDD"] = CDD;
+
             ViewBag.Stage = Stage;
+            TempData["Stage"] = Stage;
+
             ViewBag.Mutation = Mutation;
+            TempData["Mutation"] = Mutation;
+
             ViewBag.Intérim = Intérim;
+            TempData["Intérim"] = Intérim;
+
             ViewBag.SectSelec = ServiceID;
+
+            TempData["Résultat"] = Résultat;
 
             return View(Résultat);
         }
@@ -136,7 +148,14 @@ namespace Parcours_integration.Controllers
 
         public ActionResult ChangeCDI(int ID)
         {
-            var ListModeles = db.Modele.ToList();
+            var ListModeles = TempData.Peek("Résultat");
+
+            var CDI = (bool)TempData.Peek("CDI");
+            var CDD = (bool)TempData.Peek("CDD");
+            var Stage = (bool)TempData.Peek("Stage");
+            var Mutation = (bool)TempData.Peek("Mutation");
+            var Intérimaire = (bool)TempData.Peek("Intérim");
+
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_CDI = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 1).FirstOrDefault();
@@ -168,7 +187,7 @@ namespace Parcours_integration.Controllers
                 db.Entry(modele).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ListModeles = db.Modele.ToList();
+                ListModeles = db.Modele.Where(s=>s.CDI == CDI || s.CDI == false).Where(s => s.CDD == CDD || s.CDD == false).Where(s => s.Stage == Stage || s.Stage == false).Where(s => s.Mutation == Mutation || s.Mutation == false).Where(s => s.Intérimaire == Intérimaire || s.Intérimaire == false).ToList();
 
                 return PartialView("TableModeles", ListModeles);
             }
@@ -177,7 +196,14 @@ namespace Parcours_integration.Controllers
 
         public ActionResult ChangeCDD(int ID)
         {
-            var ListModeles = db.Modele.ToList();
+            var ListModeles = TempData.Peek("Résultat");
+
+            var CDI = (bool)TempData.Peek("CDI");
+            var CDD = (bool)TempData.Peek("CDD");
+            var Stage = (bool)TempData.Peek("Stage");
+            var Mutation = (bool)TempData.Peek("Mutation");
+            var Intérimaire = (bool)TempData.Peek("Intérim");
+
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_CDD = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 2).FirstOrDefault();
@@ -209,7 +235,7 @@ namespace Parcours_integration.Controllers
                 db.Entry(modele).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ListModeles = db.Modele.ToList();
+                ListModeles = db.Modele.Where(s => s.CDI == CDI || s.CDI == false).Where(s => s.CDD == CDD || s.CDD == false).Where(s => s.Stage == Stage || s.Stage == false).Where(s => s.Mutation == Mutation || s.Mutation == false).Where(s => s.Intérimaire == Intérimaire || s.Intérimaire == false).ToList();
 
                 return PartialView("TableModeles", ListModeles);
             }
@@ -218,7 +244,14 @@ namespace Parcours_integration.Controllers
 
         public ActionResult ChangeStage(int ID)
         {
-            var ListModeles = db.Modele.ToList();
+            var ListModeles = TempData.Peek("Résultat");
+
+            var CDI = (bool)TempData.Peek("CDI");
+            var CDD = (bool)TempData.Peek("CDD");
+            var Stage = (bool)TempData.Peek("Stage");
+            var Mutation = (bool)TempData.Peek("Mutation");
+            var Intérimaire = (bool)TempData.Peek("Intérim");
+
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Stage = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 3).FirstOrDefault();
@@ -250,7 +283,7 @@ namespace Parcours_integration.Controllers
                 db.Entry(modele).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ListModeles = db.Modele.ToList();
+                ListModeles = db.Modele.Where(s => s.CDI == CDI || s.CDI == false).Where(s => s.CDD == CDD || s.CDD == false).Where(s => s.Stage == Stage || s.Stage == false).Where(s => s.Mutation == Mutation || s.Mutation == false).Where(s => s.Intérimaire == Intérimaire || s.Intérimaire == false).ToList();
 
                 return PartialView("TableModeles", ListModeles);
             }
@@ -259,7 +292,14 @@ namespace Parcours_integration.Controllers
 
         public ActionResult ChangeMutation(int ID)
         {
-            var ListModeles = db.Modele.ToList();
+            var ListModeles = TempData.Peek("Résultat");
+
+            var CDI = (bool)TempData.Peek("CDI");
+            var CDD = (bool)TempData.Peek("CDD");
+            var Stage = (bool)TempData.Peek("Stage");
+            var Mutation = (bool)TempData.Peek("Mutation");
+            var Intérimaire = (bool)TempData.Peek("Intérim");
+
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Mutation = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 4).FirstOrDefault();
@@ -291,7 +331,7 @@ namespace Parcours_integration.Controllers
                 db.Entry(modele).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ListModeles = db.Modele.ToList();
+                ListModeles = db.Modele.Where(s => s.CDI == CDI || s.CDI == false).Where(s => s.CDD == CDD || s.CDD == false).Where(s => s.Stage == Stage || s.Stage == false).Where(s => s.Mutation == Mutation || s.Mutation == false).Where(s => s.Intérimaire == Intérimaire || s.Intérimaire == false).ToList();
 
                 return PartialView("TableModeles", ListModeles);
             }
@@ -300,7 +340,14 @@ namespace Parcours_integration.Controllers
 
         public ActionResult ChangeIntérimaire(int ID)
         {
-            var ListModeles = db.Modele.ToList();
+            var ListModeles = TempData.Peek("Résultat");
+
+            var CDI = (bool)TempData.Peek("CDI");
+            var CDD = (bool)TempData.Peek("CDD");
+            var Stage = (bool)TempData.Peek("Stage");
+            var Mutation = (bool)TempData.Peek("Mutation");
+            var Intérimaire = (bool)TempData.Peek("Intérim");
+
             ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
             var modele = db.Modele.Find(ID);
             var MC_Intérim = db.ModeleContrat.Where(s => s.ID_Modele == ID).Where(s => s.ID_Contrat == 7).FirstOrDefault();
@@ -332,7 +379,7 @@ namespace Parcours_integration.Controllers
                 db.Entry(modele).State = EntityState.Modified;
                 db.SaveChanges();
 
-                ListModeles = db.Modele.ToList();
+                ListModeles = db.Modele.Where(s => s.CDI == CDI || s.CDI == false).Where(s => s.CDD == CDD || s.CDD == false).Where(s => s.Stage == Stage || s.Stage == false).Where(s => s.Mutation == Mutation || s.Mutation == false).Where(s => s.Intérimaire == Intérimaire || s.Intérimaire == false).ToList();
 
                 return PartialView("TableModeles", ListModeles);
             }

@@ -53,5 +53,86 @@ namespace Parcours_integration.Controllers
             else { anonyme.Nom = "Utilisateur inconnu"; }
             return anonyme;
         }
+
+        public void SendMails()
+        {
+            var servMiss = db.Missions.Where(s => !s.Passage).Select(s => s.Nom_Secteur).Distinct().ToList();
+            List<int> Serv = new List<int>();
+
+            foreach (var item in servMiss)
+            {
+                var original = db.Service.Where(s => s.Nom == item).FirstOrDefault();
+                if (original != null)
+                {
+                    Serv.Add(original.ID);
+                }
+            }
+            var testmail = db.Utilisateurs.Find(199);
+            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s => s.Utilisateurs).Distinct().ToList();
+            foreach (var util in formateurs)
+            {
+                var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
+
+                var ParcP = db.Parcours.Where(s => !s.Complété).OrderBy(s => s.Nom).ToList();
+
+                foreach(var parc in ParcP.ToList())
+                {
+                    var Name = db.Missions.Where(s => !s.Passage).Where(s => s.Applicable).Where(s => s.ID_Parcours == parc.ID).Select(s => s.Nom_Secteur).Distinct().ToList();
+
+                    if(!Name.Any(x => ServP.Contains(x)))
+                    {
+                        ParcP.Remove(parc);
+                    }
+                }
+
+                if (util.UserMail != null)
+                {
+                    var senderMail = new MailAddress("Do-Not-Reply@knorr-bremse.com", "Ne pas répondre");
+
+                    var receiverMail = new MailAddress(testmail.UserMail);
+
+                    var password = "";
+
+                    var sub = "Relance des parcours d'intégration";
+
+                    var body = $"{util.Nom}, il vous reste {ParcP.Count()} formation(s) à effectuer sur des parcours d'intégration. Cliquez le lien suivant pour avoir accès aux formations en question.<br/><br/><a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index\">Liste des parcours à faire</a>" +
+
+                        $"<br/><br/>" +
+                        $"<table>" +
+                        $"<th><tr style=\"background-color:#efefef;border:1px solid black\"><td>Nom du parcours</td><td>Formations à faire</td><td>Détails du parcours</td></tr></th><tbody>";
+
+                    var Content = "";
+                    foreach (var item in ParcP)
+                    {
+                        Content += "<tr style=\"border:1px solid black \">" +
+                                       "<td><span style=\"font-style:bold\">" + item.Nom + "</span> " + item.Prénom + "</td>" +
+                                       "<td>" + item.Missions.Where(s=>!s.Passage).Where(s => ServP.Contains(s.Nom_Secteur)).Count() + "</td>" +
+                                       "<td> <a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Parcours/Details/" + item.ID + "\">Parcours</a></td>" +
+                                   "</tr>";
+                    }
+
+                    var end = "</tbody>" + "</table>";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "mail-lis.corp.knorr-bremse.com",
+                        Port = 25,
+                        EnableSsl = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderMail.Address, password),
+                    };
+
+                    using (MailMessage mm = new MailMessage(senderMail, receiverMail))
+                    {
+                        mm.Subject = sub;
+                        mm.Body = body + Content + end;
+                        mm.IsBodyHtml = true;
+                        smtp.Send(mm);
+                        ViewBag.Message = "Mail envoyé";
+                    }
+                }
+            }
+        }
     }
 }

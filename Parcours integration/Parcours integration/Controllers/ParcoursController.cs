@@ -423,7 +423,7 @@ namespace Parcours_integration.Controllers
             }
         }
 
-        public ActionResult SendMail(int ID)
+        public void SendMail(int ID)
         {
             var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Select(s => s.Nom_Secteur).Distinct().ToList();
             var NomParcours = db.Parcours.Find(ID).Prénom + " " + db.Parcours.Find(ID).Nom;
@@ -438,7 +438,7 @@ namespace Parcours_integration.Controllers
                 }
             }
             var testmail = db.Utilisateurs.Find(199);
-            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s=>s.Utilisateurs).Distinct().ToList(); //là que ça foire : cherche à faire la liste des utilisateurs qui ont comme services ceux sélectionnés
+            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s=>s.Utilisateurs).Distinct().ToList();
             foreach(var util in formateurs)
             {
                 var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
@@ -463,7 +463,7 @@ namespace Parcours_integration.Controllers
                         "<br/><br/>" +
                         "<table>" +
                             "<th>" +
-                                "<tr style=\"background-color:#efefef\">" +
+                                "<tr style=\"background-color:#efefef;border:1px solid black\">" +
                                     "<td>Nom de la formation</td>" +
                                     "<td>Service</td>" +
                                     "<td>Déjà planifiée?</td>" +
@@ -483,7 +483,7 @@ namespace Parcours_integration.Controllers
                         {
                             check = "Non";
                         }
-                        Content += "<tr>" +
+                        Content += "<tr style=\"border:1px solid black \">" +
                                        "<td>" + item.Nom_Mission + "</td>" +
                                        "<td>" + item.Nom_Secteur + "</td>" +
                                        "<td>" + check + "</td>" +
@@ -512,7 +512,6 @@ namespace Parcours_integration.Controllers
                     }
                 }
             }
-            return View();
         }
 
         protected override void Dispose(bool disposing)

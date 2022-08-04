@@ -1,7 +1,7 @@
 ﻿<div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
     <span style="font-weight:bold">Equipes de travail</span>
     <br />
-    <table id="TableEqu" class="table table-hover table-bordered" style="display: block; overflow-y: scroll; width: 90%; max-height: 290px; background-color: white">
+    <table id="TableEqu" class="table table-hover table-bordered" style="display: block; overflow-y: scroll; width: 90%; max-height: 300px; background-color: white">
         @foreach (var item in Model.Equipes)
         {
             <tr id="@item.ID">
@@ -10,7 +10,7 @@
                     <input id="InputText" type="text" value="@item.Nom" style="display:none" maxlength="50" />
                 </td>
 
-                <td id="@item.ID" style="width: 1%; border-left: 0">
+                <td id="test" style="width: 1%; border-left: 0">
                     @if (ViewBag.IsAdmin)
                     {
                         if (item.Actif)
@@ -138,10 +138,6 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#ViewEquipes").html(data);
-            },
-            error: function (data) {
-                alert("poof");
                 $("#ViewEquipes").html(data);
             }
         });

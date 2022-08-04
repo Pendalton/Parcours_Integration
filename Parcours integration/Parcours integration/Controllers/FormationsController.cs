@@ -33,7 +33,7 @@ namespace Parcours_integration.Controllers
 
             var SectEmploi = UserService.Select(s=>s.Service.Nom).ToList();
 
-            var missions = new List<IQueryable>();
+            var missions = new List<Missions>();
 
             var Parcours = from m in db.Parcours.Where(s => s.Complété == false)
                              select m;
@@ -70,13 +70,19 @@ namespace Parcours_integration.Controllers
             {
                 foreach (var item in Résultat.ToList())
                 {
-                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s=>s.Applicable==true).Where(s => s.Passage == false);
+                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s=>s.Applicable).Where(s => !s.Passage);
                     if (Miss.Count() == 0)
                     {
                         Résultat.Remove(item);
                     }
-                    Miss = Miss.OrderBy(s => s.Nom_Mission);
-                    missions.Add(Miss);
+                    else
+                    {
+                        Miss = Miss.OrderBy(s => s.Nom_Mission);
+                        foreach(var truc in Miss)
+                        {
+                            missions.Add(truc);
+                        }
+                    }
                     item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
                 }
             }
@@ -87,38 +93,64 @@ namespace Parcours_integration.Controllers
                     if(item.ID_Resp == UserSession.ID)
                     {
                         var RespService = db.Service.Find(7).Nom;
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable == true).Where(s => s.Passage == false);
+                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable).Where(s => !s.Passage);
                         if (Miss.Count() == 0)
                         {
                             Résultat.Remove(item);
                         }
-                        Miss = Miss.OrderBy(s => s.Nom_Mission);
-                        missions.Add(Miss);
+                        else
+                        {
+                            Miss = Miss.OrderBy(s => s.Nom_Mission);
+                            foreach (var truc in Miss)
+                            {
+                                missions.Add(truc);
+                            }
+                        }
                         item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
                     }
                     else
                     {
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable == true).Where(s => s.Passage == false);
+                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable).Where(s => !s.Passage);
                         if (Miss.Count() == 0)
                         {
                             Résultat.Remove(item);
                         }
-                        Miss = Miss.OrderBy(s => s.Nom_Mission);
-                        missions.Add(Miss);
+                        else
+                        {
+                            Miss = Miss.OrderBy(s => s.Nom_Mission);
+                            foreach (var truc in Miss)
+                            {
+                                missions.Add(truc);
+                            }
+                        }
                         item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
                     }
                 }
             }
 
-            ViewBag.Missions = missions;
+            { 
+            ViewBag.Missions = missions.ToList();
+            TempData["Missions"] = missions.ToList();
 
             ViewBag.CDI = CDI;
+            TempData["CDI"] = CDI;
+
             ViewBag.CDD = CDD;
+            TempData["CDD"] = CDD;
+
             ViewBag.Stage = Stage;
+            TempData["Stage"] = Stage;
+
             ViewBag.Mutation = Mutation;
+            TempData["Mutation"] = Mutation;
+
             ViewBag.Intérim = Intérim;
+            TempData["Intérim"] = Intérim;
 
             Résultat = Résultat.OrderBy(s => s.ID).ToList();
+            TempData["Résultat"] = Résultat;
+            }
+
             return View(Résultat);
         }
 
@@ -166,7 +198,20 @@ namespace Parcours_integration.Controllers
             Miss.Planifié = !Miss.Planifié;
             db.Entry(Miss).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            var ListFormations = TempData.Peek("Résultat");
+            var test = TempData.Peek("Missions");
+            foreach(var mis in (List<Missions>)TempData.Peek("Missions"))
+            {
+                if (mis.ID == ID)
+                {
+                    mis.Planifié = !mis.Planifié;
+                }
+            }
+
+            ViewBag.Missions = test;
+
+            return PartialView("FormTable", ListFormations);
         }
     }
 }
