@@ -455,7 +455,7 @@ namespace Parcours_integration.Controllers
                     
                     var sub = "Relance des parcours d'intégration";
 
-                    var body = "Il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez le lien suivant pour avoir accès aux formations en question." +
+                    var body = util.Nom +", il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez le lien suivant pour avoir accès aux formations en question." +
                         "<br/><br/>" +
                         "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
                         "<br/><br/>" +
@@ -470,7 +470,6 @@ namespace Parcours_integration.Controllers
                                 "</tr>" +
                             "</th>" +
                             "<tbody>";
-
                     var Content = "";
                     foreach(var item in MissP)
                     {

@@ -33,7 +33,12 @@
         </thead>
         <tbody>
            @foreach (var item in Model)
-            {
+           {
+               var cdi = "CDI" + item.ID;
+               var cdd = "CDD" + item.ID;
+               var stage = "Stage" + item.ID;
+               var mutation = "Mutation" + item.ID;
+               var intérim = "Intérimaire" + item.ID;
 
                 <tr id="@item.ID" align="center">
                     <td class="align-middle Search">
@@ -58,7 +63,7 @@
                     </td>
                     @if (ViewBag.EstRH)
                     {
-                        <td class="align-middle">
+                        <td id="@cdi" class="align-middle">
                             @if (item.CDI)
                             {
                                 <button type="button" onclick="ChangeCDI(@item.ID)" class="btn btn-success">OUI</button>
@@ -69,7 +74,7 @@
                             }
                         </td>
 
-                        <td class="align-middle">
+                        <td id="@cdd" class="align-middle">
                             @if (item.CDD)
                             {
                                 <button type="button" onclick="ChangeCDD(@item.ID)" class="btn btn-success">OUI</button>
@@ -80,7 +85,7 @@
                             }
                         </td>
 
-                        <td class="align-middle">
+                        <td id="@stage" class="align-middle">
                             @if (item.Stage)
                             {
                                 <button type="button" onclick="ChangeStage(@item.ID)" class="btn btn-success">OUI</button>
@@ -91,7 +96,7 @@
                             }
                         </td>
 
-                        <td class="align-middle">
+                        <td id="@mutation" class="align-middle">
                             @if (item.Mutation)
                             {
                                 <button type="button" onclick="ChangeMutation(@item.ID)" class="btn btn-success">OUI</button>
@@ -102,7 +107,7 @@
                             }
                         </td>
 
-                        <td class="align-middle">
+                        <td id="@intérim" class="align-middle">
                             @if (item.Intérimaire)
                             {
                                 <button type="button" onclick="ChangeIntérimaire(@item.ID)" class="btn btn-success">OUI</button>
@@ -238,9 +243,6 @@
             data: '{ ID: "' + RowID + '", Name: "' + Name + '", ServID:"' + Serv + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
-            },
-            error: function (data) {
                 $("#TableMods").html(data);
             }
         })

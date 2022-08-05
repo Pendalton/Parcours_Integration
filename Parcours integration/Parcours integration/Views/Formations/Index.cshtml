@@ -40,7 +40,129 @@
 else
 {
     <div id="FormTable">
-        @Html.Partial("FormTable")
+        <table class="table table-bordered table-hover table-responsive temp" style="border-color: #bdbdbd">
+            <thead>
+                <tr>
+                    <th class="text-center" style="background-color: #efefef; width: 26%">
+                        Employé
+                    </th>
+                    <th class="text-center" style="background-color: #efefef; width: 15%">
+                        Contrat
+                    </th>
+                    <th class="text-center" style="background-color: #efefef; width: 12%">
+                        Entrée dans l'entreprise
+                    </th>
+                    <th class="text-center" style="background-color: #efefef; width: 15%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var jours = item.Date_entrée.Substring(0, 2);
+                    var mois = item.Date_entrée.Substring(3, 2);
+                    var an = item.Date_entrée.Substring(6, 4);
+
+                    var day = int.Parse(jours);
+                    var month = int.Parse(mois);
+                    var year = int.Parse(an);
+
+                    var retard = "";
+
+                    var date = new DateTime(year, month, day);
+                    if ((DateTime.Now.Date - date).TotalDays >= 30)
+                    {
+                        retard = "Urgent";
+                    }
+                    else
+                    {
+                        retard = "Normal";
+                    }
+                    var N = item.ID;
+                    var test = "Parcours" + N;
+
+                    <tr align="center" class="@retard">
+                        <td class="Search" data-bs-toggle="collapse" href="#@test">
+                            <span style="font-weight:bold">@item.Nom</span>  @item.Prénom
+                        </td>
+                        <td data-bs-toggle="collapse" href="#@test">
+                            <span style="font-weight:bold">@item.Poste</span> - @item.Contrat.Nom
+                        </td>
+                        <td data-bs-toggle="collapse" href="#@test">
+                            @item.Date_entrée
+                        </td>
+                        <td>
+                            @if (ViewBag.EstRH)
+                            {
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="12" class="hiddenRow">
+                            <div class="collapse show" id="@test">
+
+                                <table class="table table-bordered" style="border: 0 solid #bdbdbd; margin-bottom: 0px">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="background-color: #ffffff; width:37%">Mission</th>
+                                            <th class="text-center" style="background-color: #ffffff; width:18%">Service</th>
+                                            <th class="text-center" style="background-color: #ffffff; width: 7%">Planifiée</th>
+                                            <th class="text-center" style="background-color: #ffffff; width:30%">Remarque</th>
+                                            <th class="text-center" style="background-color: #ffffff; width: 8%">Signer</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var format in ViewBag.Missions)
+                                        {
+                                            var plan = "Plan" + format.ID;
+                                            if (format.ID_Parcours != item.ID)
+                                            {
+                                                continue;
+                                            }
+                                            using (Html.BeginForm("Sign", "Formations", FormMethod.Post))
+                                            {
+                                                <tr align="center">
+                                                    <td>
+                                                        @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
+                                                    </td>
+                                                    <td>
+                                                        @format.Nom_Secteur
+                                                    </td>
+                                                    <td id="@plan">
+                                                        @if (format.Planifié)
+                                                        {
+                                                            <button type="button" class="btn btn-success" onclick="Plan(@format.ID)">OUI</button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button type="button" class="btn btn-danger" onclick="Plan(@format.ID)">NON</button>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <textarea name="RemarqueTxt" id="RemarqueTxt" style="width: 100%; max-width: 1300px !important; height: 40px; min-height:40px" class="form-control">@format.Remarque</textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="submit" name="btnRegister" value="Signer" class="btn btn-secondary" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 }
 
@@ -66,13 +188,20 @@ else
     });
 
     function Plan(ID) {
-        var link = "/Formations/Plan/" + ID;
         $.ajax({
             type: "POST",
-            url: link,
+            url: "Formations/Plan",
+            data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("FormTable").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="Plan(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="Plan(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $("#Plan" + ID).html(newBtn);
             }
         });
     }

@@ -72,7 +72,14 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeCDI('+ID+')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeCDI('+ID+')" class="btn btn-danger">NON</button>';
+                }
+                $('#CDI' + ID).html(newBtn);
             }
         });
     }
@@ -84,7 +91,14 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeCDD(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeCDD(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#CDD' + ID).html(newBtn);
             }
         });
     }
@@ -96,7 +110,14 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeStage(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeStage(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Stage' + ID).html(newBtn);
             }
         });
     }
@@ -108,7 +129,14 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeMutation(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeMutation(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Mutation' + ID).html(newBtn);
             }
         });
     }
@@ -120,7 +148,14 @@
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeIntérimaire(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeIntérimaire(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Intérimaire' + ID).html(newBtn);
             }
         });
     }

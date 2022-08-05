@@ -501,8 +501,6 @@
     <Content Include="Views\Services\ListServ.cshtml" />
     <Content Include="Views\Services\ListCont.cshtml" />
     <Content Include="Views\Modeles\TableModeles.cshtml" />
-    <Content Include="Views\Formations\FormTable.cshtml" />
-    <Content Include="Views\Services\testServ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

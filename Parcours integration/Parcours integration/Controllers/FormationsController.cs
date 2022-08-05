@@ -191,7 +191,7 @@ namespace Parcours_integration.Controllers
             return View(missions);
         }
 
-        public ActionResult Plan(int ID)
+        public bool Plan(int ID)
         {
             var Miss = db.Missions.Find(ID);
 
@@ -199,19 +199,7 @@ namespace Parcours_integration.Controllers
             db.Entry(Miss).State = EntityState.Modified;
             db.SaveChanges();
 
-            var ListFormations = TempData.Peek("Résultat");
-            var test = TempData.Peek("Missions");
-            foreach(var mis in (List<Missions>)TempData.Peek("Missions"))
-            {
-                if (mis.ID == ID)
-                {
-                    mis.Planifié = !mis.Planifié;
-                }
-            }
-
-            ViewBag.Missions = test;
-
-            return PartialView("FormTable", ListFormations);
+            return Miss.Planifié;
         }
     }
 }

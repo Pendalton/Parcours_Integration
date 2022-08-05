@@ -41,7 +41,6 @@ namespace Parcours_integration.Controllers
             ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur;
             ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault());
             ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable;
-
         }
 
         public Utilisateurs GetAccount(string login)

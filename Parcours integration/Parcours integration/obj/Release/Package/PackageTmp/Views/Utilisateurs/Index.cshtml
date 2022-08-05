@@ -38,7 +38,11 @@
             @foreach (var item in Model)
             {
                 <div class="col-md-4" style="padding:5px">
-                    <div class="h-100 bg-light border rounded-3" style="padding:10px; line-height:30px" align="center">
+                    <div class="h-100 bg-light border rounded-3" style="position:relative; padding: 10px; line-height: 30px; overflow: hidden" align="center">
+                        @if (item.EstAdmin) 
+                        {
+                            <div class="AdminBand"><span class="ArmText">ADMIN</span></div>
+                        }
                         @if (item.Photo != null)
                         {
                             var base64 = Convert.ToBase64String(item.Photo);
@@ -61,14 +65,8 @@
                             }
                         </div>
 
-                        @if (item.EstAdmin)
-                        {
-                            <div style="font-weight:bold">@Html.DisplayFor(modelItem => item.UserMail)</div>
-                        }
-                        else
-                        {
-                            <div>@Html.DisplayFor(modelItem => item.UserMail)</div>
-                        }
+                        <div>@Html.DisplayFor(modelItem => item.UserMail)</div>
+
                         <div style="margin-bottom:5px">
                             @if (ViewBag.IsAdmin)
                             {
@@ -106,5 +104,23 @@
 <style>
     .picture {
         max-width: 50%
+    }
+
+    .AdminBand {
+        content: "";
+        height: 90px;
+        width: 180px;
+        background-color: #72db7d;
+        transform: rotate(45deg);
+        position: absolute;
+        top: -30px;
+        right: -75px;
+        display:flex;
+        flex-direction:column
+    }
+    .ArmText {
+        font-weight: bold;
+        font-size: 20px;
+        margin-top:auto;
     }
 </style>
