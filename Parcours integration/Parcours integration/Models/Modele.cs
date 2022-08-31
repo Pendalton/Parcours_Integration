@@ -27,7 +27,7 @@ namespace Parcours_integration.Models
         public bool Stage { get; set; }
         public bool Mutation { get; set; }
         public bool Intérimaire { get; set; }
-        public Nullable<int> ServiceID { get; set; }
+        public int ServiceID { get; set; }
     
         public virtual Service Service { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

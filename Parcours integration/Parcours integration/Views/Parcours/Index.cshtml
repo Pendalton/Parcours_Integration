@@ -20,17 +20,17 @@
                 </div>
             </div>
 
-            <div style="width:49%">
+            <div style="width:49%; display:flex">
                 <div style="line-height:35px; margin:auto">
-                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
-                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>CDI : &nbsp;@Html.CheckBox("CDI", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <br />
-                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { type = "date", style="line-height : 30px"})&nbsp;&nbsp;
-                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "this.form.submit()", type = "date", style = "line-height : 30px" })<br />
-                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "this.form.submit()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
+                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { onchange="this.form.submit()" ,type = "date", style="line-height : 30px"})&nbsp;&nbsp;
+                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "Actualiser()", type = "date", style = "line-height : 30px" })<br />
+                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "Actualiser()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
                 </div>
             </div>
 
@@ -55,142 +55,18 @@
 }
 <br />
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                @foreach (var item in Model)
-                {
-                    string[] colors = { "success", "secondary" };
-                    int index = 1;
-                    if (item.Complété)
-                    {
-                        index = 0;
-                    }
-                    var complété = colors[index];
-                    string listeSecteurs = "";
-                    List<String> serv = new List<string>();
-                    string coll = String.Concat("collapse" + item.ID);
-
-
-                    if (!item.Complété)
-                    {
-                        <div class="col-md-4" style="padding: 5px; line-height: 50px">
-                            <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
-
-                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
-
-                                <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
-
-                                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
-
-                                @if (item.ID_Resp == null)
-                                {
-                                    <div>Pas de responsable</div>
-                                }
-                                else
-                                {
-                                    <div>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</div>
-                                }
-
-                                <div style="margin-top:10px; margin-bottom:10px">
-                                    @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
-                                    {
-                                        <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
-                                        <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
-                                    }
-                                </div>
-
-                                <div class="accordion">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingOne">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll">
-                                                Secteur(s) manquant(s) :
-                                            </button>
-                                        </h2>
-                                        <div id="@coll" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                @{ 
-                                                    foreach (var mission in item.Missions)
-                                                    {
-                                                        if (!mission.Passage)
-                                                        {
-                                                            if (!serv.Contains(mission.Nom_Secteur))
-                                                            {
-                                                                serv.Add(mission.Nom_Secteur);
-                                                            }
-                                                        }
-                                                    }
-
-                                                    var lastitem = serv.Last();
-                                                    foreach(var service in serv)
-                                                    {
-                                                        if(service == lastitem)
-                                                        {
-                                                            listeSecteurs = String.Concat(listeSecteurs + service);
-                                                        }
-                                                        else
-                                                        {
-                                                            {
-                                                                listeSecteurs = String.Concat(listeSecteurs + service + ", ");
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                <div id="listServ">@listeSecteurs</div>
-
-                                                <button type="button" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-md-4" style="padding:5px; line-height:50px; max-height:241px">
-                            <div class="h-100 border rounded-3 Search" style="padding:10px; line-height:30px; background-color:#00aa0050" align="center">
-                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
-                                <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
-                                <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) <br />
-                                <h4 style="font-weight:normal; margin-top:15px">COMPLÉTÉ</h4>
-                                <div style="margin-top:15px">
-                                    @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
-                                    {
-                                        <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-            <div>
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))
-            </div>
-        </div>
-    </div>
+<div id="PIField" class="container-fluid">
+    @Html.Partial("TableParc")
 </div>
 
 <script src="~/Scripts/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).scroll(function () {
-        localStorage['page'] = document.URL;
-        localStorage['scrollTop'] = $(document).scrollTop();
-    });
-
     $(document).ready(function () {
         function Contains(text_one, text_two) {
             if (text_one.indexOf(text_two) != -1)
                 return true;
         };
-
-        if (localStorage['page'] == document.URL) {
-            $(document).scrollTop(localStorage['scrollTop']);
-        };
-
+        
         $("#Search").keyup(function () {
             var searchText = $("#Search").val().toLowerCase();
             $(".Search").each(function () {
@@ -203,14 +79,6 @@
             });
         });
     });
-    $(function () {
-        $("#Datepicker").change(function () {
-            var date1 = document.getElementById("Datepicker");
-            var date2 = document.getElementById("Datepicker2");
-            if (date1.value == '') { date2.readOnly = true; }
-            else { date2.readOnly = false; }
-        })
-    });
 
     function Relance(ID) {
         $.ajax({
@@ -218,6 +86,22 @@
             url: "Parcours/SendMail",
             data: '{ ID: "' + ID + '"}',
             contentType: "application/json; charset=utf-8",
+        })
+    }
+
+    function Actualiser() {
+        $.ajax({
+            type: "POST",
+            url: "Parcours/IndexAjax",
+            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", Datepicker: "' + Datepicker.value + '", Datepicker2: "' + Datepicker2.value + '", Rythme: "' + Rythme.value + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data)
+                $("PIField").html(data);//je sais pas pourquoi PIField ne recharge pas les parcours, la requête aboutit, la html string marche, pas d'erreur. Regarde si PIField est bien le bon tag, mais je doute que ce soit ça. Essaie avec un autre ID ou un div supplémentaire pour tenter qqu chose.
+            },
+            error: function (data) {
+                console.log(data);
+            }
         })
     }
 </script>

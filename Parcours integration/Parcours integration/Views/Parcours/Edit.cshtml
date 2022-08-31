@@ -15,24 +15,45 @@
         <br />
 
         <div class="row">
-            <div class="col-md-4">@Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "NOM", required = "required" } })</div>
-            <div class="col-md-4">@Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control", placeholder = "Prénom", required = "required" } })</div>
-            <div class="col-md-4">@Html.DropDownList("ID_Employé", null, "--- Compte informatique de l'employé ---", htmlAttributes: new { @class = "ID_Employé form-control" })</div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", placeholder = "NOM", required = "required" } })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Prénom, new { htmlAttributes = new { @class = "form-control", placeholder = "Prénom", required = "required" } })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("ID_Employé", null, "--- Compte informatique de l'employé ---", htmlAttributes: new { @class = "ID_Employé form-control" })
+            </div>
         </div>
 
         <br />
 
         <div class="row">
-            <div class="col-md-4">@Html.DropDownList("Type_Contrat", null, "--- Type de contrat ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
-            <div class="col-md-4">@Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })</div>
-            <div class="col-md-4">@Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required" })</div>
+            <div class="col-md-4">
+                @Html.DropDownList("Type_Contrat", null, "--- Type de contrat ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })
+            </div>
+            <div class="col-md-4" style="display: flex; align-items: center">
+                @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required", style = "width:330px", title="POOOF" })
+                <div class="tooltip" style="margin-left:335px">
+                    <i class="bi bi-question-circle-fill"></i>
+                    <span class="tooltiptext">Le responsable est le mentor de l'employé. Il est le seul à avoir accès aux missions de responsables, telles que l'accueil dans le service ou la description du poste.</span>
+                </div>
+            </div>
+
         </div>
 
         <br />
 
         <div class="row" style="align-items:center">
-            <div class="col-md-4">@Html.DropDownList("EquipeID", null, "--- Équipe ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })</div>
-            <div class="col-md-4">@Html.EditorFor(model => model.Date_entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })</div>
+            <div class="col-md-4">
+                @Html.DropDownList("EquipeID", null, "--- Équipe ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Date_entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })
+            </div>
         </div>
 
         <br />
@@ -50,25 +71,15 @@
 }
 <br />
 <div>
-    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+    <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary">Retour</a>
 </div>
 
 <script>
-    $(function () {
-        $('#toto').datetimepicker({
-            format: "dd/MM/yyyy",
-            weekStart: 1,
-            todayBtn: "linked",
-            clearBtn: true,
-            language: "fr"
-        });
-    });
-
     $(".ID_Resp").select2({
         placeholder: "--- Responsable ---",
     });
     $(".ID_Employé").select2({
-        placeholder: "--- Responsable ---",
+        placeholder: "--- Compte informatique de l'employé ---",
     });
 </script>
 
@@ -83,5 +94,10 @@
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         top: 6px;
+    }
+
+    .tooltiptext{
+        left:-300px!important;
+        top:250% !important;
     }
 </style>

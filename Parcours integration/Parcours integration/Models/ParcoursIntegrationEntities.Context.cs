@@ -29,12 +29,11 @@ namespace Parcours_integration.Models
         public virtual DbSet<Contrat> Contrat { get; set; }
         public virtual DbSet<Equipe> Equipe { get; set; }
         public virtual DbSet<Missions> Missions { get; set; }
-        public virtual DbSet<Modele> Modele { get; set; }
         public virtual DbSet<ModeleContrat> ModeleContrat { get; set; }
-        public virtual DbSet<Plan> Plan { get; set; }
         public virtual DbSet<Service> Service { get; set; }
         public virtual DbSet<Utilisateurs> Utilisateurs { get; set; }
         public virtual DbSet<Utilisateurs_Services> Utilisateurs_Services { get; set; }
         public virtual DbSet<Parcours> Parcours { get; set; }
+        public virtual DbSet<Modele> Modele { get; set; }
     }
 }

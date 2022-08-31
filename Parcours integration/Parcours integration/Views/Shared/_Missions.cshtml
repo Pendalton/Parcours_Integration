@@ -4,7 +4,7 @@
     <thead>
         <tr>
             <th class="text-center" style="background-color: #efefef">
-                Mission
+                Etapes du parcours
             </th>
             <th class="text-center" style="background-color: #efefef; width: 15%">
                 Service
@@ -12,15 +12,15 @@
             <th class="text-center" style="background-color: #efefef; width: 19%">
                 Interlocuteur
             </th>
-            <th class="text-center" style="background-color: #efefef; width: 7%">
-                Finie?
+            <th class="text-center" style="background-color: #efefef; width: 10%">
+                Statut
             </th>
             <th class="text-center" style="background-color: #efefef; width: 10%">
-                Passage
+                Date Réalisation
             </th>
             @if (ViewBag.EstRH)
             {
-                <th class="text-center" style="background-color: #efefef; width: 13%">Actions</th>
+                <th class="text-center" style="background-color: #efefef; width: 13%">Actions gestion étape</th>
             }
         </tr>
     </thead>
@@ -66,7 +66,7 @@
                     @if (ViewBag.EstRH)
                     {
                         <td>
-                            <button type="button" onclick="NonApplicable(@item.ID)" style="display:block" class="btn btn-primary poof">Applicable</button>
+                            <button type="button" onclick="NonApplicable(@item.ID)" style="display:block" class="btn btn-outline-primary poof">Applicable</button>
                         </td>
                     }
                 </tr>
@@ -124,8 +124,8 @@
                     {
                         <td>
                             <div class="btn-group" role="group">
-                                <a class="btn btn-primary poof" href="@Url.Action("Edit", "Missions", new { id = item.ID })" role="button">Modifier</a>
-                                <button type="button" onclick="NonApplicable(@item.ID)" class="btn btn-primary poof">N/A</button>
+                                <a class="btn btn-outline-primary" href="@Url.Action("Edit", "Missions", new { id = item.ID })" role="button">Modifier</a>
+                                <button type="button" onclick="NonApplicable(@item.ID)" class="btn btn-outline-primary">N/A</button>
                             </div>
                         </td>
                     }
@@ -136,14 +136,6 @@
 </table>
 
 <style>
-    .poof{
-        opacity:0;
-    }
-
-    .poof:hover{
-        opacity:1;
-    }
-
     .disabled{
         opacity:1;
     }
@@ -151,10 +143,11 @@
 
 <script>
     function Completer(ID) {
-        var link = "/Missions/Completer/" + ID;
         $.ajax({
             type: "POST",
-            url: link,
+            url: "/ParcoursIntegration/Missions/Completer",
+            contentType: "application/json; charset=utf-8",
+            data: '{ ID: "' + ID + '"}',
             success: function (data) {
                 $("#ViewMission").html(data);
             },
@@ -167,15 +160,14 @@
     function NonApplicable(ID) {
         $.ajax({
             type: "POST",
-            url: "Missions/NonApplicable",
-            data: '{ ID: "' + ID + '" }',
+            url: "/ParcoursIntegration/Missions/NonApplicable",
+            data: '{ ID: "' + ID + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#ViewMission").html(data);
             },
             error: function (data) {
                 alert("Error");
-                $("#ViewMission").html(data);
             }
         })
     }

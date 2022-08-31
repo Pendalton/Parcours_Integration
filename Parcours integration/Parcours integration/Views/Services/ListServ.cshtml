@@ -121,6 +121,14 @@
         var SpanText = textcell.querySelector("#SpanText");
         var InputText = textcell.querySelector("#InputText");
 
+        var prev = Services.getElementsByClassName("Change");
+        if (prev.length != 0) {
+            prev[0].querySelector("#SpanText").style.display = "block";
+            prev[0].querySelector("#InputText").style.display = "none";
+            prev[0].querySelector("#InputText").value = prev[0].querySelector("#SpanText").textContent;
+            prev[0].classList.remove("Change");
+        }
+
         Services.rows[ID].classList.add("Change");
         SpanText.style.display = "none";
         InputText.style.display = "block";

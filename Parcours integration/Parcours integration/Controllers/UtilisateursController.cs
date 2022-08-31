@@ -52,7 +52,7 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif).Where(s => s.ID != 7), "ID", "Nom");
-            ViewBag.User = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
+            ViewBag.User = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom).Where(s=>!s.EstFormateur), "ID", "Nom");
             return View();
         }
 
@@ -92,7 +92,7 @@ namespace Parcours_integration.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif).Where(s => s.ID != 7), "ID", "Nom");
-            ViewBag.User = new SelectList(db.Utilisateurs.OrderBy(s=>s.Nom), "ID", "Nom");
+            ViewBag.User = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom).Where(s => !s.EstFormateur), "ID", "Nom");
             return View(employes);
         }
 
@@ -114,14 +114,12 @@ namespace Parcours_integration.Controllers
             }
             var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID_Service).ToArray();
             ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif).Where(s=>s.ID != 7), "ID", "Nom", ump);
-            var user = db.Utilisateurs.Where(s => s.Login == employes.Login).Select(s => s.ID);
-            ViewBag.User = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom", user);
             return View(employes);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Login,UserMail,EstResponsable,EstFormateur,EstAdmin,Photo")] Utilisateurs employes, HttpPostedFileBase postedFile, int[] Service)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Login,UserMail,EstResponsable,EstFormateur,EstAdmin")] Utilisateurs employes, HttpPostedFileBase postedFile, int[] Service)
         {
             var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID).ToArray();
             if (employes.Nom == null || employes.UserMail == null)

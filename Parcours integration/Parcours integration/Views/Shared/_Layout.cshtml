@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Parcours d'intégration</title>
+
+
     @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/Bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -11,7 +13,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/bootstrap-toggle.js")
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-
     <script src="~/Scripts/select2.min.js"></script>
     <link href="~/Content/css/select2.css" rel="stylesheet" />
 
@@ -32,12 +33,12 @@
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Liste des ressources
+                                    Base de données
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" style="width:235px">
-                                    <li><a class="nav-link" href="@Url.Action("Index","Services")">Ressources de l'entreprise</a></li>
+                                    <li><a class="nav-link" href="@Url.Action("Index","Services")">Listes (Services, Contrats, Rythmes)</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a class="nav-link" href="@Url.Action("Index","Utilisateurs")">Liste des Interlocuteurs</a></li>
+                                    <li><a class="nav-link" href="@Url.Action("Index","Utilisateurs")">Interlocuteurs</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
                                     <li role="separator" class="divider"></li>
@@ -50,9 +51,7 @@
                                 Informations pratiques
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" style="width:200px">
-                                <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Organigramme <i class="bi bi-box-arrow-up-right"></i></a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/trombinoscopeenligne/SitePages/Home.aspx" target="_blank">Infos Légales <i class="bi bi-box-arrow-up-right"></i></a></li>
+                                <li><a class="nav-link" href="https://knorrbremsegroup.sharepoint.com/sites/lis_informations_communications/" target="_blank">Infos RH <i class="bi bi-box-arrow-up-right"></i></a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a class="nav-link" href="@Url.Action("Carte","Organi")">Plan de l'usine</a></li>
                             </ul>

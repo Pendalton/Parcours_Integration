@@ -234,16 +234,27 @@
         var Row = $(this).closest("tr"); //Ligne de tableau
 
         var RowID = Row.attr('id');
-        var Name = Row.find(".InputText").val();
-        var Serv = Row.find(".InputID").val();
+        var Name = Row.find(".InputText");
+        var Serv = Row.find(".InputID");
 
         $.ajax({
             type: "post",
             url: "Modeles/Update",
-            data: '{ ID: "' + RowID + '", Name: "' + Name + '", ServID:"' + Serv + '" }',
+            data: '{ ID: "' + RowID + '", Name: "' + Name.val() + '", ServID:"' + Serv.val() + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                $("#TableMods").html(data);
+                var test = JSON.parse(data);
+
+                Row.find(".SpanText").text(test.Item1);
+                Row.find(".SpanText").css("display", "block");
+                Name.css("display", "none");
+
+                Row.find(".SpanID").text(test.Item2);
+                Row.find(".SpanID").css("display", "block");
+                Serv.css("display", "none");
+
+                Row.find(".btnConfirm").css("display","none")
+                Row.find(".Edit").css("display","block")
             }
         })
     })

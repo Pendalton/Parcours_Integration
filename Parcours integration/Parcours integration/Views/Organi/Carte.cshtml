@@ -1,17 +1,9 @@
-﻿@model IEnumerable<Parcours_integration.Models.Plan>
-@{
+﻿@{
     ViewBag.Title = "Plan";
 }
 <div class="row">
     <div class="col-md-6">
         <h2>Plan des lieux</h2>
-    </div>
-
-    <div class="col-md-6 text-end">
-        @if (ViewBag.IsAdmin)
-        {
-            <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle salle</a>
-        }
     </div>
 </div>
 <hr />
@@ -23,24 +15,30 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false"><span style="font-weight: bold">Rez-de-chaussée</span></button>
     </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"><span style="font-weight: bold">Etage Nord</span></button>
-    </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="h-100 bg-light border rounded-1" style="padding:16px">
-            @Html.Partial("_Plan1")
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="~/Docs/Plan/EtageSud.png" id="plan1" class="picture" />
+                </div>
+            </div>
         </div>
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="h-100 bg-light border rounded-1" style="padding:16px">
-            @Html.Partial("_Plan0")
-        </div>
-    </div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="h-100 bg-light border rounded-1" style="padding:16px">
-            @Html.Partial("_Plan2")
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="~/Docs/Plan/RDC.png" id="plan0" class="picture" />
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .picture {
+        max-width: 100%
+    }
+</style>

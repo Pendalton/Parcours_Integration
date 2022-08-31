@@ -57,7 +57,7 @@
           <Property Name="Stage" Type="bit" Nullable="false" />
           <Property Name="Mutation" Type="bit" Nullable="false" />
           <Property Name="Intérimaire" Type="bit" Nullable="false" />
-          <Property Name="ServiceID" Type="int" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ModeleContrat">
           <Key>
@@ -82,16 +82,6 @@
           <Property Name="EquipeID" Type="int" />
           <Property Name="ID_Resp" Type="int" />
           <Property Name="ID_Employé" Type="int" />
-        </EntityType>
-        <EntityType Name="Plan">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
-          <Property Name="Image" Type="nvarchar" MaxLength="50" />
-          <Property Name="Etage" Type="int" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -172,7 +162,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Modele_Service">
-          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
           <End Role="Modele" Type="Self.Modele" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Service">
@@ -275,7 +265,6 @@
           <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Utilisateurs_Services" EntityType="Self.Utilisateurs_Services" Schema="dbo" store:Type="Tables" />
@@ -337,9 +326,7 @@
           <EntitySet Name="Contrat" EntityType="ParcoursIntegrationModel.Contrat" />
           <EntitySet Name="Equipe" EntityType="ParcoursIntegrationModel.Equipe" />
           <EntitySet Name="Missions" EntityType="ParcoursIntegrationModel.Missions" />
-          <EntitySet Name="Modele" EntityType="ParcoursIntegrationModel.Modele" />
           <EntitySet Name="ModeleContrat" EntityType="ParcoursIntegrationModel.ModeleContrat" />
-          <EntitySet Name="Plan" EntityType="ParcoursIntegrationModel.Plan" />
           <EntitySet Name="Service" EntityType="ParcoursIntegrationModel.Service" />
           <EntitySet Name="Utilisateurs" EntityType="ParcoursIntegrationModel.Utilisateurs" />
           <EntitySet Name="Utilisateurs_Services" EntityType="ParcoursIntegrationModel.Utilisateurs_Services" />
@@ -350,14 +337,6 @@
           <AssociationSet Name="FK_Missions_Utilisateurs" Association="ParcoursIntegrationModel.FK_Missions_Utilisateurs">
             <End Role="Utilisateurs" EntitySet="Utilisateurs" />
             <End Role="Missions" EntitySet="Missions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Modele_Service" Association="ParcoursIntegrationModel.FK_Modele_Service">
-            <End Role="Service" EntitySet="Service" />
-            <End Role="Modele" EntitySet="Modele" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ModeleContrat_Modele" Association="ParcoursIntegrationModel.FK_ModeleContrat_Modele">
-            <End Role="Modele" EntitySet="Modele" />
-            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
           </AssociationSet>
           <AssociationSet Name="FK_Employes_Services_Service" Association="ParcoursIntegrationModel.FK_Employes_Services_Service">
             <End Role="Service" EntitySet="Service" />
@@ -391,6 +370,15 @@
           <AssociationSet Name="FK_Parcours_Utilisateurs1" Association="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1">
             <End Role="Utilisateurs" EntitySet="Utilisateurs" />
             <End Role="Parcours" EntitySet="Parcours" />
+          </AssociationSet>
+          <EntitySet Name="Modele" EntityType="ParcoursIntegrationModel.Modele" />
+          <AssociationSet Name="FK_Modele_Service" Association="ParcoursIntegrationModel.FK_Modele_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Modele" EntitySet="Modele" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModeleContrat_Modele" Association="ParcoursIntegrationModel.FK_ModeleContrat_Modele">
+            <End Role="Modele" EntitySet="Modele" />
+            <End Role="ModeleContrat" EntitySet="ModeleContrat" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comment">
@@ -440,21 +428,6 @@
           <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Missions_Parcours" FromRole="Missions" ToRole="Parcours" />
           <Property Name="Applicable" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="Modele">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nom" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CDI" Type="Boolean" Nullable="false" />
-          <Property Name="CDD" Type="Boolean" Nullable="false" />
-          <Property Name="Stage" Type="Boolean" Nullable="false" />
-          <Property Name="Mutation" Type="Boolean" Nullable="false" />
-          <Property Name="Intérimaire" Type="Boolean" Nullable="false" />
-          <Property Name="ServiceID" Type="Int32" />
-          <NavigationProperty Name="Service" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Modele" ToRole="Service" />
-          <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Modele" FromRole="Modele" ToRole="ModeleContrat" />
-        </EntityType>
         <EntityType Name="ModeleContrat">
           <Key>
             <PropertyRef Name="ID" />
@@ -465,16 +438,6 @@
           <NavigationProperty Name="Contrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Contrat" FromRole="ModeleContrat" ToRole="Contrat" />
           <NavigationProperty Name="Modele" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Modele" FromRole="ModeleContrat" ToRole="Modele" />
         </EntityType>
-        <EntityType Name="Plan">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type_de_salle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Nom_de_salle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Etage" Type="Int32" />
-        </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="ID" />
@@ -482,8 +445,8 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Modele" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Service" ToRole="Modele" />
           <NavigationProperty Name="Utilisateurs_Services" Relationship="ParcoursIntegrationModel.FK_Employes_Services_Service" FromRole="Service" ToRole="Utilisateurs_Services" />
+          <NavigationProperty Name="Modele" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Service" ToRole="Modele" />
         </EntityType>
         <EntityType Name="Utilisateurs">
           <Key>
@@ -534,30 +497,6 @@
             </Principal>
             <Dependent Role="Missions">
               <PropertyRef Name="ID_Formateur" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Modele_Service">
-          <End Type="ParcoursIntegrationModel.Service" Role="Service" Multiplicity="0..1" />
-          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Service">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Modele">
-              <PropertyRef Name="ServiceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ModeleContrat_Modele">
-          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="1" />
-          <End Type="ParcoursIntegrationModel.ModeleContrat" Role="ModeleContrat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Modele">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ModeleContrat">
-              <PropertyRef Name="ID_Modele" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -679,6 +618,45 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Modele">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CDI" Type="Boolean" Nullable="false" />
+          <Property Name="CDD" Type="Boolean" Nullable="false" />
+          <Property Name="Stage" Type="Boolean" Nullable="false" />
+          <Property Name="Mutation" Type="Boolean" Nullable="false" />
+          <Property Name="Intérimaire" Type="Boolean" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Service" Relationship="ParcoursIntegrationModel.FK_Modele_Service" FromRole="Modele" ToRole="Service" />
+          <NavigationProperty Name="ModeleContrat" Relationship="ParcoursIntegrationModel.FK_ModeleContrat_Modele" FromRole="Modele" ToRole="ModeleContrat" />
+        </EntityType>
+        <Association Name="FK_Modele_Service">
+          <End Type="ParcoursIntegrationModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Modele">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModeleContrat_Modele">
+          <End Type="ParcoursIntegrationModel.Modele" Role="Modele" Multiplicity="1" />
+          <End Type="ParcoursIntegrationModel.ModeleContrat" Role="ModeleContrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modele">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ModeleContrat">
+              <PropertyRef Name="ID_Modele" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -730,37 +708,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Modele">
-            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Modele">
-              <MappingFragment StoreEntitySet="Modele">
-                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
-                <ScalarProperty Name="Intérimaire" ColumnName="Intérimaire" />
-                <ScalarProperty Name="Mutation" ColumnName="Mutation" />
-                <ScalarProperty Name="Stage" ColumnName="Stage" />
-                <ScalarProperty Name="CDD" ColumnName="CDD" />
-                <ScalarProperty Name="CDI" ColumnName="CDI" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ModeleContrat">
             <EntityTypeMapping TypeName="ParcoursIntegrationModel.ModeleContrat">
               <MappingFragment StoreEntitySet="ModeleContrat">
                 <ScalarProperty Name="ID_Contrat" ColumnName="ID_Contrat" />
                 <ScalarProperty Name="ID_Modele" ColumnName="ID_Modele" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Plan">
-            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Plan">
-              <MappingFragment StoreEntitySet="Plan">
-                <ScalarProperty Name="Etage" ColumnName="Etage" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Nom_de_salle" ColumnName="Nom_de_salle" />
-                <ScalarProperty Name="Type_de_salle" ColumnName="Type_de_salle" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -809,6 +762,20 @@
                 <ScalarProperty Name="Type_Contrat" ColumnName="Type_Contrat" />
                 <ScalarProperty Name="Date_entrée" ColumnName="Date_entrée" />
                 <ScalarProperty Name="Prénom" ColumnName="Prénom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modele">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Modele">
+              <MappingFragment StoreEntitySet="Modele">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Intérimaire" ColumnName="Intérimaire" />
+                <ScalarProperty Name="Mutation" ColumnName="Mutation" />
+                <ScalarProperty Name="Stage" ColumnName="Stage" />
+                <ScalarProperty Name="CDD" ColumnName="CDD" />
+                <ScalarProperty Name="CDI" ColumnName="CDI" />
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

@@ -36,7 +36,7 @@
                         <td>
                             @foreach (var serv in ViewBag.Services)
                             {
-                                <a href="" class="btn btn-sm btn-outline-dark icon-edit bigger-10" style="width:auto; margin:2px">@serv.Service.Nom</a>
+                                <button type="button" class="btn btn-sm btn-outline-dark disabled" style="width: auto; margin: 2px; opacity: 1">@serv.Service.Nom</button>
                             }
                         </td>
                     </tr>
@@ -57,11 +57,11 @@
                         <td>
                             @if (Model.EstFormateur == true)
                             {
-                                <a href="#" class="disabled btn btn-success icon-edit bigger-10" style="width:75px">OUI</a>
+                                <button type="button" class="disabled btn btn-success" style="width: 75px; opacity: 1">OUI</button>
                             }
                             else
                             {
-                                <a href="#" class="disabled btn btn-danger icon-edit bigger-10" style="width:75px">NON</a>
+                                <button type="button" class="disabled btn btn-danger" style="width: 75px; opacity: 1">NON</button>
                             }
                         </td>
                     </tr>
@@ -74,7 +74,11 @@
             {
                 var base64 = Convert.ToBase64String(Model.Photo);
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                <img src="@imgSrc" class="picture" />
+                <img src="@imgSrc" class="picture" style="margin-bottom:10px; max-width:50%" />
+            }
+            else
+            {
+                <img src="~/Docs/person-icon.png" class="picture" style="margin-bottom:10px;max-width:50%" />
             }
         </div>
     </div>

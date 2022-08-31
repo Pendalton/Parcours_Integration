@@ -1,0 +1,118 @@
+﻿@model IPagedList<Parcours_integration.Models.Parcours>
+
+@using PagedList;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<div class="col-md-12">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            string[] colors = { "success", "secondary" };
+            int index = 1;
+            if (item.Complété)
+            {
+                index = 0;
+            }
+            var complété = colors[index];
+            string listeSecteurs = "";
+            List<String> serv = new List<string>();
+            string coll = String.Concat("collapse" + item.ID);
+
+            if (!item.Complété)
+            {
+                <div class="col-md-4" style="padding: 5px; line-height: 50px">
+                    <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
+
+                        <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+
+                        <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
+
+                        <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
+
+                        @if (item.ID_Resp == null)
+                        {
+                            <div>Pas de responsable</div>
+                        }
+                        else
+                        {
+                            <div>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</div>
+                        }
+
+                        <div style="margin-top:10px; margin-bottom:10px">
+                            @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                            {
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("Edit", new { id = item.ID })" role="button">Modifier</a>
+                                <a class="btn btn-primary btn-mini" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                            }
+                        </div>
+
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll">
+                                        Secteur(s) manquant(s) :
+                                    </button>
+                                </h2>
+                                <div id="@coll" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        @{
+                                            foreach (var mission in item.Missions)
+                                            {
+                                                if (!mission.Passage)
+                                                {
+                                                    if (!serv.Contains(mission.Nom_Secteur))
+                                                    {
+                                                        serv.Add(mission.Nom_Secteur);
+                                                    }
+                                                }
+                                            }
+
+                                            var lastitem = serv.Last();
+                                            foreach (var service in serv)
+                                            {
+                                                if (service == lastitem)
+                                                {
+                                                    listeSecteurs = String.Concat(listeSecteurs + service);
+                                                }
+                                                else
+                                                {
+                                                    {
+                                                        listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        <div id="listServ">@listeSecteurs</div>
+
+                                        <button type="button" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-4" style="padding:5px; line-height:50px; max-height:241px">
+                    <div class="h-100 border rounded-3 Search" style="padding:10px; line-height:30px; background-color:#00aa0050" align="center">
+                        <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+                        <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
+                        <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) <br />
+                        <h4 style="font-weight:normal; margin-top:15px">COMPLÉTÉ</h4>
+                        <div style="margin-top:15px">
+                            @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                            {
+                                <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))
+    </div>
+</div>

@@ -105,6 +105,8 @@ namespace Parcours_integration.Controllers
         {
             Service sect = db.Service.Find(id);
             sect.Actif = !sect.Actif;
+
+            db.Entry(sect).State = EntityState.Modified;
             db.SaveChanges();
 
             dynamic Ressources = new ExpandoObject();

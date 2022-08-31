@@ -110,10 +110,18 @@ else
                                 <table class="table table-bordered" style="border: 0 solid #bdbdbd; margin-bottom: 0px">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" style="background-color: #ffffff; width:37%">Mission</th>
-                                            <th class="text-center" style="background-color: #ffffff; width:18%">Service</th>
-                                            <th class="text-center" style="background-color: #ffffff; width: 7%">Planifiée</th>
-                                            <th class="text-center" style="background-color: #ffffff; width:30%">Remarque</th>
+                                            <th class="text-center" style="width:37%">Mission</th>
+                                            <th class="text-center" style="width:18%">Service</th>
+                                            <th class="text-center" style="width: 7%">Planifiée</th>
+                                            <th class="text-center" style="width:30%;">
+                                                <span>
+                                                    Remarque
+                                                </span>
+                                                <div class="tooltip">
+                                                    <i class="bi bi-question-circle-fill"></i>
+                                                    <span class="tooltiptext">Pas de remarque personnelle : décrivez le comportement de l'employé ou des modifications à faire dans la formation.</span>
+                                                </div>
+                                            </th>
                                             <th class="text-center" style="background-color: #ffffff; width: 8%">Signer</th>
 
                                         </tr>
@@ -204,7 +212,12 @@ else
                 $("#Plan" + ID).html(newBtn);
             }
         });
-    }
+    };
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
 
 <style>
@@ -229,5 +242,9 @@ else
     }
     .temp tbody > :nth-child(4n+3) {
         background-color: rgba(66, 183, 255, 0.3);
+    }
+
+    .tooltip-inner{
+        max-width:250px
     }
 </style>

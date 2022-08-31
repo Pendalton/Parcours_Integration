@@ -40,7 +40,7 @@ namespace Parcours_integration.Controllers
             ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin;
             ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur;
             ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault());
-            ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable;
+            ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable; 
         }
 
         public Utilisateurs GetAccount(string login)
@@ -66,7 +66,6 @@ namespace Parcours_integration.Controllers
                     Serv.Add(original.ID);
                 }
             }
-            var testmail = db.Utilisateurs.Find(199);
             var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s => s.Utilisateurs).Distinct().ToList();
             foreach (var util in formateurs)
             {
@@ -88,7 +87,7 @@ namespace Parcours_integration.Controllers
                 {
                     var senderMail = new MailAddress("Do-Not-Reply@knorr-bremse.com", "Ne pas répondre");
 
-                    var receiverMail = new MailAddress(testmail.UserMail);
+                    var receiverMail = new MailAddress(util.UserMail);
 
                     var password = "";
 

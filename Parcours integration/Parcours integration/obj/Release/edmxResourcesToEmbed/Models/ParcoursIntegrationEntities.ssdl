@@ -52,7 +52,7 @@
     <Property Name="Stage" Type="bit" Nullable="false" />
     <Property Name="Mutation" Type="bit" Nullable="false" />
     <Property Name="Intérimaire" Type="bit" Nullable="false" />
-    <Property Name="ServiceID" Type="int" />
+    <Property Name="ServiceID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ModeleContrat">
     <Key>
@@ -77,16 +77,6 @@
     <Property Name="EquipeID" Type="int" />
     <Property Name="ID_Resp" Type="int" />
     <Property Name="ID_Employé" Type="int" />
-  </EntityType>
-  <EntityType Name="Plan">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type_de_salle" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Nom_de_salle" Type="nvarchar" MaxLength="50" />
-    <Property Name="Image" Type="nvarchar" MaxLength="50" />
-    <Property Name="Etage" Type="int" />
   </EntityType>
   <EntityType Name="Service">
     <Key>
@@ -167,7 +157,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Modele_Service">
-    <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+    <End Role="Service" Type="Self.Service" Multiplicity="1" />
     <End Role="Modele" Type="Self.Modele" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Service">
@@ -270,7 +260,6 @@
     <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Plan" EntityType="Self.Plan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Utilisateurs_Services" EntityType="Self.Utilisateurs_Services" Schema="dbo" store:Type="Tables" />

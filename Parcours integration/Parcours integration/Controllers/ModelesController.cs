@@ -4,11 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Parcours_integration.Models;
-using PagedList;
-using PagedList.Mvc;
+using Newtonsoft.Json;
+
 
 
 namespace Parcours_integration.Controllers
@@ -331,21 +330,22 @@ namespace Parcours_integration.Controllers
             return modele.Intérimaire;
         }
 
-        public ActionResult Update(int ID, string Name, int ServID)
+        public string Update(int ID, string Name, int ServID)
         {
             var Modele = db.Modele.Find(ID);
 
-            if(Modele != null)
+            if (Modele != null)
             {
                 Modele.Nom = Name;
                 Modele.ServiceID = ServID;
             }
             db.Entry(Modele).State = EntityState.Modified;
             db.SaveChanges();
-            var ListModeles = db.Modele.ToList();
-            ViewBag.ServiceID = new SelectList(db.Service.Where(s => s.Actif), "ID", "Nom");
+            var Données = Tuple.Create(Modele.Nom, Modele.Service.Nom);
 
-            return PartialView("TableModeles", ListModeles);
+            string json = JsonConvert.SerializeObject(Données);
+
+            return json;
         }
 
         // GET: Modeles/Delete/5

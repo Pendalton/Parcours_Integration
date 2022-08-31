@@ -17,8 +17,8 @@ namespace Parcours_integration.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Service()
         {
-            this.Modele = new HashSet<Modele>();
             this.Utilisateurs_Services = new HashSet<Utilisateurs_Services>();
+            this.Modele = new HashSet<Modele>();
         }
     
         public int ID { get; set; }
@@ -26,8 +26,8 @@ namespace Parcours_integration.Models
         public bool Actif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Modele> Modele { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Utilisateurs_Services> Utilisateurs_Services { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Modele> Modele { get; set; }
     }
 }

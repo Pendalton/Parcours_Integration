@@ -6,24 +6,27 @@
 
 <div>
     <div>
-        <br/>
+        <br />
+        <div>
+            <h2 style="font-weight: normal">Détails du parcours de <span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
+        </div>
+
+        <hr />
+
         <div class="row">
             <div class="col-md-4">
-                <h2 style="font-weight: normal; padding-left: 10px "><span style="font-weight:bold">@Html.DisplayFor(model => model.Nom)</span> @Html.DisplayFor(model => model.Prénom)</h2>
+                <h2 style="font-weight: normal; padding-left: 10px"><span>@Html.DisplayFor(model => model.Contrat.Nom) - @Html.DisplayFor(model => model.Equipe.Nom)</span></h2>
             </div>
             <div class="col-md-4 text-center">
-                <h2 style="font-weight:normal"><span>@Html.DisplayFor(model => model.Contrat.Nom) - @Html.DisplayFor(model => model.Equipe.Nom)</span></h2>
-            </div>
-            <div class="col-md-4 text-end">
                 <h2 style="font-weight:normal"><span>@ViewBag.PosteOccupé</span></h2>
+            </div>
+            <div class="col-md-4">
+                <h3 style="font-weight:normal; padding-left:10px"><span>Entré(e) le : @ViewBag.Entrée</span></h3>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-4">
-                <h3 style="font-weight:normal; padding-left:10px"><span>Entré(e) le : @ViewBag.Entrée</span></h3>
-            </div>
-            <div class="col-md-5">
+            <div class="col-md-12 text-center">
                 <h3 style="font-weight:normal; padding-left:13px"><span>Responsable : @ViewBag.Responsable</span></h3>
             </div>
         </div>

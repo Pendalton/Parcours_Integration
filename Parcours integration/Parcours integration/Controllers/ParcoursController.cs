@@ -104,6 +104,89 @@ namespace Parcours_integration.Controllers
             return View(Résultat.ToList().ToPagedList(page?? 1,15));
         }
 
+        public ActionResult IndexAjax(string Datepicker, string Datepicker2, int? Rythme, int? page, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
+        {
+            var parcour = from p in db.Parcours
+                          select p;
+            DateTime Picked = DateTime.MinValue;
+            DateTime Picked1 = DateTime.MinValue;
+
+            List<Parcours> Résultat = new List<Parcours>();
+
+            if (Terminé)
+            {
+                parcour = db.Parcours.Where(s => s.Complété == true || s.Complété == false);
+            }
+            else
+            {
+                parcour = db.Parcours.Where(s => s.Complété == false);
+            }
+
+            ViewBag.Rythme = new SelectList(db.Equipe, "ID", "Nom");
+
+            if (Rythme != null)
+            {
+                parcour = parcour.Where(s => s.EquipeID == Rythme);
+            }
+
+            if (String.IsNullOrEmpty(Datepicker2))
+            {
+                if (!String.IsNullOrEmpty(Datepicker))
+                {
+                    Picked = Convert.ToDateTime(Datepicker).Date;
+                    parcour = parcour.Where(s => s.Entrée >= Picked);
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(Datepicker))
+                {
+                    Picked = Convert.ToDateTime(Datepicker).Date;
+                    Picked1 = Convert.ToDateTime(Datepicker2).Date;
+                    parcour = parcour.Where(s => s.Entrée >= Picked && s.Entrée < Picked1);
+                }
+            }
+
+            if (CDI)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 1));
+            }
+            if (CDD)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 2));
+            }
+            if (Stage)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 3));
+            }
+            if (Mutation)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 4));
+            }
+            if (Intérim)
+            {
+                Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 7));
+            }
+
+            foreach (var item in Résultat)
+            {
+                item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
+            }
+
+            ViewBag.CDI = CDI;
+            ViewBag.CDD = CDD;
+            ViewBag.Stage = Stage;
+            ViewBag.Mutation = Mutation;
+            ViewBag.Intérim = Intérim;
+            ViewBag.Term = Terminé;
+            ViewBag.Datepicker = Datepicker;
+            ViewBag.Datepicker2 = Datepicker2;
+
+            Résultat = Résultat.OrderByDescending(s => s.ID).ToList();
+
+            return PartialView("TableParc", Résultat.ToList().ToPagedList(page ?? 1, 15));
+        }
+
         // GET: Parcours/Details/5
         public ActionResult Details(int? id)
         {
@@ -152,8 +235,8 @@ namespace Parcours_integration.Controllers
         // GET: Parcours/Create
         public ActionResult Create()
         {
-            ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
-            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
+            ViewBag.Type_Contrat = new SelectList(db.Contrat.Where(s => s.Actif), "ID", "Nom");
+            ViewBag.EquipeID = new SelectList(db.Equipe.Where(s=>s.Actif), "ID", "Nom");
             ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s=>s.Nom), "ID", "Nom");
             ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
             return View();
@@ -166,7 +249,7 @@ namespace Parcours_integration.Controllers
             var Date = DateTime.Now.Date;
 
             parcours.Entrée = Date;
-
+            parcours.Date_entrée = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Date.ToString();
             parcours.Complété = false;
 
             if (ModelState.IsValid)
@@ -186,6 +269,7 @@ namespace Parcours_integration.Controllers
                         Nom_Mission = item.Modele.Nom,
                         Nom_Secteur = item.Modele.Service.Nom,
                         Passage = false,
+                        Applicable = true,
                     };
 
                     if (ModelState.IsValid)
@@ -200,10 +284,52 @@ namespace Parcours_integration.Controllers
                 {
                     Directory.CreateDirectory(Server.MapPath(folderName));
                 }
+
+                NewParcMail(parcours.ID);
+
+                if(parcours.ID_Employé!= null)
+                {
+                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+
+                    var receiverMail = new MailAddress(parcours.CompteInformatique.UserMail);
+
+                    var password = "";
+
+                    var sub = "Parcours d'intégration";
+
+                    var body = "Bonjour," +
+                        "<br/><br/>" +
+                        "Dans le cadre de la procédure d'intégration, vous trouverez ci-dessous le lien pour accéder à votre parcours d'intégration." +
+                        "<br/><br/>" +
+                        "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + parcours.ID + " \">Votre parcours</a>" +
+                        "<br/><br/>" +
+                        "Si vous avez des remarques ou questions, n'hésitez pas à contacter le service RH." +
+                        "<br/>" +
+                        "Merci";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "mail-lis.corp.knorr-bremse.com",
+                        Port = 25,
+                        EnableSsl = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderMail.Address, password),
+                    };
+
+                    using (MailMessage mm = new MailMessage(senderMail, receiverMail))
+                    {
+                        mm.Subject = sub;
+                        mm.Body = body;
+                        mm.IsBodyHtml = true;
+                        smtp.Send(mm);
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
-            ViewBag.Type_Contrat = new SelectList(db.Contrat, "ID", "Nom");
-            ViewBag.EquipeID = new SelectList(db.Equipe, "ID", "Nom");
+            ViewBag.Type_Contrat = new SelectList(db.Contrat.Where(s => s.Actif), "ID", "Nom");
+            ViewBag.EquipeID = new SelectList(db.Equipe.Where(s => s.Actif), "ID", "Nom");
             ViewBag.ID_Resp = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
             ViewBag.ID_Employé = new SelectList(db.Utilisateurs.OrderBy(s => s.Nom), "ID", "Nom");
             return View(parcours);
@@ -261,6 +387,46 @@ namespace Parcours_integration.Controllers
 
                     db.Entry(parcours).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    if (parcours.ID_Employé != null)
+                    {
+                        var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+
+                        var receiverMail = new MailAddress(parcours.CompteInformatique.UserMail);
+
+                        var password = "";
+
+                        var sub = "Création de votre parcours d'intégration";
+
+                        var body = "Bonjour," +
+                            "<br/><br/>" +
+                            "Dans le cadre de la procédure d'intégration, vous trouverez ci-dessous le lien pour accéder à votre parcours d'intégration." +
+                            "<br/><br/>" +
+                            "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + parcours.ID + " \">Votre parcours</a>" +
+                            "<br/><br/>" +
+                            "Si vous avez des remarques ou questions, n'hésitez pas à contacter le service RH." +
+                            "<br/>" +
+                            "Merci";
+
+                        var smtp = new SmtpClient
+                        {
+                            Host = "mail-lis.corp.knorr-bremse.com",
+                            Port = 25,
+                            EnableSsl = false,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(senderMail.Address, password),
+                        };
+
+                        using (MailMessage mm = new MailMessage(senderMail, receiverMail))
+                        {
+                            mm.Subject = sub;
+                            mm.Body = body;
+                            mm.IsBodyHtml = true;
+                            smtp.Send(mm);
+                        }
+                    }
+
                     return RedirectToAction("Details", new { id = parcours.ID });
                 }
             }
@@ -423,9 +589,79 @@ namespace Parcours_integration.Controllers
             }
         }
 
+        public void NewParcMail(int ID)
+        {
+            var servMiss = db.Missions.Where(s => s.ID_Parcours == ID).Where(s => !s.Passage).Where(s => s.Applicable).Select(s => s.Nom_Secteur).Distinct().ToList();
+            var NomParcours = db.Parcours.Find(ID).Prénom + " " + db.Parcours.Find(ID).Nom;
+            List<int> Serv = new List<int>();
+
+            foreach (var item in servMiss)
+            {
+                var original = db.Service.Where(s => s.Nom == item).FirstOrDefault();
+                if (original != null)
+                {
+                    Serv.Add(original.ID);
+                }
+            }
+            var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s => s.Utilisateurs).Distinct().ToList();
+
+            if (!formateurs.Contains(db.Utilisateurs.Find(db.Parcours.Find(ID).ID_Resp)))
+            {
+                formateurs.Add(db.Utilisateurs.Find(db.Parcours.Find(ID).ID_Resp));
+            }
+
+            foreach (var util in formateurs)
+            {
+                var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
+
+                var MissP = db.Missions.Where(s => ServP.Contains(s.Nom_Secteur)).Where(s => s.ID_Parcours == ID).Where(s => !s.Passage).OrderBy(s => s.Nom_Secteur).ToList();
+
+                if (util.UserMail != null)
+                {
+                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+
+                    var receiverMail = new MailAddress(util.UserMail);
+
+                    var password = "";
+
+                    var sub = "Arrivée de " + NomParcours + " // Parcours d'intégration";
+
+                    var body = "Bonjour," +
+                        "<br/><br/>" +
+                        "Dans le cadre de la procédure d’intégration, vous trouverez ci-dessous le lien pour accéder au parcours d’intégration de " + NomParcours + " embauché le " + DateTime.Now.Date.ToString().Substring(0, 10) + "." +
+                        "<br/><br/>" +
+                        "L’idéal serait que le parcours soit terminé d’ici un mois (à l’exception de la formation produits et code de conduite)." +
+                        "<br/><br/>" +
+                        "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
+                        "<br/><br/>" +
+                        "Si vous avez des remarques ou questions, n’hésitez pas à me demander." +
+                        "<br/>" +
+                        "Merci";
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "mail-lis.corp.knorr-bremse.com",
+                        Port = 25,
+                        EnableSsl = false,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderMail.Address, password),
+                    };
+
+                    using (MailMessage mm = new MailMessage(senderMail, receiverMail))
+                    {
+                        mm.Subject = sub;
+                        mm.Body = body;
+                        mm.IsBodyHtml = true;
+                        smtp.Send(mm);
+                    }
+                }
+            }
+        }
+
         public void SendMail(int ID)
         {
-            var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Select(s => s.Nom_Secteur).Distinct().ToList();
+            var servMiss = db.Missions.Where(s=>s.ID_Parcours == ID).Where(s=>!s.Passage).Where(s=>s.Applicable).Select(s => s.Nom_Secteur).Distinct().ToList();
             var NomParcours = db.Parcours.Find(ID).Prénom + " " + db.Parcours.Find(ID).Nom;
             List<int> Serv = new List<int>();
 
@@ -439,7 +675,14 @@ namespace Parcours_integration.Controllers
             }
             var testmail = db.Utilisateurs.Find(199);
             var formateurs = db.Utilisateurs_Services.Where(s => Serv.Contains(s.ID_Service)).Select(s=>s.Utilisateurs).Distinct().ToList();
-            foreach(var util in formateurs)
+
+            if (!formateurs.Contains(db.Utilisateurs.Find(db.Parcours.Find(ID).ID_Resp)))
+            {
+                formateurs.Add(db.Utilisateurs.Find(db.Parcours.Find(ID).ID_Resp));
+            }
+
+
+            foreach (var util in formateurs)
             {
                 var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
 
@@ -449,22 +692,22 @@ namespace Parcours_integration.Controllers
                 {
                     var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
 
-                    var receiverMail = new MailAddress(testmail.UserMail);
+                    var receiverMail = new MailAddress(util.UserMail);
 
                     var password = "";
                     
-                    var sub = "Relance des parcours d'intégration";
+                    var sub = "Relance // Parcours d'intégration de " + NomParcours;
 
-                    var body = util.Nom +", il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez le lien suivant pour avoir accès aux formations en question." +
+                    var body = "Bonjour, <br/><br/> il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez sur le lien suivant pour avoir accès au parcours." +
                         "<br/><br/>" +
                         "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
                         "<br/><br/>" +
-                        "Liste des formations concernées : " +
+                        "Liste des étapes du parcours : " +
                         "<br/><br/>" +
                         "<table>" +
                             "<th>" +
                                 "<tr style=\"background-color:#efefef;border:1px solid black\">" +
-                                    "<td>Nom de la formation</td>" +
+                                    "<td>Etapes du parcours</td>" +
                                     "<td>Service</td>" +
                                     "<td>Déjà planifiée?</td>" +
                                 "</tr>" +
@@ -489,7 +732,8 @@ namespace Parcours_integration.Controllers
                                    "</tr>";
                     }
 
-                    var end = "</tbody>" + "</table>";
+                    var end = "</tbody>" + "</table>" +
+                        "<br/><br/>Merci";
 
                     var smtp = new SmtpClient
                     {
@@ -507,7 +751,6 @@ namespace Parcours_integration.Controllers
                         mm.Body = body + Content + end;
                         mm.IsBodyHtml = true;
                         smtp.Send(mm);
-                        ViewBag.Message = "Mail envoyé";
                     }
                 }
             }

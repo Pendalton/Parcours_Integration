@@ -14,6 +14,7 @@
     <div class="form-control">
 
         <br />
+
         <div class="row">
             <div class="col-md-5">
                 @Html.DropDownList("User", null, "--- Utilisateur ---", htmlAttributes: new { @class = "User form-control", required = "required" })
@@ -23,21 +24,35 @@
             </div>
         </div>
 
-        <br />
+        <br /><br />
+
         <div class="row">
             <div class="col-md-5">
-                <label style="font-weight:bold">Photo &nbsp;&nbsp;<input type="file" id="postedFile" name="postedFile" style="max-width:500px !important" /></label>
+                <div class="btn-group">
+                    <label style="font-weight:bold" for="postedFile" class="custom-file-upload btn">Sélectionnez la photo <i class="bi bi-file-earmark-arrow-up"></i></label>
+                    <input type="file" class="btn" accept="image/*" id="postedFile" name="postedFile" />
+                    <button type="reset" class="btn btn-outline-danger" id="pseudoCancel"><i class="bi bi-x-lg"></i></button>
+                </div>
             </div>
             <div class="col-md-5">
-                @Html.CheckBox("EstAdmin", new { data_toggle = "toggle", data_onstyle = "success", data_on = "Administrateur", data_off = "Formateur", data_width = "140", data_height = "36", data_offstyle = "danger" })&nbsp;&nbsp;
+                @Html.CheckBox("EstAdmin", new { data_toggle = "toggle", data_onstyle = "success", data_on = "Administrateur", data_off = "Formateur", data_width = "140", data_height = "36", data_offstyle = "danger" })&nbsp;&nbsp;&nbsp;
                 <div class="tooltip">
                     <i class="bi bi-question-circle-fill"></i>
-                    <span class="tooltiptext">Un administrateur peut modifier les ressources de l'usine comme les services, contrats, autres employés ou les parcours des nouveaux arrivants. Ce rôle est souvant destiné aux employés des ressources humaines.</span>
+                    <span class="tooltiptext">Un administrateur peut modifier les ressources de l'usine comme les services, contrats, autres employés ou les parcours des nouveaux arrivants. Ce rôle est souvant destiné aux employés des ressources humaines et se rajoute en plus de celui de formateur.</span>
                 </div>
             </div>
         </div>
 
         <br />
+
+        <div id="Popup" class="row" style="display:none">
+            <div class="col-md-4 offset-md-5">
+                <img id="ProfileImage" src="#" alt="Votre photo" style="max-width:60%" />
+            </div>
+        </div>
+
+        <br />
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
                 <input type="submit" value="Enregistrer" class="btn btn-success" />
@@ -74,6 +89,23 @@
             }
         })
     });
+    postedFile.onchange = evt => {
+        const [file] = postedFile.files
+        if (file) {
+            Popup.style.display = "block";
+            ProfileImage.src = URL.createObjectURL(file)
+        }
+        else {
+            Popup.style.display = "none";
+            ProfileImage.src = "/Docs/person-icon.png";
+        }
+    }
+
+    pseudoCancel.onclick = evt => {
+        postedFile.value = null;
+        Popup.style.display = "none";
+        ProfileImage.src = "/Docs/person-icon.png";
+    }
 </script>
 
 <style>
@@ -89,29 +121,14 @@
         top: 6px;
     }
 
-    .tooltip {
-        position: relative;
-        display: inline-block;
-        border-bottom: 1px dotted black;
-        opacity:1 !important;
+    input[type="file"] {
+        display: none;
     }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 350px;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px 5px 10px;
-            /* Position the tooltip */
-            position: absolute;
-            z-index: 1;
-            top: -5px;
-            left: 105%;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-        }
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
 </style>
