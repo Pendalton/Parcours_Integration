@@ -119,5 +119,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Purge">
+      <EntityTypeMapping TypeName="ParcoursIntegrationModel.Purge">
+        <MappingFragment StoreEntitySet="Purge">
+          <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
+          <ScalarProperty Name="Date_Complétion" ColumnName="Date_Complétion" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Signatures">
+      <EntityTypeMapping TypeName="ParcoursIntegrationModel.Signatures">
+        <MappingFragment StoreEntitySet="Signatures">
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
+          <ScalarProperty Name="Date_Signature" ColumnName="Date_Signature" />
+          <ScalarProperty Name="ID_Signataire" ColumnName="ID_Signataire" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -59,6 +59,20 @@
       <End Role="Modele" EntitySet="Modele" />
       <End Role="ModeleContrat" EntitySet="ModeleContrat" />
     </AssociationSet>
+    <EntitySet Name="Purge" EntityType="ParcoursIntegrationModel.Purge" />
+    <EntitySet Name="Signatures" EntityType="ParcoursIntegrationModel.Signatures" />
+    <AssociationSet Name="FK_Signatures_Parcours" Association="ParcoursIntegrationModel.FK_Signatures_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Signatures" EntitySet="Signatures" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purge_Parcours" Association="ParcoursIntegrationModel.FK_Purge_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Purge" EntitySet="Purge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Signatures_Users" Association="ParcoursIntegrationModel.FK_Signatures_Users">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Signatures" EntitySet="Signatures" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Comment">
     <Key>
@@ -144,6 +158,7 @@
     <NavigationProperty Name="Utilisateurs_Services" Relationship="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" FromRole="Utilisateurs" ToRole="Utilisateurs_Services" />
     <NavigationProperty Name="ParcoursResponsable" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Utilisateurs" ToRole="Parcours" />
     <NavigationProperty Name="ParcoursEmployé" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1" FromRole="Utilisateurs" ToRole="Parcours" />
+    <NavigationProperty Name="Signatures" Relationship="ParcoursIntegrationModel.FK_Signatures_Users" FromRole="Utilisateurs" ToRole="Signatures" />
   </EntityType>
   <EntityType Name="Utilisateurs_Services">
     <Key>
@@ -224,6 +239,8 @@
     <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs" FromRole="Parcours" ToRole="Utilisateurs" />
     <Property Name="ID_Employé" Type="Int32" />
     <NavigationProperty Name="CompteInformatique" Relationship="ParcoursIntegrationModel.FK_Parcours_Utilisateurs1" FromRole="Parcours" ToRole="Utilisateurs" />
+    <NavigationProperty Name="Signatures" Relationship="ParcoursIntegrationModel.FK_Signatures_Parcours" FromRole="Parcours" ToRole="Signatures" />
+    <NavigationProperty Name="Purge" Relationship="ParcoursIntegrationModel.FK_Purge_Parcours" FromRole="Parcours" ToRole="Purge" />
   </EntityType>
   <Association Name="FK_Comment_Parcours">
     <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="1" />
@@ -333,6 +350,63 @@
       </Principal>
       <Dependent Role="ModeleContrat">
         <PropertyRef Name="ID_Modele" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Purge">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date_Complétion" Type="DateTime" Precision="0" />
+    <Property Name="ID_Parcours" Type="Int32" />
+    <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Purge_Parcours" FromRole="Purge" ToRole="Parcours" />
+  </EntityType>
+  <EntityType Name="Signatures">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_Signataire" Type="Int32" Nullable="false" />
+    <Property Name="Date_Signature" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ID_Parcours" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Parcours" Relationship="ParcoursIntegrationModel.FK_Signatures_Parcours" FromRole="Signatures" ToRole="Parcours" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Utilisateurs" Relationship="ParcoursIntegrationModel.FK_Signatures_Users" FromRole="Signatures" ToRole="Utilisateurs" />
+  </EntityType>
+  <Association Name="FK_Signatures_Parcours">
+    <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="1" />
+    <End Type="ParcoursIntegrationModel.Signatures" Role="Signatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Signatures">
+        <PropertyRef Name="ID_Parcours" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purge_Parcours">
+    <End Type="ParcoursIntegrationModel.Parcours" Role="Parcours" Multiplicity="0..1" />
+    <End Type="ParcoursIntegrationModel.Purge" Role="Purge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purge">
+        <PropertyRef Name="ID_Parcours" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Signatures_Users">
+    <End Type="ParcoursIntegrationModel.Utilisateurs" Role="Utilisateurs" Multiplicity="1" />
+    <End Type="ParcoursIntegrationModel.Signatures" Role="Signatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Signatures">
+        <PropertyRef Name="ID_Signataire" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

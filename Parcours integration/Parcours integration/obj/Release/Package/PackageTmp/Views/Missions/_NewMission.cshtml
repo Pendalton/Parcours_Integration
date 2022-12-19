@@ -1,0 +1,50 @@
+﻿@model Parcours_integration.Models.Missions
+
+<div class="accordion" style="width:90%;margin-left:20px">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Autre mission
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                @using (Html.BeginForm("_NewMission", "Missions", FormMethod.Post, new { id = ViewBag.ID }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input hidden name="ID" value="@ViewBag.ID" />
+                    <table>
+                        <tbody>
+                            <tr style="height:50px">
+                                <td class="text-center" style="width:160px">
+                                    Mission choisie :
+                                </td>
+                                <td style="width:300px">
+                                    @Html.EditorFor(model => model.Nom_Mission, new { htmlAttributes = new { @class = "form-control", placeholder = "Nom de la mission" } })
+                                    @Html.ValidationMessageFor(model => model.Nom_Mission, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+
+                            <tr style="height:50px">
+                                <td class="text-center" style="width:150px">
+                                    Secteur de mission :
+                                </td>
+                                <td style="width:300px">
+                                    @Html.DropDownList("Service", null, "-- Service --", htmlAttributes: new { @class = "dropdwn form-control" })
+                                    @Html.ValidationMessageFor(model => model.Nom_Secteur, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                            <input type="submit" value="Nouvelle mission" class="btn btn-warning" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

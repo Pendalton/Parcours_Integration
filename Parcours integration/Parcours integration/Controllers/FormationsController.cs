@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Parcours_integration.Models;
+using System.Dynamic;
 
 namespace Parcours_integration.Controllers
 {
@@ -16,6 +17,8 @@ namespace Parcours_integration.Controllers
         // GET: Formations
         public ActionResult Index(int? Numéro, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Intérim = true)
         {
+            dynamic ListAFaire = new ExpandoObject();
+
             if (!EstFormateur)
             {
                 var Nom = UserSession.Nom;
@@ -128,30 +131,42 @@ namespace Parcours_integration.Controllers
                 }
             }
 
-            { 
-            ViewBag.Missions = missions.ToList();
-            TempData["Missions"] = missions.ToList();
+            {
+                ViewBag.Missions = missions.ToList();
 
-            ViewBag.CDI = CDI;
-            TempData["CDI"] = CDI;
+                ViewBag.CDI = CDI;
 
-            ViewBag.CDD = CDD;
-            TempData["CDD"] = CDD;
+                ViewBag.CDD = CDD;
 
-            ViewBag.Stage = Stage;
-            TempData["Stage"] = Stage;
+                ViewBag.Stage = Stage;
 
-            ViewBag.Mutation = Mutation;
-            TempData["Mutation"] = Mutation;
+                ViewBag.Mutation = Mutation;
 
-            ViewBag.Intérim = Intérim;
-            TempData["Intérim"] = Intérim;
+                ViewBag.Intérim = Intérim;
 
-            Résultat = Résultat.OrderBy(s => s.ID).ToList();
-            TempData["Résultat"] = Résultat;
+                Résultat = Résultat.OrderBy(s => s.ID).ToList();
             }
 
-            return View(Résultat);
+            ListAFaire.Formations = Résultat;
+
+            var SignaturesAFaire = new List<Tuple<int, string, string, bool, bool, bool, int?>>();
+
+            foreach (var Parc in db.Parcours.Where(s => s.Complété).ToList())
+            {
+                if (db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Count() < 3)
+                {
+                    var RH = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Ressources Humaines");
+                    var Resp = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Responsable");
+                    var Emp = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Employé" || s.Role == "Admin");
+
+                    var PASIGNER = Tuple.Create(Parc.ID, Parc.Nom + " " + Parc.Prénom, Parc.Poste + " - " + Parc.Contrat.Nom, RH, Resp, Emp, Parc.ID_Resp);
+                    SignaturesAFaire.Add(PASIGNER);
+                }
+            }
+
+            ListAFaire.Signatures = SignaturesAFaire;
+
+            return View(ListAFaire);
         }
 
         [HttpPost]

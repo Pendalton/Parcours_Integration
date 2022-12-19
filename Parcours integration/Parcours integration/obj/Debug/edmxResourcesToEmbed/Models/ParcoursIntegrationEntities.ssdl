@@ -78,6 +78,14 @@
     <Property Name="ID_Resp" Type="int" />
     <Property Name="ID_Employé" Type="int" />
   </EntityType>
+  <EntityType Name="Purge">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date_Complétion" Type="date" />
+    <Property Name="ID_Parcours" Type="int" />
+  </EntityType>
   <EntityType Name="Service">
     <Key>
       <PropertyRef Name="ID" />
@@ -85,6 +93,16 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nom" Type="nvarchar" MaxLength="50" />
     <Property Name="Actif" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Signatures">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Signataire" Type="int" Nullable="false" />
+    <Property Name="Date_Signature" Type="date" Nullable="false" />
+    <Property Name="ID_Parcours" Type="int" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Utilisateurs">
     <Key>
@@ -240,6 +258,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Purge_Parcours">
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="0..1" />
+    <End Role="Purge" Type="Self.Purge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purge">
+        <PropertyRef Name="ID_Parcours" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Signatures_Parcours">
+    <End Role="Parcours" Type="Self.Parcours" Multiplicity="1" />
+    <End Role="Signatures" Type="Self.Signatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parcours">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Signatures">
+        <PropertyRef Name="ID_Parcours" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Signatures_Users">
+    <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
+    <End Role="Signatures" Type="Self.Signatures" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Utilisateurs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Signatures">
+        <PropertyRef Name="ID_Signataire" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Utilisateurs_Services_Utilisateurs">
     <End Role="Utilisateurs" Type="Self.Utilisateurs" Multiplicity="1" />
     <End Role="Utilisateurs_Services" Type="Self.Utilisateurs_Services" Multiplicity="*" />
@@ -260,7 +314,9 @@
     <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Parcours" EntityType="Self.Parcours" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Purge" EntityType="Self.Purge" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Signatures" EntityType="Self.Signatures" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Utilisateurs" EntityType="Self.Utilisateurs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Utilisateurs_Services" EntityType="Self.Utilisateurs_Services" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Comment_Parcours" Association="Self.FK_Comment_Parcours">
@@ -306,6 +362,18 @@
     <AssociationSet Name="FK_Parcours_Utilisateurs1" Association="Self.FK_Parcours_Utilisateurs1">
       <End Role="Utilisateurs" EntitySet="Utilisateurs" />
       <End Role="Parcours" EntitySet="Parcours" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purge_Parcours" Association="Self.FK_Purge_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Purge" EntitySet="Purge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Signatures_Parcours" Association="Self.FK_Signatures_Parcours">
+      <End Role="Parcours" EntitySet="Parcours" />
+      <End Role="Signatures" EntitySet="Signatures" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Signatures_Users" Association="Self.FK_Signatures_Users">
+      <End Role="Utilisateurs" EntitySet="Utilisateurs" />
+      <End Role="Signatures" EntitySet="Signatures" />
     </AssociationSet>
     <AssociationSet Name="FK_Utilisateurs_Services_Utilisateurs" Association="Self.FK_Utilisateurs_Services_Utilisateurs">
       <End Role="Utilisateurs" EntitySet="Utilisateurs" />

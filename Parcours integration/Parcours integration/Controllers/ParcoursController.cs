@@ -13,6 +13,8 @@ using iTextSharp.text.pdf;
 using System.Net.Mail;
 using iTextSharp.tool.xml;
 using PagedList;
+using Newtonsoft.Json;
+
 
 namespace Parcours_integration.Controllers
 {
@@ -21,12 +23,10 @@ namespace Parcours_integration.Controllers
         private ParcoursIntegrationEntities db = new ParcoursIntegrationEntities();
 
         // GET: Parcours
-        public ActionResult Index(int? page, string Datepicker, string Datepicker2, int? Rythme, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
+        public ActionResult Index(int? page, string Datepicker, int? Rythme, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
         {
             var parcour = from p in db.Parcours
                           select p;
-            DateTime Picked = DateTime.MinValue;
-            DateTime Picked1 = DateTime.MinValue;
 
             List<Parcours> Résultat = new List<Parcours>();
 
@@ -46,22 +46,9 @@ namespace Parcours_integration.Controllers
                 parcour = parcour.Where(s => s.EquipeID == Rythme);
             }
 
-            if (String.IsNullOrEmpty(Datepicker2))
+            if (!String.IsNullOrEmpty(Datepicker))
             {
-                if (!String.IsNullOrEmpty(Datepicker))
-                {
-                    Picked = Convert.ToDateTime(Datepicker).Date;
-                    parcour = parcour.Where(s => s.Entrée >= Picked);
-                }
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(Datepicker))
-                {
-                    Picked = Convert.ToDateTime(Datepicker).Date;
-                    Picked1 = Convert.ToDateTime(Datepicker2).Date;
-                    parcour = parcour.Where(s => s.Entrée >= Picked && s.Entrée < Picked1);
-                }
+                parcour = parcour.Where(s => s.Entrée.Value.Year.ToString() == Datepicker);
             }
 
             if (CDI)
@@ -85,11 +72,6 @@ namespace Parcours_integration.Controllers
                 Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 7));
             }
 
-            foreach (var item in Résultat)
-            {
-                item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
-            }
-
             ViewBag.CDI = CDI;
             ViewBag.CDD = CDD;
             ViewBag.Stage = Stage;
@@ -97,7 +79,6 @@ namespace Parcours_integration.Controllers
             ViewBag.Intérim = Intérim;
             ViewBag.Term = Terminé;
             ViewBag.Datepicker = Datepicker;
-            ViewBag.Datepicker2 = Datepicker2;
 
             Résultat = Résultat.OrderByDescending(s=>s.ID).ToList();
 
@@ -168,11 +149,6 @@ namespace Parcours_integration.Controllers
                 Résultat.AddRange(parcour.Where(s => s.Type_Contrat == 7));
             }
 
-            foreach (var item in Résultat)
-            {
-                item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
-            }
-
             ViewBag.CDI = CDI;
             ViewBag.CDD = CDD;
             ViewBag.Stage = Stage;
@@ -213,6 +189,37 @@ namespace Parcours_integration.Controllers
                 ViewBag.Commenté = false;
             }
 
+            var RHSign = db.Signatures.Where(s => s.ID_Parcours == parcours.ID).Where(s => s.Role == "Ressources Humaines").FirstOrDefault();
+            var RespSign = db.Signatures.Where(s => s.ID_Parcours == parcours.ID).Where(s => s.Role == "Responsable").FirstOrDefault();
+            var EmpSign = db.Signatures.Where(s => s.ID_Parcours == parcours.ID).Where(s => s.Role == "Employé" || s.Role == "Admin").FirstOrDefault();
+
+            if(RHSign == null)
+            {
+                ViewBag.RhSign = null;
+            }
+            else
+            {
+                ViewBag.RhSign = new string[] { RHSign.Utilisateurs.Nom, RHSign.Role, RHSign.Date_Signature.ToString().Substring(0,10)};
+            }
+
+            if (RespSign == null)
+            {
+                ViewBag.RespSign = null;
+            }
+            else
+            {
+                ViewBag.RespSign = new string[] { RespSign.Utilisateurs.Nom, RespSign.Role, RespSign.Date_Signature.ToString().Substring(0, 10) };
+            }
+
+            if (EmpSign == null)
+            {
+                ViewBag.EmpSign = null;
+            }
+            else
+            {
+                ViewBag.EmpSign = new string[] { EmpSign.Utilisateurs.Nom, EmpSign.Role, EmpSign.Date_Signature.ToString().Substring(0, 10) };
+            }
+
             ViewBag.Comments = comments;
             ViewBag.ParcoursID = id.Value;
             ViewBag.Identity = parcours.Nom + " " + parcours.Prénom;
@@ -244,12 +251,10 @@ namespace Parcours_integration.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,EquipeID,ID_Resp,ID_Employé")] Parcours parcours)
+        public ActionResult Create([Bind(Include = "ID,Nom,Prénom,Entrée,Type_Contrat,Poste,EquipeID,ID_Resp,ID_Employé")] Parcours parcours)
         {
-            var Date = DateTime.Now.Date;
 
-            parcours.Entrée = Date;
-            parcours.Date_entrée = DateTime.Now.Year.ToString() + "-" + DateTime.Now.Month.ToString() + "-" + DateTime.Now.Date.ToString();
+            parcours.Date_entrée = DateTime.Now.Date.ToString().Substring(0, 10);
             parcours.Complété = false;
 
             if (ModelState.IsValid)
@@ -289,7 +294,7 @@ namespace Parcours_integration.Controllers
 
                 if(parcours.ID_Employé!= null)
                 {
-                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+                    var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
 
                     var receiverMail = new MailAddress(parcours.CompteInformatique.UserMail);
 
@@ -361,8 +366,6 @@ namespace Parcours_integration.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Nom,Prénom,Date_entrée,Type_Contrat,Poste,Complété,Entrée,EquipeID,ID_Resp,ID_Employé")] Parcours parcours, string Dossier, int OldResp)
         {
-            parcours.Entrée = Convert.ToDateTime(parcours.Date_entrée);
-
             if(parcours.Type_Contrat != null)
             {
                 if (ModelState.IsValid)
@@ -390,7 +393,7 @@ namespace Parcours_integration.Controllers
 
                     if (parcours.ID_Employé != null)
                     {
-                        var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+                        var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
 
                         var receiverMail = new MailAddress(parcours.CompteInformatique.UserMail);
 
@@ -450,8 +453,6 @@ namespace Parcours_integration.Controllers
                 return HttpNotFound();
             }
 
-            parcours.Date_entrée = parcours.Entrée.ToString().Substring(0, 10);
-
             return View(parcours);
         }
 
@@ -461,14 +462,32 @@ namespace Parcours_integration.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Parcours parcours = db.Parcours.Find(id);
-            var miss = db.Missions.Where(s => s.ID_Parcours == id);
+            var miss = db.Missions.Where(s => s.ID_Parcours == id); //vide les misssions
             foreach(var item in miss)
             {
                 db.Missions.Remove(item);
             }
+            var comm = db.Comment.Where(s => s.ParcoursID == id).FirstOrDefault(); //suppr le comm
+            if(comm != null)
+            {
+                db.Comment.Remove(comm);
+            }
+            var RespList = db.Parcours.Where(s => s.ID_Resp == parcours.ID_Resp).Where(s=>!s.Complété).ToList(); //dé-responsable le responsable si c'est son dernier parcours
+            RespList.Remove(parcours);
+            if(RespList.Count() == 0)
+            {
+                parcours.Utilisateurs.EstResponsable = false;
+            }
+
+            var signatures = db.Signatures.Where(s => s.ID_Parcours == id).ToList();
+            if(signatures.Count != 0)
+            {
+                db.Signatures.RemoveRange(signatures);
+            }
+
             string name = parcours.ID + parcours.Nom + parcours.Prénom;
             string folderName = @"~/Docs/" + name;
-            if (Directory.Exists(Server.MapPath(folderName)))
+            if (Directory.Exists(Server.MapPath(folderName)))//supprime le dossier et les docs
             {
                 Directory.Delete(Server.MapPath(folderName),true);
             }
@@ -585,7 +604,7 @@ namespace Parcours_integration.Controllers
                 pdfDoc.Open();
                 XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
                 pdfDoc.Close();
-                return File(stream.ToArray(), "application/pdf", parcours.Nom+parcours.Prénom+".pdf");
+                return File(stream.ToArray(), "application/pdf", parcours.Nom + "_" + parcours.Prénom + ".pdf");
             }
         }
 
@@ -618,7 +637,7 @@ namespace Parcours_integration.Controllers
 
                 if (util.UserMail != null)
                 {
-                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+                    var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
 
                     var receiverMail = new MailAddress(util.UserMail);
 
@@ -630,11 +649,9 @@ namespace Parcours_integration.Controllers
                         "<br/><br/>" +
                         "Dans le cadre de la procédure d’intégration, vous trouverez ci-dessous le lien pour accéder au parcours d’intégration de " + NomParcours + " embauché le " + DateTime.Now.Date.ToString().Substring(0, 10) + "." +
                         "<br/><br/>" +
-                        "L’idéal serait que le parcours soit terminé d’ici un mois (à l’exception de la formation produits et code de conduite)." +
-                        "<br/><br/>" +
                         "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
                         "<br/><br/>" +
-                        "Si vous avez des remarques ou questions, n’hésitez pas à me demander." +
+                        "Si vous avez des remarques ou questions, n’hésitez pas à contacter le service RH." +
                         "<br/>" +
                         "Merci";
 
@@ -645,7 +662,7 @@ namespace Parcours_integration.Controllers
                         EnableSsl = false,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
                         UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderMail.Address, password),
+                        //Credentials = new NetworkCredential(senderMail.Address, password),
                     };
 
                     using (MailMessage mm = new MailMessage(senderMail, receiverMail))
@@ -690,7 +707,7 @@ namespace Parcours_integration.Controllers
 
                 if(util.UserMail != null)
                 {
-                    var senderMail = new MailAddress(UserSession.UserMail, UserSession.Nom);
+                    var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
 
                     var receiverMail = new MailAddress(util.UserMail);
 
@@ -698,7 +715,7 @@ namespace Parcours_integration.Controllers
                     
                     var sub = "Relance // Parcours d'intégration de " + NomParcours;
 
-                    var body = "Bonjour, <br/><br/> il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez sur le lien suivant pour avoir accès au parcours." +
+                    var body = "Bonjour, <br/><br/> Il vous reste " + MissP.Count() + " formation(s) à effectuer pour le parcours de " + NomParcours + ". Cliquez sur le lien suivant pour avoir accès au parcours." +
                         "<br/><br/>" +
                         "<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index?Numéro=" + ID + " \">Parcours de " + NomParcours + " </a>" +
                         "<br/><br/>" +
@@ -754,6 +771,71 @@ namespace Parcours_integration.Controllers
                     }
                 }
             }
+        }
+
+        public string Signer(int ID, string RoleBtn)
+        {
+            var Parc = db.Parcours.Find(ID);
+            var Role = "";
+            switch (RoleBtn) 
+            {
+                case "RHbtn":
+                    Role = "Ressources Humaines";
+                    break;
+
+                case "Respbtn":
+                    Role = "Responsable";
+                    break;
+
+                case "Empbtn":
+                    if (EstAdmin)
+                    {
+                        Role = "Admin";
+                    }
+                    else
+                    {
+                        Role = "Employé";
+                    }
+                    break;
+            }
+
+            if (Parc.Complété)
+            {
+                var User = UserSession.ID;
+                var SignDate = DateTime.Now.Date;
+
+                Signatures Sign = new Signatures
+                {
+                    ID_Signataire = User,
+                    Date_Signature = SignDate,
+                    ID_Parcours = Parc.ID,
+                    Role = Role,
+                };
+                db.Signatures.Add(Sign);
+                db.SaveChanges();
+
+                if(db.Signatures.Where(s=>s.ID_Parcours == Parc.ID).Count() == 3)
+                {
+                    if(db.Purge.Where(s=>s.ID_Parcours == Parc.ID).FirstOrDefault() == null)
+                    {
+                        Purge NewPurge = new Purge
+                        {
+                            ID_Parcours = Parc.ID,
+                            Date_Complétion = DateTime.Now.AddYears(2).Date,
+                        };
+
+                        db.Purge.Add(NewPurge);
+                        db.SaveChanges();
+                    }
+                }
+
+                var Data = Tuple.Create(Sign.Date_Signature.ToString().Substring(0, 10), db.Utilisateurs.Find(User).Nom, Role);
+
+                string json = JsonConvert.SerializeObject(Data);
+
+                return json;
+            }
+            else return null;
         }
 
         protected override void Dispose(bool disposing)

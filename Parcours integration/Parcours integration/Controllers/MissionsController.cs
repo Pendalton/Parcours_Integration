@@ -47,7 +47,7 @@ namespace Parcours_integration.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int ChoixMiss)
+        public ActionResult Create([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Date_passage,Passage,ID_Parcours")] Missions missions, int ID, int ChoixMiss)
         {
             missions.ID_Parcours = ID;
             missions.Date_passage = "--/--/----";
@@ -55,6 +55,7 @@ namespace Parcours_integration.Controllers
 
             missions.Nom_Mission = choix.Nom;
             missions.Nom_Secteur = choix.Service.Nom;
+            missions.Applicable = true;
 
             if (ModelState.IsValid)
             {
@@ -96,7 +97,8 @@ namespace Parcours_integration.Controllers
                 ID_Parcours = ID,
                 Nom_Mission = Nom_Mission,
                 Nom_Secteur = Sect.Nom,
-                Date_passage = "--/--/----"
+                Date_passage = "--/--/----",
+                Applicable = true,
             };
 
 
@@ -122,15 +124,16 @@ namespace Parcours_integration.Controllers
                 return HttpNotFound();
             }
             ViewBag.ID_Resp = new SelectList(db.Utilisateurs, "ID", "Nom", missions.ID_Formateur);
-            ViewBag.Service = new SelectList(db.Service.Where(s=>s.Actif==true), "ID", "Nom", missions.Nom_Secteur);
+            int idSer = db.Service.Where(s => s.Nom == missions.Nom_Secteur).Select(s => s.ID).FirstOrDefault();
+            ViewBag.Service = new SelectList(db.Service.Where(s=>s.Actif==true), "ID", "Nom", idSer);
             return View(missions);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Nom_Secteur,Login_Interlocuteur,Date_passage,Passage,ID_Parcours,Remarque")] Missions missions, int Secteurs)
+        public ActionResult Edit([Bind(Include = "ID,Nom_Mission,Date_passage,Passage,ID_Parcours,Remarque,Planifié,ID_Formateur,Applicable")] Missions missions, int Service)
         {
-            var sect = db.Service.Find(Secteurs);
+            var sect = db.Service.Find(Service);
             missions.Nom_Secteur = sect.Nom;
 
             if (ModelState.IsValid)
@@ -208,13 +211,15 @@ namespace Parcours_integration.Controllers
                 }
                 db.SaveChanges();
                 var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable==true).Where(s=>s.Passage==false).ToList();
-                if(MissComp == null)
+                if(MissComp.Count == 0)
                 {
                     db.Parcours.Find(Miss.ID_Parcours).Complété = true;
+                    
                 }
                 else
                 {
                     db.Parcours.Find(Miss.ID_Parcours).Complété = false;
+                    
                 }
                 db.SaveChanges();
             }

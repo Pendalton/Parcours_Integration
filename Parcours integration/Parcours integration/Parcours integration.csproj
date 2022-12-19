@@ -185,7 +185,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ParcoursIntegrationEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Purge.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Service.cs">
+      <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Signatures.cs">
       <DependentUpon>ParcoursIntegrationEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Utilisateurs.cs">
@@ -233,7 +239,6 @@
     <Content Include="Docs\person-icon.png" />
     <Content Include="Docs\Plan\EtageSud.png" />
     <Content Include="Docs\Plan\RDC.png" />
-    <Content Include="Docs\TestTrombi.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

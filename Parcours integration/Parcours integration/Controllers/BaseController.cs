@@ -31,16 +31,17 @@ namespace Parcours_integration.Controllers
             if ((User != null) && (User.Identity.Name != "")) { login = User.Identity.Name; }
             else { login = Request.LogonUserIdentity.Name; }
 
-            UserSession = GetAccount(login);
+            UserSession = GetAccount(login); //UserSession est toutes les infos de l'utilisateur
             ViewBag.UserSession = UserSession.Nom;
-            UserService = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == UserSession.ID).ToList();
 
+            UserService = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == UserSession.ID).ToList(); //liste des services de l'utilisateur
+            ViewBag.UserID = UserSession.ID;
             ViewBag.UserSecteur = UserService;
 
-            ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin;
-            ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur;
-            ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault());
-            ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable; 
+            ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin; //Si admin
+            ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur; //Si est un Formateur
+            ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault()); //Si RH
+            ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable; //Si responsable d'un employé
         }
 
         public Utilisateurs GetAccount(string login)
@@ -85,7 +86,7 @@ namespace Parcours_integration.Controllers
 
                 if (util.UserMail != null)
                 {
-                    var senderMail = new MailAddress("Do-Not-Reply@knorr-bremse.com", "Ne pas répondre");
+                    var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
 
                     var receiverMail = new MailAddress(util.UserMail);
 
@@ -129,6 +130,18 @@ namespace Parcours_integration.Controllers
                         smtp.Send(mm);
                         ViewBag.Message = "Mail envoyé";
                     }
+                }
+            }
+        }
+
+        public void Purge()
+        {
+            foreach(var Parcours in db.Purge.ToList())
+            {
+                if(DateTime.Now.Date >= Parcours.Date_Complétion)
+                {
+                    new ParcoursController().Delete(Parcours.ID_Parcours);
+                    db.Purge.Remove(Parcours);
                 }
             }
         }

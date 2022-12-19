@@ -28,9 +28,8 @@
                     <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
                     <br />
-                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { onchange="this.form.submit()" ,type = "date", style="line-height : 30px"})&nbsp;&nbsp;
-                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "Actualiser()", type = "date", style = "line-height : 30px" })<br />
-                    @Html.DropDownList("Rythme", null, "--- Equipe ---", htmlAttributes: new { @onchange = "Actualiser()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
+                    Du : &nbsp;<input type="text" class="form-control" name="Datepicker" id="Datepicker" onchange="this.form.submit()" style="line-height:30px" />&nbsp;&nbsp;
+                    @Html.DropDownList("Rythme", null, "--- Rythme ---", htmlAttributes: new { @onchange = "Actualiser()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
                 </div>
             </div>
 
@@ -80,6 +79,13 @@
         });
     });
 
+    $("#datepicker").datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years",
+        autoclose: true //to close picker once year is selected
+    });
+
     function Relance(ID) {
         $.ajax({
             type: "POST",
@@ -97,7 +103,7 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 console.log(data)
-                $("PIField").html(data);//je sais pas pourquoi PIField ne recharge pas les parcours, la requête aboutit, la html string marche, pas d'erreur. Regarde si PIField est bien le bon tag, mais je doute que ce soit ça. Essaie avec un autre ID ou un div supplémentaire pour tenter qqu chose.
+                $("#PIField").html(data);
             },
             error: function (data) {
                 console.log(data);

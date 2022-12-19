@@ -26,7 +26,7 @@
 
                         <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
 
-                        <div>Parcours débuté le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
+                        <div>Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée)</div>
 
                         <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
 
@@ -84,8 +84,10 @@
                                             }
                                         }
                                         <div id="listServ">@listeSecteurs</div>
-
-                                        <button type="button" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
+                                        @if (ViewBag.IsAdmin || ViewBag.EstRH)
+                                        {
+                                            <button type="button" class="btn btn-warning" onclick="Relance(@item.ID)" style="margin-top:10px">Relancer</button>
+                                        }
                                     </div>
                                 </div>
                             </div>

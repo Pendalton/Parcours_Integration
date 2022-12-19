@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Parcours_integration.Models.Modele>
+
+@{
+    ViewBag.Title = "Modèles de formation";
+}
+
+<h2>Modèles de formation</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div style="line-height:30px">
+                    Service :&nbsp;&nbsp;&nbsp;@Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp; <br />
+                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="d-grid gap-1 d-md-flex btn-group-vertical">
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<br />
+
+<div id="TableMods" class="container-fluid">
+    @Html.Partial("TableModeles")
+</div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).parent().hide();
+                }
+                else {
+                    $(this).parent().show();
+                }
+            });
+        });
+    });
+
+    function ChangeCDI(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeCDI",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeCDI('+ID+')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeCDI('+ID+')" class="btn btn-danger">NON</button>';
+                }
+                $('#CDI' + ID).html(newBtn);
+            }
+        });
+    }
+
+    function ChangeCDD(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeCDD",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeCDD(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeCDD(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#CDD' + ID).html(newBtn);
+            }
+        });
+    }
+
+    function ChangeStage(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeStage",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeStage(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeStage(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Stage' + ID).html(newBtn);
+            }
+        });
+    }
+
+    function ChangeMutation(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeMutation",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeMutation(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeMutation(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Mutation' + ID).html(newBtn);
+            }
+        });
+    }
+
+    function ChangeIntérimaire(ID) {
+        $.ajax({
+            type: "POST",
+            url: "Modeles/ChangeIntérimaire",
+            data: '{ ID: "' + ID + '" }',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newBtn = "";
+                if (data == "True") {
+                    newBtn = '<button type="button" onclick="ChangeIntérimaire(' + ID + ')" class="btn btn-success">OUI</button>';
+                }
+                else {
+                    newBtn = '<button type="button" onclick="ChangeIntérimaire(' + ID + ')" class="btn btn-danger">NON</button>';
+                }
+                $('#Intérimaire' + ID).html(newBtn);
+            }
+        });
+    }
+
+</script>
+
+<style>
+    .sizeup {
+        transform: scale(1.5);
+    }
+</style>

@@ -1,0 +1,85 @@
+﻿@model Parcours_integration.Models.Parcours
+
+@{
+    ViewBag.Title = "Supprimmer le parcours";
+}
+<h3>Êtes-vous sûr de vouloir supprimer ce parcours?</h3>
+<div>
+    <hr />
+    <table>
+        <tbody>
+            <tr style="height:50px">
+                <td class="text-center" style="width:160px; font-weight:bold">
+                    @Html.DisplayNameFor(model => model.Nom)
+                </td>
+                <td style="width:300px">
+                    @Html.DisplayFor(model => model.Nom)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    @Html.DisplayNameFor(model => model.Prénom)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Prénom)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    Date d'entrée dans l'entreprise
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Date_entrée)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    Type de contrat
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Contrat.Nom)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    Poste dans l'entreprise
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Poste)
+                </td>
+            </tr>
+
+            <tr style="height:50px">
+                <td class="text-center" style="width: 160px; font-weight: bold">
+                    Équipe de l'employé
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Equipe.Nom)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="margin-left:30px">
+                <input type="submit" value="Supprimer" class="btn btn-danger" />
+            </div>
+        </div>
+    }
+
+    <br />
+    <div>
+        <a href="javascript:history.go(-1)" class="btn btn-mini btn-primary icon-edit bigger-10">Retour</a>
+    </div>
+</div>

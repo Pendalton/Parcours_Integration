@@ -1,0 +1,132 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: lightgray !important;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color:white;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+input,
+select,
+textarea {
+    max-width: 350px;
+}
+
+.tenet {
+    z-index: 10;
+}
+
+@media (min-width: 450px) {
+    .tenet {
+        position: absolute;
+        top: -5px;
+        right: 20px;
+        width: 12%;
+        display: grid;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .tenet {
+        position: absolute;
+        top: -5px;
+        right: 20px;
+        width: 12%;
+        display: grid;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 992px) {
+    .tenet {
+        position: absolute;
+        top: -5px;
+        right: 25px;
+        width: 12%;
+        display: grid;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1250px) {
+    .tenet {
+        position: absolute;
+        top: -5px;
+        right: 70px;
+        width: 12%;
+        display: grid;
+        justify-content: center;
+    }
+}
+
+@media (min-width:1400px) {
+    .tenet {
+        position: absolute;
+        top: 10px;
+        right: 70px;
+        width: 22%;
+        display: block
+    }
+}
+
+@media (min-width: 1500px) {
+    .tenet {
+        position: absolute;
+        top: 10px;
+        right: 70px;
+        width: 22%;
+        display: block
+    }
+}
+
+.Urgent {
+    background-color: #ffd9d9 !important;
+}
+
+.Normal {
+    background-color: white;
+}
+
+.dropdwn {
+    appearance: auto !important;
+}
+
+.tooltip {
+    position: relative !important;
+    display: inline-block !important;
+    border-bottom: 0;
+    opacity: 1 !important;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 350px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 150%;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }

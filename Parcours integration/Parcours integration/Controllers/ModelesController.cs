@@ -53,23 +53,16 @@ namespace Parcours_integration.Controllers
             }
 
             ViewBag.CDI = CDI;
-            TempData["CDI"] = CDI;
 
             ViewBag.CDD = CDD;
-            TempData["CDD"] = CDD;
 
             ViewBag.Stage = Stage;
-            TempData["Stage"] = Stage;
 
             ViewBag.Mutation = Mutation;
-            TempData["Mutation"] = Mutation;
 
             ViewBag.Intérim = Intérim;
-            TempData["Intérim"] = Intérim;
 
             ViewBag.SectSelec = ServiceID;
-
-            TempData["Résultat"] = Résultat;
 
             return View(Résultat);
         }
