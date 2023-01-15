@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Rédaction des mails";
+}
+
+<h2>Modification des mails</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        <select name="Mail" id="Mail" class="form-control dropdwn" style="width:250px" onchange="Actualiser()">
+            <option value="1">Nouveau Parcours</option>
+            <option value="2">Relancer</option>
+            <option value="3">Mail pour l'employé</option>
+        </select>
+    </div>
+
+    <div class="col-md-9">
+        <div class="btn-group">
+            <button class="btn btn-secondary" type="button" onclick="Balise(1)">Lien</button>
+            <button class="btn btn-secondary" type="button" onclick="Balise(2)">Date</button>
+            <button class="btn btn-secondary" type="button" onclick="Balise(3)">Nom</button>
+        </div>
+        <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Ces bouttons ajoutent une balise qui sera remplacée par l'objet voulu."></i>
+    </div>
+</div>
+
+<br />
+
+
+
+<div class="form-control" id="refresh-section" style="padding-top:25px">
+    @Html.Partial("MailRedactContent")
+</div>
+
+<script>
+    function Actualiser() {
+        $.ajax({
+            type: "POST",
+            url: "MailRedactAjax",
+            data: '{ mailID: "' + Mail.value + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#refresh-section").html(data);
+            }
+        })
+    }
+
+    function Balise(Value) {
+        switch (Value) {
+            case 1:
+                document.getElementById("MailContent").value += "%Lien%";
+                break
+            case 2:
+                document.getElementById("MailContent").value += "%Date%";
+                break
+            case 3:
+                document.getElementById("MailContent").value += "%Nom%";
+                break
+        }
+    }
+
+    $(function () {
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            container: 'body'
+        })
+    })
+</script>

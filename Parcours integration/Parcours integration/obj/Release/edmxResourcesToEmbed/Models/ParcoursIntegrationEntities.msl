@@ -139,5 +139,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Mail">
+      <EntityTypeMapping TypeName="ParcoursIntegrationModel.Mail">
+        <MappingFragment StoreEntitySet="Mail">
+          <ScalarProperty Name="MailText" ColumnName="MailText" />
+          <ScalarProperty Name="MailObject" ColumnName="MailObject" />
+          <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
+          <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

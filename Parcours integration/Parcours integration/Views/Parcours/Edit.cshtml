@@ -36,11 +36,7 @@
                 @Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })
             </div>
             <div class="col-md-4" style="display: flex; align-items: center">
-                @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required", style = "width:330px", title="POOOF" })
-                <div class="tooltip" style="margin-left:10px">
-                    <i class="bi bi-question-circle-fill"></i>
-                    <span class="tooltiptext">Le responsable est le mentor de l'employé. Il est le seul à avoir accès aux missions de responsables, telles que l'accueil dans le service ou la description du poste.</span>
-                </div>
+                @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required", title="POOOF" })
             </div>
 
         </div>

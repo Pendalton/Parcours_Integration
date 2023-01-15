@@ -35,20 +35,22 @@
 
     <div class="row">
         <div class="col-md-2">
-            <a href="@Url.Action("Index")" class="btn btn-primary bigger-10" style="width:100px">Retour</a>
+            <a href="@Url.Action("Index")" class="btn btn-primary" style="width:100px">Retour</a>
         </div>
 
-        @if (ViewBag.EstRH)
+        @if (ViewBag.EstRH || ViewBag.EstManPower)
         {
-            <div class="col-md-8" style="height:38px; display:inline-flex">
-                <div class="btn-group" style="margin-left: auto">
+            <div class="col-md-8" style="height:38px; display:flex; justify-content:center">
+                <div class="btn-group">
                     @if (!Model.Complété)
                     {
-                        <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-primary bigger-10" style="max-width:120px;">Modifier</a>
+                        <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-primary" style="max-width:120px;">Modifier</a>
                     }
-                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-outline-info bigger-10" style="max-width: 200px">Documents du parcours</a>
+                    <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-outline-info" style="max-width: 200px">Documents du parcours</a>
                 </div>
-                @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-right: auto;margin-left:5px" }))
+                <button type="button"  class="btn btn-outline-warning" style="margin-left:5px" onclick="NewMail(@Model.ID)">Relancer</button>
+
+                @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-left:5px" }))
                 {
                     <input type="hidden" name="GridHtml" />
                     <input type="hidden" value="@Model.ID" name="ID" />
@@ -197,11 +199,23 @@
         }
     });
 
+    function NewMail(ID) {
+        $.ajax({
+            type: "POST",
+            url: "../NewParcMail",
+            data: '{ ID: "' + ID + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                alert("Envoi des mails en cours. Veuillez patienter.")
+            }
+        })
+    }
+
     function Sign(ID, clicked_id) {
         var boutton = document.getElementById(clicked_id);
         $.ajax({
             type: "POST",
-            url: "/ParcoursIntegration/Parcours/Signer",
+            url: "Signer",
             data: '{ ID: "' + ID + '", RoleBtn: "' + boutton.id + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {

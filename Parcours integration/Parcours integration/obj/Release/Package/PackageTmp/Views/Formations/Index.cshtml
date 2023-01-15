@@ -94,7 +94,7 @@ else
         </tbody>
     </table>
 }
-<br/>
+<br />
 <hr />
 
 <h2>Formations à faire</h2>
@@ -137,16 +137,19 @@ else
         <table class="table table-bordered table-hover table-responsive temp" style="border-color: #bdbdbd">
             <thead>
                 <tr>
-                    <th class="text-center" style="background-color: #efefef; width: 26%">
+                    <th class="text-center" style="background-color: #efefef; width: 30%">
                         Employé
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 15%">
+                    <th class="text-center" style="background-color: #efefef; width: 25%">
                         Contrat
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 13%">
+                    <th class="text-center " style="background-color: #efefef; width: 20%">
+                        Responsable
+                    </th>
+                    <th class="text-center" style="background-color: #efefef; width: 20%">
                         Entrée dans l'entreprise
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 15%">Actions</th>
+                    <th class="text-center" style="background-color: #efefef; width: 5%">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,24 +178,29 @@ else
                     var test = "Parcours" + N;
 
                     <tr align="center" class="@retard">
-                        <td class="Search" data-bs-toggle="collapse" href="#@test">
+                        <td class="Search" data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
                             <span style="font-weight:bold">@item.Nom</span>  @item.Prénom
                         </td>
-                        <td data-bs-toggle="collapse" href="#@test">
-                            <span style="font-weight:bold">@item.Poste</span> - @item.Contrat.Nom
+                        <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
+                            <span style="font-weight:bold">@item.Poste</span><br />@item.Contrat.Nom - @item.Equipe.Nom
                         </td>
-                        <td data-bs-toggle="collapse" href="#@test">
-                            @item.Date_entrée
+                        <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
+                            @item.Utilisateurs.Nom
+                        </td>
+                        <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
+                            @item.Entrée
                         </td>
                         <td>
                             @if (ViewBag.EstRH)
                             {
-                                <a class="btn btn-primary btn-mini" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
-                                <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                                <div class="btn-group-vertical">
+                                    <a class="btn btn-primary btn-sm" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
+                                    <a class="btn btn-primary btn-sm" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                                </div>
                             }
                             else
                             {
-                                <a class="btn btn-primary btn-mini" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
                             }
                         </td>
                     </tr>
@@ -202,18 +210,15 @@ else
                             <div class="collapse" id="@test">
                                 <table class="table table-bordered" style="border: 0 solid #bdbdbd; margin-bottom: 0px">
                                     <thead>
-                                        <tr>
-                                            <th class="text-center" style="background-color: #ffffff; width: 37%">Mission</th>
-                                            <th class="text-center" style="background-color: #ffffff; width: 18%">Service</th>
-                                            <th class="text-center" style="background-color: #ffffff; width: 7%">Planifiée</th>
-                                            <th class="text-center" style="background-color: #ffffff; width: 30%;">
+                                        <tr style="background-color: #ffffff">
+                                            <th class="text-center" style="width: 37%">Mission</th>
+                                            <th class="text-center" style="width: 18%">Service</th>
+                                            <th class="text-center" style="width: 7%">Planifiée</th>
+                                            <th class="text-center" style="width: 30%;">
                                                 <span>
                                                     Remarque
                                                 </span>
-                                                <div class="tooltip">
-                                                    <i class="bi bi-question-circle-fill"></i>
-                                                    <span class="tooltiptext">Pas de remarque personnelle : décrivez le comportement de l'employé ou des modifications à faire dans la formation.</span>
-                                                </div>
+                                                <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Zone destinée à apporter des précisions ou commentaires sur la formation. Ne pas renseigner de remarque personnelle."></i>
                                             </th>
                                             <th class="text-center" style="background-color: #ffffff; width: 8%">Signer</th>
 
@@ -224,37 +229,37 @@ else
                                         @foreach (var format in ViewBag.Missions)
                                         {
                                             var plan = "Plan" + format.ID;
+                                            var sign = "Sign" + format.ID;
+                                            var remarque = "RemarqueTxt" + format.ID;
+                                            var btnID = "PlanBtn" + format.ID;
                                             if (format.ID_Parcours != item.ID)
                                             {
                                                 continue;
                                             }
-                                            using (Html.BeginForm("Sign", "Formations", FormMethod.Post))
-                                            {
-                                                <tr align="center">
-                                                    <td>
-                                                        @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
-                                                    </td>
-                                                    <td>
-                                                        @format.Nom_Secteur
-                                                    </td>
-                                                    <td id="@plan">
-                                                        @if (format.Planifié)
-                                                        {
-                                                            <button type="button" class="btn btn-success" onclick="Plan(@format.ID)">OUI</button>
-                                                        }
-                                                        else
-                                                        {
-                                                            <button type="button" class="btn btn-danger" onclick="Plan(@format.ID)">NON</button>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        <textarea name="RemarqueTxt" id="RemarqueTxt" style="width: 100%; max-width: 1300px !important; height: 40px; min-height:40px" class="form-control">@format.Remarque</textarea>
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" name="btnRegister" value="Signer" class="btn btn-secondary" />
-                                                    </td>
-                                                </tr>
-                                            }
+                                            <tr align="center" style="background-color:#ffffff">
+                                                <td style="vertical-align:middle">
+                                                    @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
+                                                </td>
+                                                <td  style="vertical-align:middle">
+                                                    @format.Nom_Secteur
+                                                </td>
+                                                <td id="@plan">
+                                                    @if (format.Planifié)
+                                                    {
+                                                        <button type="button" id="@btnID" class="btn btn-success" onclick="Plan(@format.ID)">OUI</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" id="@btnID" class="btn btn-danger" onclick="Plan(@format.ID)">NON</button>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <textarea name="RemarqueTxt" id="@remarque" style="width: 100%; max-width: 1300px !important; height: 40px; min-height:40px" class="form-control">@format.Remarque</textarea>
+                                                </td>
+                                                <td id="@sign">
+                                                    <input type="button" name="btnRegister" value="Signer" onclick="ConfirmSign(@format.ID)" class="btn btn-secondary" />
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -291,7 +296,7 @@ else
     function Plan(ID) {
         $.ajax({
             type: "POST",
-            url: "Formations/Plan",
+            url: "../Formations/Plan",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -325,9 +330,30 @@ else
         })
     }
 
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
+    function ConfirmSign(ID) {
+        var remtxt = document.getElementById('RemarqueTxt'+ID).value;
+        $.ajax({
+            type: "POST",
+            url: "../Formations/Sign",
+            data: '{ID:"' + ID + '", Rem:"' + remtxt + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newSignBtn = "";
+                if (data == "True") {
+                    newSignBtn = '<p style="font-weight:bold">Signé !</p>';
+                }
+                $("#Sign" + ID).html(newSignBtn);
+                document.getElementById('RemarqueTxt' + ID).readOnly = true;
+                document.getElementById('PlanBtn' + ID).disabled = true;
+            }
+
+        })
+    };
+
+    $(function () {
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            container: 'body'
+        })
     })
 </script>
 
@@ -335,27 +361,19 @@ else
     .sizeup {
         transform: scale(1.5);
     }
-
     .hiddenRow {
         padding: 0 !important;
     }
-
-    .temp tbody > :nth-child(4n+0){ @*Les deux styles suivants sont ceux des tables de missions à faire*@
+    .temp tbody > :nth-child(4n+0){
         background: white;
     }
     .temp tbody > :nth-child(4n+2) {
         background: white;
     }
-
-
-    .temp tbody > :nth-child(4n+1) { @*Les deux styles suivants sont ceux des tables de parcorus en cours*@
+    .temp tbody > :nth-child(4n+1) {
         background-color: rgba(66, 218, 245, 0.3);
     }
     .temp tbody > :nth-child(4n+3) {
         background-color: rgba(66, 183, 255, 0.3);
-    }
-
-    .tooltip-inner{
-        max-width:250px
     }
 </style>

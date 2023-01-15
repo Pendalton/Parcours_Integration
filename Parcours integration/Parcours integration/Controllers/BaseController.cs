@@ -22,6 +22,7 @@ namespace Parcours_integration.Controllers
         public bool EstAdmin;
         public bool EstFormateur;
         public bool EstRH;
+        public bool EstManPower;
         public bool EstResponsable;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -40,7 +41,8 @@ namespace Parcours_integration.Controllers
 
             ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin; //Si admin
             ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur; //Si est un Formateur
-            ViewBag.EstRH = EstRH = UserService.Contains(UserService.Where(s => s.ID_Service == 5).FirstOrDefault()); //Si RH
+            ViewBag.EstRH = EstRH = UserService.Any(s => s.ID_Service == 5); //Si RH
+            ViewBag.EstManPower = EstManPower = UserService.Any(s => s.ID_Service == 16);
             ViewBag.EstResponsable = EstResponsable = UserSession.EstResponsable; //Si responsable d'un employé
         }
 

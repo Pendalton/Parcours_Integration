@@ -114,12 +114,13 @@ namespace Parcours_integration.Controllers
             }
             var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID_Service).ToArray();
             ViewBag.Service = new MultiSelectList(db.Service.Where(s => s.Actif).Where(s=>s.ID != 7), "ID", "Nom", ump);
+
             return View(employes);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Nom,Login,UserMail,EstResponsable,EstFormateur,EstAdmin")] Utilisateurs employes, HttpPostedFileBase postedFile, int[] Service)
+        public ActionResult Edit([Bind(Include = "ID,Nom,Login,UserMail,EstResponsable,EstFormateur,EstAdmin,Photo")] Utilisateurs employes, HttpPostedFileBase postedFile, int[] Service)
         {
             var ump = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == employes.ID).Select(s => s.ID).ToArray();
             if (employes.Nom == null || employes.UserMail == null)
@@ -136,6 +137,10 @@ namespace Parcours_integration.Controllers
                     bytes = br.ReadBytes(postedFile.ContentLength);
                 }
                 employes.Photo = bytes;
+            }
+            else
+            {
+                employes.Photo = null;
             }
 
             if (ModelState.IsValid)

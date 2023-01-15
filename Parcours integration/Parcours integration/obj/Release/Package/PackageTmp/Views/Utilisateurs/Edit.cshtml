@@ -16,6 +16,7 @@
         @Html.HiddenFor(model=>model.Login)
         @Html.HiddenFor(model=>model.EstFormateur)
         @Html.HiddenFor(model=>model.EstResponsable)
+        @Html.HiddenFor(model=>model.Photo)
         <div class="row">
             <div class="col-md-5">
                 @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "NOM Prénom" } })
@@ -29,7 +30,7 @@
         <br />
         <div class="row">
             <div class="col-md-5">
-                @Html.DropDownList("Service", null, "--- Services ---", htmlAttributes: new { @class = "Service form-control", required = "required", name = "Service[]", multiple = "multiple", @readonly = "readonly" })
+                @Html.DropDownList("Service", null, "--- Services ---", htmlAttributes: new { @class = "Service form-control", required = "required", name = "Service[]", multiple = "multiple" })
             </div>
             <div class="col-md-5">
                 @Html.CheckBox("EstAdmin", new { data_toggle = "toggle", data_onstyle = "success", data_on = "ADMIN", data_off = "NON ADMIN", data_width = "140", data_height = "36", data_offstyle = "danger" })&nbsp;&nbsp;&nbsp;

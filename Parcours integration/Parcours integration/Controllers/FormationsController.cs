@@ -69,11 +69,12 @@ namespace Parcours_integration.Controllers
                 Résultat = Résultat.Where(s => s.ID == Numéro).ToList();
             }
 
-            if (!UserSession.EstResponsable)
+            foreach (var item in Résultat.ToList())
             {
-                foreach (var item in Résultat.ToList())
+                if (item.ID_Resp == UserSession.ID)
                 {
-                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s=>s.Applicable).Where(s => !s.Passage);
+                    var RespService = db.Service.Find(7).Nom;
+                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable).Where(s => !s.Passage);
                     if (Miss.Count() == 0)
                     {
                         Résultat.Remove(item);
@@ -81,52 +82,26 @@ namespace Parcours_integration.Controllers
                     else
                     {
                         Miss = Miss.OrderBy(s => s.Nom_Mission);
-                        foreach(var truc in Miss)
+                        foreach (var truc in Miss)
                         {
                             missions.Add(truc);
                         }
                     }
-                    item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
                 }
-            }
-            else
-            {
-                foreach (var item in Résultat.ToList())
+                else
                 {
-                    if(item.ID_Resp == UserSession.ID)
+                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable).Where(s => !s.Passage);
+                    if (Miss.Count() == 0)
                     {
-                        var RespService = db.Service.Find(7).Nom;
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable).Where(s => !s.Passage);
-                        if (Miss.Count() == 0)
-                        {
-                            Résultat.Remove(item);
-                        }
-                        else
-                        {
-                            Miss = Miss.OrderBy(s => s.Nom_Mission);
-                            foreach (var truc in Miss)
-                            {
-                                missions.Add(truc);
-                            }
-                        }
-                        item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
+                        Résultat.Remove(item);
                     }
                     else
                     {
-                        var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable).Where(s => !s.Passage);
-                        if (Miss.Count() == 0)
+                        Miss = Miss.OrderBy(s => s.Nom_Mission);
+                        foreach (var truc in Miss)
                         {
-                            Résultat.Remove(item);
+                            missions.Add(truc);
                         }
-                        else
-                        {
-                            Miss = Miss.OrderBy(s => s.Nom_Mission);
-                            foreach (var truc in Miss)
-                            {
-                                missions.Add(truc);
-                            }
-                        }
-                        item.Date_entrée = item.Entrée.ToString().Substring(0, 10);
                     }
                 }
             }
@@ -170,12 +145,9 @@ namespace Parcours_integration.Controllers
         }
 
         [HttpPost]
-        public ActionResult Sign(FormCollection form)
+        public bool Sign(int ID, string Rem)
         {
-            var Rem = form["RemarqueTxt"].ToString();
-            var MissionID = int.Parse(form["MissionID"]);
-
-            Missions missions = db.Missions.Find(MissionID);
+            Missions missions = db.Missions.Find(ID);
 
             if (ModelState.IsValid)
             {
@@ -201,9 +173,9 @@ namespace Parcours_integration.Controllers
                 }
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return true;
             }
-            return View(missions);
+            return false;
         }
 
         public bool Plan(int ID)

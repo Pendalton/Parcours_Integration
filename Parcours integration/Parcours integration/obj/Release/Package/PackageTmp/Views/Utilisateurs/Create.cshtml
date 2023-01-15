@@ -20,7 +20,7 @@
                 @Html.DropDownList("User", null, "--- Utilisateur ---", htmlAttributes: new { @class = "User form-control", required = "required" })
             </div>
             <div class="col-md-5">
-                @Html.DropDownList("Service", null, "--- Services ---", htmlAttributes: new { @class = "Service form-control", required = "required", name = "Service[]", multiple = "multiple", @readonly = "readonly" })
+                @Html.DropDownList("Service", null, "--- Services ---", htmlAttributes: new { @class = "Service form-control", name = "Service[]", multiple = "multiple" })
             </div>
         </div>
 

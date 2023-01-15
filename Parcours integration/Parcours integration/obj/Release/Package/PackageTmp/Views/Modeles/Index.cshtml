@@ -18,13 +18,10 @@
             </div>
 
             <div class="col-md-6">
-                <div style="line-height:30px">
+                <div style="line-height:30px;display:flex;justify-content:center; align-items:center">
                     Service :&nbsp;&nbsp;&nbsp;@Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp; <br />
-                    <label>CDI :&nbsp; @Html.CheckBox("CDI", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "this.form.submit()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
-                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "this.form.submit()", @class = "sizeup" })&nbsp;&nbsp;</label>
+
+
                 </div>
             </div>
 
@@ -68,7 +65,7 @@
     function ChangeCDI(ID) {
         $.ajax({
             type: "POST",
-            url: "Modeles/ChangeCDI",
+            url: "../Modeles/ChangeCDI",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -87,7 +84,7 @@
     function ChangeCDD(ID) {
         $.ajax({
             type: "POST",
-            url: "Modeles/ChangeCDD",
+            url: "../Modeles/ChangeCDD",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -106,7 +103,7 @@
     function ChangeStage(ID) {
         $.ajax({
             type: "POST",
-            url: "Modeles/ChangeStage",
+            url: "../Modeles/ChangeStage",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -125,7 +122,7 @@
     function ChangeMutation(ID) {
         $.ajax({
             type: "POST",
-            url: "Modeles/ChangeMutation",
+            url: "../Modeles/ChangeMutation",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -144,7 +141,7 @@
     function ChangeIntérimaire(ID) {
         $.ajax({
             type: "POST",
-            url: "Modeles/ChangeIntérimaire",
+            url: "../Modeles/ChangeIntérimaire",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {

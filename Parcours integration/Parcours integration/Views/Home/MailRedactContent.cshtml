@@ -1,0 +1,18 @@
+﻿@using (Html.BeginForm("EditMail", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("ID", ViewData["ID"])
+    <div class="row">
+        <div class="col-md-4" style="border-right: 2px solid #ced4da">
+            <input type="text" name="NameSender" class="form-control" placeholder="Nom de l'expéditeur" value="@ViewBag.NameSender" /> <br />
+
+            <input type="text" name="MailSender" class="form-control" placeholder="Adresse de l'expéditeur" value="@ViewBag.MailSender" /> <br />
+
+            <input type="text" name="MailObject" class="form-control" placeholder="Objet du mail" value="@ViewBag.MailObject" />
+        </div>
+        <div class="col-md-8">
+            <textarea name="MailContent" id="MailContent" class="form-control" style="width:100%; max-width:1000px; min-height:250px" placeholder="Contenu du Mail">@ViewBag.MailContent</textarea>
+            <br />
+            <button type="submit" class="btn btn-primary float-end" style="margin-right:60px; margin-bottom: 15px">Enregistrer</button>
+        </div>
+    </div>
+}

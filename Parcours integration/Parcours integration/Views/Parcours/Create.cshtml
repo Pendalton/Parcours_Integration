@@ -33,10 +33,6 @@
         <div class="row">
             <div class="col-md-4" style="display: flex; align-items: center ">
                 @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control dropdwn", required = "required", style = "width:350px" })
-                <div class="tooltip" style="margin-left:15px">
-                    <i class="bi bi-question-circle-fill"></i>
-                    <span class="tooltiptext">Le responsable est le mentor de l'employé. Il est le seul à avoir accès aux missions de responsables, tel que l'accueil dans le service ou la description du poste.</span>
-                </div>
             </div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.Entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })

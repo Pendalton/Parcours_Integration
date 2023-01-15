@@ -37,5 +37,6 @@ namespace Parcours_integration.Models
         public virtual DbSet<Modele> Modele { get; set; }
         public virtual DbSet<Purge> Purge { get; set; }
         public virtual DbSet<Signatures> Signatures { get; set; }
+        public virtual DbSet<Mail> Mail { get; set; }
     }
 }

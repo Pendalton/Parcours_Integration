@@ -10,19 +10,20 @@
     @Styles.Render("~/Content/Bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/bootstrap-toggle.js")
+    <link href="~/Content/bootstrap-toggle.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="~/Scripts/select2.min.js"></script>
     <link href="~/Content/css/select2.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 
-    <link href="~/Content/bootstrap-toggle.css" rel="stylesheet" />
+
 </head>
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="@Url.Action("Index", "Home")">Parcours Integ</a>
-            @if (ViewBag.EstFormateur)
+            @if (ViewBag.EstFormateur || ViewBag.EstResponsable)
             {
                 <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,6 +42,8 @@
                                     <li><a class="nav-link" href="@Url.Action("Index","Utilisateurs")">Interlocuteurs</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a class="nav-link" href="@Url.Action("Index", "Modeles")">Missions possibles</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a class="nav-link" href="@Url.Action("MailRedact", "Home")">Rédaction des mails</a></li>
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>

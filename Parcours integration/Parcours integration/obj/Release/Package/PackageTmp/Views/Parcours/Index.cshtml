@@ -12,25 +12,29 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 @using (Html.BeginForm())
 {
-    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+    <div class="h-100 p-3 bg-light border rounded-3">
         <div class="row">
-            <div style="width:30%">
+            <div style="width:30%; display:flex; align-items:center">
                 <div class="input-group">
                     <input type="text" id="Search" placeholder="Recherche" class="form-control" style="width:240px" />
                 </div>
             </div>
 
-            <div style="width:49%; display:flex">
-                <div style="line-height:35px; margin:auto">
-                    <label>CDI : &nbsp;@Html.CheckBox("CDI", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
-                    <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
-                    <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
-                    <br />
-                    Du : &nbsp;@Html.TextBox("Datepicker", Model, "{0:yyyy-MM-dd}", new { onchange="this.form.submit()" ,type = "date", style="line-height : 30px"})&nbsp;&nbsp;
-                    au &nbsp;&nbsp;@Html.TextBox("Datepicker2", Model, "{0:yyyy-MM-dd}", new { onChange = "Actualiser()", type = "date", style = "line-height : 30px" })<br />
-                    @Html.DropDownList("Rythme", null, "--- Rythme ---", htmlAttributes: new { @onchange = "Actualiser()", @class="form-control dropdwn", style = "width:250px;margin-top:5px; height:35px;margin-left:20%" })
+            <div style="width: 49%; display: flex; justify-content: center; align-items: center">
+                <div style="line-height:35px;">
+                    <div style="display:flex;justify-content:space-between">
+                        <label>CDI : &nbsp;@Html.CheckBox("CDI", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                        <label>CDD : &nbsp;@Html.CheckBox("CDD", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                        <label>Stage : &nbsp;@Html.CheckBox("Stage", new { onChange = "Actualiser()", @class = "sizeup" }) &nbsp;&nbsp;</label>
+                        <label>Mutation : &nbsp;@Html.CheckBox("Mutation", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                        <label>Intérimaire : &nbsp;@Html.CheckBox("Intérim", new { onChange = "Actualiser()", @class = "sizeup" })&nbsp;&nbsp;</label>
+                    </div>
+                    
+                    <div style="display:flex;justify-content:space-between">
+                        @Html.DropDownList("YearPicker", null, "--- Année ---", htmlAttributes: new { @onchange = "Actualiser()", @class = "form-control dropdwn", style = "width:200px; margin-top:5px; height:35px;" })
+                        &nbsp;|&nbsp;
+                        @Html.DropDownList("Rythme", null, "--- Rythme ---", htmlAttributes: new { @onchange = "Actualiser()", @class = "form-control dropdwn", style = "width:200px; margin-top:5px; height:35px;" })
+                    </div>
                 </div>
             </div>
 
@@ -44,7 +48,7 @@
                     {
                         <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
                     }
-                    @if (ViewBag.EstRH)
+                    @if (ViewBag.EstRH || ViewBag.IsAdmin)
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
                     }
@@ -66,7 +70,13 @@
             if (text_one.indexOf(text_two) != -1)
                 return true;
         };
-        
+
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip({
+                container: 'body'
+            })
+        })
+
         $("#Search").keyup(function () {
             var searchText = $("#Search").val().toLowerCase();
             $(".Search").each(function () {
@@ -83,23 +93,26 @@
     function Relance(ID) {
         $.ajax({
             type: "POST",
-            url: "Parcours/SendMail",
+            url: "SendMail",
             data: '{ ID: "' + ID + '"}',
             contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                alert("Envoi des mails en cours. Veuillez patienter.")
+            }
         })
     }
 
     function Actualiser() {
         $.ajax({
             type: "POST",
-            url: "Parcours/IndexAjax",
-            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", Datepicker: "' + Datepicker.value + '", Datepicker2: "' + Datepicker2.value + '", Rythme: "' + Rythme.value + '"}',
+            url: "IndexAjax",
+            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(data)
                 $("#PIField").html(data);
             },
             error: function (data) {
+                alert("Erreur");
                 console.log(data);
             }
         })

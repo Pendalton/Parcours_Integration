@@ -31,6 +31,16 @@
           <Property Name="Nom" Type="nvarchar" MaxLength="50" />
           <Property Name="Actif" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Mail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderName" Type="nvarchar" MaxLength="50" />
+          <Property Name="SenderMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="MailObject" Type="nvarchar" MaxLength="50" />
+          <Property Name="MailText" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Missions">
           <Key>
             <PropertyRef Name="ID" />
@@ -315,6 +325,7 @@
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contrat" EntityType="Self.Contrat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipe" EntityType="Self.Equipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mail" EntityType="Self.Mail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Missions" EntityType="Self.Missions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modele" EntityType="Self.Modele" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModeleContrat" EntityType="Self.ModeleContrat" Schema="dbo" store:Type="Tables" />
@@ -462,6 +473,7 @@
             <End Role="Utilisateurs" EntitySet="Utilisateurs" />
             <End Role="Signatures" EntitySet="Signatures" />
           </AssociationSet>
+          <EntitySet Name="Mail" EntityType="ParcoursIntegrationModel.Mail" />
         </EntityContainer>
         <EntityType Name="Comment">
           <Key>
@@ -799,6 +811,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Mail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SenderMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MailObject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MailText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -939,6 +961,17 @@
                 <ScalarProperty Name="ID_Parcours" ColumnName="ID_Parcours" />
                 <ScalarProperty Name="Date_Signature" ColumnName="Date_Signature" />
                 <ScalarProperty Name="ID_Signataire" ColumnName="ID_Signataire" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mail">
+            <EntityTypeMapping TypeName="ParcoursIntegrationModel.Mail">
+              <MappingFragment StoreEntitySet="Mail">
+                <ScalarProperty Name="MailText" ColumnName="MailText" />
+                <ScalarProperty Name="MailObject" ColumnName="MailObject" />
+                <ScalarProperty Name="SenderMail" ColumnName="SenderMail" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
