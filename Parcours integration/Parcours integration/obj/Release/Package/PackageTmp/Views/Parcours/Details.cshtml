@@ -47,15 +47,16 @@
                         <a href="@Url.Action("Edit", new { id = Model.ID })" class="btn btn-primary" style="max-width:120px;">Modifier</a>
                     }
                     <a href="@Url.Action("AddFile", new { id = Model.ID })" class="btn btn-outline-info" style="max-width: 200px">Documents du parcours</a>
+                    <a href="@Url.Action("Delete", new {id = Model.ID})" class="btn btn-outline-danger" style="max-width:120px;">Supprimer</a>
                 </div>
-                <button type="button"  class="btn btn-outline-warning" style="margin-left:5px" onclick="NewMail(@Model.ID)">Relancer</button>
-
+                <button type="button" class="btn btn-outline-warning" style="margin-left:5px" onclick="NewMail(@Model.ID)">Relancer</button>
                 @using (Html.BeginForm("Export", "Parcours", FormMethod.Post, new { style = "width:200px;margin-left:5px" }))
                 {
                     <input type="hidden" name="GridHtml" />
                     <input type="hidden" value="@Model.ID" name="ID" />
                     <input class="btn btn-warning" type="submit" id="btnSubmit" value="Exporter le parcours" />
                 }
+
             </div>
             <div class="col-md-2">
                 @if (!Model.Complété)

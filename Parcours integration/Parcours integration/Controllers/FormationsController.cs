@@ -19,7 +19,7 @@ namespace Parcours_integration.Controllers
         {
             dynamic ListAFaire = new ExpandoObject();
 
-            if (!EstFormateur)
+            if (!EstFormateur && !EstResponsable)
             {
                 var Nom = UserSession.Nom;
                 var Parc = db.Parcours.Where(m => m.Nom + m.Prénom == Nom).FirstOrDefault();
@@ -35,6 +35,10 @@ namespace Parcours_integration.Controllers
             }
 
             var SectEmploi = UserService.Select(s=>s.Service.Nom).ToList();
+            if (EstResponsable)
+            {
+                SectEmploi.Add(db.Service.Find(7).Nom);
+            }
 
             var missions = new List<Missions>();
 
@@ -71,33 +75,24 @@ namespace Parcours_integration.Controllers
 
             foreach (var item in Résultat.ToList())
             {
-                if (item.ID_Resp == UserSession.ID)
+                var Responsable = db.Service.Find(7).Nom;
+                var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable).Where(s => !s.Passage);
+                if (Miss.Count() == 0)
                 {
-                    var RespService = db.Service.Find(7).Nom;
-                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur) || s.Nom_Secteur == RespService).Where(s => s.Applicable).Where(s => !s.Passage);
-                    if (Miss.Count() == 0)
+                    Résultat.Remove(item);
+                }
+                else
+                {
+                    Miss = Miss.OrderBy(s => s.Nom_Mission);
+                    if (item.ID_Resp != UserSession.ID)
                     {
-                        Résultat.Remove(item);
-                    }
-                    else
-                    {
-                        Miss = Miss.OrderBy(s => s.Nom_Mission);
-                        foreach (var truc in Miss)
+                        foreach (var truc in Miss.Where(s=>s.Nom_Secteur != Responsable))
                         {
                             missions.Add(truc);
                         }
                     }
-                }
-                else
-                {
-                    var Miss = db.Missions.Where(s => s.ID_Parcours == item.ID).Where(s => SectEmploi.Contains(s.Nom_Secteur)).Where(s => s.Applicable).Where(s => !s.Passage);
-                    if (Miss.Count() == 0)
-                    {
-                        Résultat.Remove(item);
-                    }
                     else
                     {
-                        Miss = Miss.OrderBy(s => s.Nom_Mission);
                         foreach (var truc in Miss)
                         {
                             missions.Add(truc);

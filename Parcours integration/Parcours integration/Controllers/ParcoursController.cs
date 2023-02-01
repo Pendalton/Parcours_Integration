@@ -25,6 +25,12 @@ namespace Parcours_integration.Controllers
         // GET: Parcours
         public ActionResult Index(int? page, string YearPicker, int? Rythme, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
         {
+            if (UserService.Select(s=>s.Service.Nom).ToList().Contains(db.Service.Find(16).Nom))
+            {
+                CDI = CDD = Stage = Mutation = false;
+                Intérim = true;
+            }
+
             var parcour = from p in db.Parcours
                           select p;
 
@@ -104,7 +110,6 @@ namespace Parcours_integration.Controllers
                 }
                 else
                 {
-                    var RespService = db.Service.Find(7).Nom;
                     var miss = item.Missions.Where(s => s.Applicable).Where(s => !s.Passage).Where(s => SectEmploi.Contains(s.Nom_Secteur)).ToList();
                     miss.AddRange(item.Missions.Where(s => s.Applicable).Where(s => s.Passage).Where(s => s.ID_Formateur == UserSession.ID).ToList());
                     miss.OrderBy(s => s.Passage);
@@ -124,11 +129,17 @@ namespace Parcours_integration.Controllers
 
             Résultat = Résultat.OrderByDescending(s=>s.ID).ToList();
 
-            return View(Résultat.ToList().ToPagedList(page?? 1,5));
+            return View(Résultat.ToList().ToPagedList(page?? 1, 10));
         }
 
         public ActionResult IndexAjax(string YearPicker, int? Rythme, int? page, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
         {
+            if (UserService.Select(s => s.Service.Nom).ToList().Contains(db.Service.Find(16).Nom))
+            {
+                CDI = CDD = Stage = Mutation = false;
+                Intérim = true;
+            }
+
             var parcour = from p in db.Parcours
                           select p;
             DateTime Picked = DateTime.MinValue;
@@ -212,7 +223,6 @@ namespace Parcours_integration.Controllers
                 }
                 else
                 {
-                    var RespService = db.Service.Find(7).Nom;
                     var miss = item.Missions.Where(s => s.Applicable).Where(s => !s.Passage).Where(s => SectEmploi.Contains(s.Nom_Secteur)).ToList();
                     miss.AddRange(item.Missions.Where(s => s.Applicable).Where(s => s.Passage).Where(s => s.ID_Formateur == UserSession.ID).ToList());
                     miss.OrderBy(s => s.Passage);
@@ -228,10 +238,11 @@ namespace Parcours_integration.Controllers
             ViewBag.Mutation = Mutation;
             ViewBag.Intérim = Intérim;
             ViewBag.Term = Terminé;
+            ViewBag.MissTerm = MissTerm;
 
             Résultat = Résultat.OrderByDescending(s => s.ID).ToList();
 
-            return PartialView("TableParc", Résultat.ToList().ToPagedList(page ?? 1, 5));
+            return PartialView("TableParc", Résultat.ToList().ToPagedList(page ?? 1, 10));
         }
 
         // GET: Parcours/Details/5
@@ -441,6 +452,7 @@ namespace Parcours_integration.Controllers
                     var mailType = db.Mail.Find(3);
                     var NomParcours = parcours.Prénom + " " + parcours.Nom;
                     var dateentree = parcours.Entrée.ToString().Substring(0, 10);
+                    parcours.CompteInformatique = db.Utilisateurs.Find(parcours.ID_Employé);
 
                     if (folder != newFold) 
                     {

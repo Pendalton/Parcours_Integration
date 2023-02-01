@@ -47,7 +47,7 @@
                         {
                             var base64 = Convert.ToBase64String(item.Photo);
                             var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                            <img src="@imgSrc" class="picture" style="margin-bottom:10px" />
+                            <img src="@imgSrc" class="picture" />
                         }
                         else
                         {
@@ -103,7 +103,8 @@
 
 <style>
     .picture {
-        max-width: 50%
+        margin-bottom: 10px;
+        max-height: 200px
     }
 
     .AdminBand {

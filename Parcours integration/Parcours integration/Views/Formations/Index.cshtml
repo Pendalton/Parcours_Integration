@@ -4,99 +4,102 @@
     ViewBag.Title = "Formations à faire";
 }
 
-<h2>Parcours à signer</h2>
-<hr />
 
-@if (Model.Signatures.Count == 0)
+@if (ViewBag.EstRH || ViewBag.EstManPower || ViewBag.EstResponsable)
 {
-    <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
-        <h3 style="font-weight:normal; padding-left:8px"><span>Aucun parcours n'a besoin de votre signature.</span></h3>
-    </div>
-}
-else
-{
-    <table class="table table-bordered table-hover table-responsive" style="border-color: #bdbdbd">
-        <thead>
-            <tr>
-                <th class="text-center" style="background-color: #efefef">Parcours</th>
-                <th class="text-center" style="background-color: #efefef">Poste</th>
-                <th class="text-center" style="background-color: #efefef; width: 10%">Ress Hum</th>
-                <th class="text-center" style="background-color: #efefef; width: 10%">Responsable</th>
-                <th class="text-center" style="background-color: #efefef; width: 10%">Employé/Admin</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Signatures)
-            {
-                var RH = "RH" + item.Item1;
-                var Resp = "Resp" + item.Item1;
-                var Emp = "Emp" + item.Item1;
-                <tr align="center">
-                    <td>
-                        <span style="font-weight:bold">@item.Item2</span>
-                    </td>
-                    <td>
-                        <span style="font-weight:bold">@item.Item3</span>
-                    </td>
-                    <td id="@RH">
-                        @if (item.Item4)
-                        {
-                            <span style="font-weight:bold">Signé</span>
-                        }
-                        else
-                        {
-                            if (ViewBag.IsAdmin || ViewBag.EstRH)
-                            {
-                                <button type="button" id="RHbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
-                            }
-                            else
-                            {
-                                <button type="button" id="RHbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
-                            }
-                        }
-                    </td>
-                    <td id="@Resp">
-                        @if (item.Item5)
-                        {
-                            <span style="font-weight:bold">Signé</span>
-                        }
-                        else
-                        {
-                            if (ViewBag.UserID == item.Item7)
-                            {
-                                <button type="button" id="Respbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
-                            }
-                            else
-                            {
-                                <button type="button" id="Respbtn" class="btn btn-secondary" disabled onclick="">Responsable</button>
-                            }
-                        }
-                    </td>
-                    <td id="@Emp">
-                        @if (item.Item6)
-                        {
-                            <span style="font-weight:bold">Signé</span>
-                        }
-                        else
-                        {
-                            if (ViewBag.IsAdmin || (ViewBag.UserSession == item.Item2))
-                            {
-                                <button type="button" id="Empbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
-                            }
-                            else
-                            {
-                                <button type="button" id="Empbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
-                            }
-                        }
-                    </td>
+    <h2>Parcours à signer</h2>
+    <hr />
+
+    if (Model.Signatures.Count == 0)
+    {
+        <div class="h-100 p-4 bg-light border rounded-3" style="padding:12px">
+            <h3 style="font-weight:normal; padding-left:8px"><span>Aucun parcours n'a besoin de votre signature.</span></h3>
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover table-responsive" style="border-color: #bdbdbd">
+            <thead>
+                <tr>
+                    <th class="text-center" style="background-color: #efefef">Parcours</th>
+                    <th class="text-center" style="background-color: #efefef">Poste</th>
+                    <th class="text-center" style="background-color: #efefef; width: 10%">Ress Hum</th>
+                    <th class="text-center" style="background-color: #efefef; width: 10%">Responsable</th>
+                    <th class="text-center" style="background-color: #efefef; width: 10%">Employé/Admin</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Signatures)
+                {
+                    var RH = "RH" + item.Item1;
+                    var Resp = "Resp" + item.Item1;
+                    var Emp = "Emp" + item.Item1;
+                    <tr align="center">
+                        <td>
+                            <span style="font-weight:bold">@item.Item2</span>
+                        </td>
+                        <td>
+                            <span style="font-weight:bold">@item.Item3</span>
+                        </td>
+                        <td id="@RH">
+                            @if (item.Item4)
+                            {
+                                <span style="font-weight:bold">Signé</span>
+                            }
+                            else
+                            {
+                                if (ViewBag.IsAdmin || ViewBag.EstRH)
+                                {
+                                    <button type="button" id="RHbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id="RHbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
+                                }
+                            }
+                        </td>
+                        <td id="@Resp">
+                            @if (item.Item5)
+                            {
+                                <span style="font-weight:bold">Signé</span>
+                            }
+                            else
+                            {
+                                if (ViewBag.UserID == item.Item7)
+                                {
+                                    <button type="button" id="Respbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id="Respbtn" class="btn btn-secondary" disabled onclick="">Responsable</button>
+                                }
+                            }
+                        </td>
+                        <td id="@Emp">
+                            @if (item.Item6)
+                            {
+                                <span style="font-weight:bold">Signé</span>
+                            }
+                            else
+                            {
+                                if (ViewBag.IsAdmin || (ViewBag.UserSession == item.Item2))
+                                {
+                                    <button type="button" id="Empbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id="Empbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <br />
+    <hr />
 }
-<br />
-<hr />
-
 <h2>Formations à faire</h2>
 <hr />
 
@@ -140,16 +143,16 @@ else
                     <th class="text-center" style="background-color: #efefef; width: 30%">
                         Employé
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 25%">
+                    <th class="text-center" style="background-color: #efefef; width: 30%">
                         Contrat
                     </th>
                     <th class="text-center " style="background-color: #efefef; width: 20%">
                         Responsable
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 20%">
-                        Entrée dans l'entreprise
+                    <th class="text-center" style="background-color: #efefef; width: 10%">
+                        Embauche
                     </th>
-                    <th class="text-center" style="background-color: #efefef; width: 5%">Actions</th>
+                    <th class="text-center" style="background-color: #efefef; width: 10%">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -182,18 +185,18 @@ else
                             <span style="font-weight:bold">@item.Nom</span>  @item.Prénom
                         </td>
                         <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
-                            <span style="font-weight:bold">@item.Poste</span><br />@item.Contrat.Nom - @item.Equipe.Nom
+                            <span style="font-weight:bold">@item.Poste</span>
                         </td>
                         <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
                             @item.Utilisateurs.Nom
                         </td>
                         <td data-bs-toggle="collapse" href="#@test" style="vertical-align:middle">
-                            @item.Entrée
+                            @item.Entrée.ToString().Substring(0, 10)
                         </td>
                         <td>
                             @if (ViewBag.EstRH)
                             {
-                                <div class="btn-group-vertical">
+                                <div class="btn-group">
                                     <a class="btn btn-primary btn-sm" href="@Url.Action("Details", "Parcours", new { id = item.ID })" role="button">Détails</a>
                                     <a class="btn btn-primary btn-sm" href="@Url.Action("AddFile", "Parcours", new { id = item.ID })" role="button">Documents</a>
                                 </div>
@@ -240,7 +243,7 @@ else
                                                 <td style="vertical-align:middle">
                                                     @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
                                                 </td>
-                                                <td  style="vertical-align:middle">
+                                                <td style="vertical-align:middle">
                                                     @format.Nom_Secteur
                                                 </td>
                                                 <td id="@plan">
@@ -331,7 +334,7 @@ else
     }
 
     function ConfirmSign(ID) {
-        var remtxt = document.getElementById('RemarqueTxt'+ID).value;
+        var remtxt = document.getElementById('RemarqueTxt' + ID).value;
         $.ajax({
             type: "POST",
             url: "../Formations/Sign",
@@ -361,18 +364,23 @@ else
     .sizeup {
         transform: scale(1.5);
     }
+
     .hiddenRow {
         padding: 0 !important;
     }
-    .temp tbody > :nth-child(4n+0){
+
+    .temp tbody > :nth-child(4n+0) {
         background: white;
     }
+
     .temp tbody > :nth-child(4n+2) {
         background: white;
     }
+
     .temp tbody > :nth-child(4n+1) {
         background-color: rgba(66, 218, 245, 0.3);
     }
+
     .temp tbody > :nth-child(4n+3) {
         background-color: rgba(66, 183, 255, 0.3);
     }

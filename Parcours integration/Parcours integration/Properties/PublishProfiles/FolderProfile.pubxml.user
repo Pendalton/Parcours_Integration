@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>\\liss4022\ParcoursIntegration</_PublishTargetUrl>
-    <History>True|2022-09-02T13:42:29.4134598Z;</History>
+    <History>True|2023-01-30T09:19:18.0145963Z;True|2022-09-02T15:42:29.4134598+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -13,19 +13,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/01/2022 10:58:13</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
-      <publishTime>10/09/2013 17:29:20</publishTime>
+      <publishTime>09/10/2013 17:29:20</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.pdb">
-      <publishTime>10/09/2013 17:29:20</publishTime>
+      <publishTime>09/10/2013 17:29:20</publishTime>
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
-      <publishTime>12/08/2020 19:05:32</publishTime>
+      <publishTime>08/12/2020 19:05:32</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>02/03/2015 09:32:26</publishTime>
+      <publishTime>04/16/2020 22:38:42</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>02/03/2015 09:32:26</publishTime>
+      <publishTime>04/16/2020 22:38:56</publishTime>
     </File>
     <File Include="bin/itextsharp.dll">
       <publishTime>02/24/2022 14:50:06</publishTime>
@@ -34,13 +34,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/24/2022 14:50:08</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
-      <publishTime>08/07/2020 23:52:58</publishTime>
+      <publishTime>07/08/2020 23:52:58</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>04/11/2022 21:09:46</publishTime>
+      <publishTime>11/04/2022 21:09:46</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>03/17/2021 21:03:36</publishTime>
+      <publishTime>11/24/2022 03:10:26</publishTime>
     </File>
     <File Include="bin/PagedList.dll">
       <publishTime>09/30/2013 19:36:38</publishTime>
@@ -49,10 +49,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/30/2013 20:15:20</publishTime>
     </File>
     <File Include="bin/Parcours integration.dll">
-      <publishTime>09/02/2022 15:42:26</publishTime>
+      <publishTime>01/30/2023 10:18:59</publishTime>
     </File>
     <File Include="bin/Parcours integration.pdb">
-      <publishTime>09/02/2022 15:42:26</publishTime>
+      <publishTime>01/30/2023 10:18:59</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/19/2020 03:51:56</publishTime>
@@ -94,10 +94,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/19/2020 03:40:20</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
-      <publishTime>05/12/2017 02:36:44</publishTime>
+      <publishTime>12/05/2017 02:36:44</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
-      <publishTime>05/12/2017 02:36:44</publishTime>
+      <publishTime>12/05/2017 02:36:44</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.Managed.Core.targets">
       <publishTime>05/19/2020 03:40:20</publishTime>
@@ -151,7 +151,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/28/2022 01:42:20</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>11/02/2014 15:26:04</publishTime>
+      <publishTime>02/11/2014 15:26:04</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
       <publishTime>05/28/2022 01:42:06</publishTime>
@@ -205,52 +205,52 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/02/2022 14:54:45</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
-      <publishTime>01/02/2022 16:26:25</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css.map">
-      <publishTime>01/02/2022 16:26:25</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.min.css">
-      <publishTime>01/02/2022 16:26:25</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.min.css.map">
-      <publishTime>01/02/2022 16:26:25</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.rtl.css">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.rtl.css.map">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.rtl.min.css">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.rtl.min.css.map">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.css">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.css.map">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.min.css">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:59</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.min.css.map">
-      <publishTime>01/02/2022 16:26:24</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.rtl.css">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.rtl.css.map">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.rtl.min.css">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-reboot.rtl.min.css.map">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-toggle.css">
       <publishTime>02/02/2022 15:04:24</publishTime>
@@ -259,52 +259,52 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/02/2022 15:04:24</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.css">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.css.map">
-      <publishTime>01/02/2022 16:26:23</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.min.css">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.min.css.map">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.rtl.css">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.rtl.css.map">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.rtl.min.css">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap-utilities.rtl.min.css.map">
-      <publishTime>01/02/2022 16:26:22</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>04/28/2022 10:03:47</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.css.map">
-      <publishTime>01/02/2022 16:26:21</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
-      <publishTime>01/02/2022 16:26:21</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css.map">
-      <publishTime>01/02/2022 16:26:21</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.rtl.css">
-      <publishTime>01/02/2022 16:26:21</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.rtl.css.map">
-      <publishTime>01/02/2022 16:26:21</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.rtl.min.css">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap.rtl.min.css.map">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Content/bootstrap2-toggle.css">
       <publishTime>02/02/2022 15:04:24</publishTime>
@@ -322,7 +322,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/03/2022 14:53:21</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>08/30/2022 10:03:54</publishTime>
+      <publishTime>12/20/2022 10:46:39</publishTime>
     </File>
     <File Include="Controllers/ParcoursController.cs">
       <publishTime>08/22/2022 10:27:23</publishTime>
@@ -370,16 +370,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/27/2022 15:26:02</publishTime>
     </File>
     <File Include="favicon.ico">
-      <publishTime>01/02/2022 16:25:28</publishTime>
+      <publishTime>02/01/2022 16:25:28</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>01/02/2022 16:25:28</publishTime>
+      <publishTime>02/01/2022 16:25:28</publishTime>
     </File>
     <File Include="Models/Model1.edmx.diagram">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Models/ParcoursIntegrationEntities.edmx.diagram">
-      <publishTime>09/01/2022 15:57:55</publishTime>
+      <publishTime>01/03/2023 10:34:38</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>02/02/2022 14:54:44</publishTime>
@@ -397,40 +397,40 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/02/2022 15:04:23</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js.map">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.min.js">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.min.js.map">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.esm.js">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.esm.js.map">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.esm.min.js">
-      <publishTime>01/02/2022 16:26:20</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.esm.min.js.map">
-      <publishTime>01/02/2022 16:26:19</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
-      <publishTime>01/02/2022 16:26:19</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js.map">
-      <publishTime>01/02/2022 16:26:19</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
-      <publishTime>01/02/2022 16:26:19</publishTime>
+      <publishTime>12/20/2022 15:09:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js.map">
-      <publishTime>01/02/2022 16:26:19</publishTime>
+      <publishTime>12/20/2022 15:09:57</publishTime>
     </File>
     <File Include="Scripts/bootstrap2-toggle.js">
       <publishTime>02/02/2022 15:04:23</publishTime>
@@ -636,6 +636,24 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/jquery-3.6.0.slim.min.map">
       <publishTime>01/02/2022 16:28:21</publishTime>
     </File>
+    <File Include="Scripts/jquery-3.6.1.js">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.6.1.min.js">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.6.1.min.map">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.6.1.slim.js">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.6.1.slim.min.js">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.6.1.slim.min.map">
+      <publishTime>12/20/2022 15:11:05</publishTime>
+    </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>08/24/2022 10:34:04</publishTime>
     </File>
@@ -643,10 +661,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/24/2022 10:34:04</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.js">
-      <publishTime>01/02/2022 16:28:27</publishTime>
+      <publishTime>12/20/2022 15:11:13</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
-      <publishTime>01/02/2022 16:28:27</publishTime>
+      <publishTime>12/20/2022 15:11:13</publishTime>
     </File>
     <File Include="Scripts/locales/bootstrap-datepicker-en-CA.min.js">
       <publishTime>02/02/2022 14:54:44</publishTime>
@@ -895,7 +913,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/02/2022 14:54:31</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.8.3.js">
-      <publishTime>01/02/2022 16:25:41</publishTime>
+      <publishTime>02/01/2022 16:25:41</publishTime>
     </File>
     <File Include="Scripts/select2.js">
       <publishTime>02/02/2022 14:59:13</publishTime>
@@ -916,16 +934,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/02/2022 16:10:17</publishTime>
     </File>
     <File Include="Views/Formations/Index.cshtml">
-      <publishTime>08/30/2022 10:04:02</publishTime>
+      <publishTime>01/30/2023 09:02:16</publishTime>
     </File>
     <File Include="Views/Formations/Signer.cshtml">
       <publishTime>03/04/2022 15:13:53</publishTime>
     </File>
+    <File Include="Views/Home/Emergency.cshtml">
+      <publishTime>01/15/2023 21:34:01</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/17/2022 12:06:56</publishTime>
+      <publishTime>12/16/2022 11:06:13</publishTime>
+    </File>
+    <File Include="Views/Home/MailRedact.cshtml">
+      <publishTime>01/03/2023 11:42:58</publishTime>
+    </File>
+    <File Include="Views/Home/MailRedactContent.cshtml">
+      <publishTime>01/03/2023 14:46:41</publishTime>
     </File>
     <File Include="Views/Missions/Create.cshtml">
-      <publishTime>06/15/2022 11:34:15</publishTime>
+      <publishTime>09/06/2022 11:14:04</publishTime>
     </File>
     <File Include="Views/Missions/Delete.cshtml">
       <publishTime>02/24/2022 16:04:53</publishTime>
@@ -934,25 +961,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Missions/Edit.cshtml">
-      <publishTime>09/01/2022 10:02:26</publishTime>
+      <publishTime>01/09/2022 10:02:26</publishTime>
     </File>
     <File Include="Views/Missions/_NewMission.cshtml">
       <publishTime>05/31/2022 11:17:50</publishTime>
     </File>
     <File Include="Views/Modeles/Create.cshtml">
-      <publishTime>05/31/2022 11:10:40</publishTime>
+      <publishTime>09/06/2022 11:14:04</publishTime>
     </File>
     <File Include="Views/Modeles/Delete.cshtml">
-      <publishTime>05/31/2022 11:10:02</publishTime>
+      <publishTime>09/06/2022 11:13:59</publishTime>
     </File>
     <File Include="Views/Modeles/Edit.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Modeles/Index.cshtml">
-      <publishTime>08/05/2022 11:30:11</publishTime>
+      <publishTime>12/21/2022 13:30:48</publishTime>
     </File>
     <File Include="Views/Modeles/TableModeles.cshtml">
-      <publishTime>08/31/2022 15:24:51</publishTime>
+      <publishTime>12/21/2022 13:29:44</publishTime>
     </File>
     <File Include="Views/Organi/Carte.cshtml">
       <publishTime>08/26/2022 10:51:27</publishTime>
@@ -961,25 +988,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Parcours/AddFile.cshtml">
-      <publishTime>09/01/2022 16:23:26</publishTime>
+      <publishTime>12/14/2022 14:27:19</publishTime>
     </File>
     <File Include="Views/Parcours/Create.cshtml">
-      <publishTime>08/24/2022 10:15:52</publishTime>
+      <publishTime>01/05/2023 13:24:53</publishTime>
     </File>
     <File Include="Views/Parcours/Delete.cshtml">
       <publishTime>05/31/2022 14:02:06</publishTime>
     </File>
     <File Include="Views/Parcours/Details.cshtml">
-      <publishTime>09/02/2022 15:42:13</publishTime>
+      <publishTime>02/09/2022 15:42:13</publishTime>
     </File>
     <File Include="Views/Parcours/Edit.cshtml">
-      <publishTime>09/02/2022 09:11:36</publishTime>
+      <publishTime>01/05/2023 13:27:30</publishTime>
     </File>
     <File Include="Views/Parcours/Index.cshtml">
-      <publishTime>08/11/2022 16:32:44</publishTime>
+      <publishTime>01/06/2023 11:33:29</publishTime>
     </File>
     <File Include="Views/Parcours/TableParc.cshtml">
-      <publishTime>08/11/2022 14:08:14</publishTime>
+      <publishTime>01/30/2023 09:42:28</publishTime>
     </File>
     <File Include="Views/Services/Index.cshtml">
       <publishTime>07/12/2022 10:55:07</publishTime>
@@ -988,46 +1015,46 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/25/2022 15:41:07</publishTime>
     </File>
     <File Include="Views/Services/ListEqu.cshtml">
-      <publishTime>08/25/2022 15:42:00</publishTime>
+      <publishTime>12/16/2022 14:40:01</publishTime>
     </File>
     <File Include="Views/Services/ListServ.cshtml">
       <publishTime>08/25/2022 15:46:51</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>01/02/2022 16:25:43</publishTime>
+      <publishTime>02/01/2022 16:25:43</publishTime>
     </File>
     <File Include="Views/Shared/_CommentBox.cshtml">
       <publishTime>05/20/2022 09:24:30</publishTime>
     </File>
     <File Include="Views/Shared/_HiddenMissions.cshtml">
-      <publishTime>09/01/2022 09:48:32</publishTime>
+      <publishTime>01/09/2022 09:48:32</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/30/2022 09:22:40</publishTime>
+      <publishTime>01/06/2023 11:26:41</publishTime>
     </File>
     <File Include="Views/Shared/_Missions.cshtml">
-      <publishTime>09/01/2022 10:34:52</publishTime>
+      <publishTime>01/09/2022 10:34:52</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Create.cshtml">
-      <publishTime>08/22/2022 13:50:11</publishTime>
+      <publishTime>12/22/2022 09:35:59</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Delete.cshtml">
       <publishTime>08/08/2022 15:26:59</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Edit.cshtml">
-      <publishTime>08/22/2022 11:41:13</publishTime>
+      <publishTime>01/05/2023 16:15:37</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Index.cshtml">
-      <publishTime>08/03/2022 11:42:13</publishTime>
+      <publishTime>03/08/2022 11:42:13</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>01/02/2022 16:25:28</publishTime>
+      <publishTime>12/12/2022 16:46:29</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>01/02/2022 16:25:28</publishTime>
+      <publishTime>02/01/2022 16:25:28</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/02/2022 15:42:26</publishTime>
+      <publishTime>01/30/2023 10:18:59</publishTime>
     </File>
   </ItemGroup>
 </Project>

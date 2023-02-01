@@ -3,24 +3,24 @@
 <table class="table table-bordered table-hover table-responsive" style="border-color: #bdbdbd">
     <thead>
         <tr>
-            <th class="text-center" style="background-color: #efefef">
+            <th class="text-center" style="background-color: #efefef; width:40%">
                 Etapes du parcours
             </th>
-            <th class="text-center" style="background-color: #efefef; width: 15%">
+            <th class="text-center" style="background-color: #efefef; width: 14%">
                 Service
             </th>
-            <th class="text-center" style="background-color: #efefef; width: 19%">
+            <th class="text-center" style="background-color: #efefef; width: 15%">
                 Interlocuteur
             </th>
             <th class="text-center" style="background-color: #efefef; width: 10%">
                 Statut
             </th>
-            <th class="text-center" style="background-color: #efefef; width: 10%">
+            <th class="text-center" style="background-color: #efefef; width: 8%">
                 Date Réalisation
             </th>
             @if (ViewBag.EstRH)
             {
-                <th class="text-center" style="background-color: #efefef; width: 13%">Actions gestion étape</th>
+                <th class="text-center" style="background-color: #efefef; width: 13%">Actions / remarque</th>
             }
         </tr>
     </thead>
@@ -131,7 +131,14 @@
                             }
                             else
                             {
-                                <button type="button" disabled class="btn btn-success" style="opacity: 1">Terminée</button>
+                                if (item.Remarque != "")
+                                {
+                                    @Html.DisplayFor(modelItem => item.Remarque)
+                                }
+                                else
+                                {
+                                    <p>Pas de remarque.</p>
+                                }
                             }
                         </td>
                     }

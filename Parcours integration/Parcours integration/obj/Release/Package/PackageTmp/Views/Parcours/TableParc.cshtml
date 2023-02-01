@@ -21,18 +21,15 @@
 
             if (!item.Complété)
             {
-                <div class="col-md-12" style="padding: 5px; line-height: 50px">
+                <div class="col-md-12" style="padding: 5px">
                     <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
                         <div class="row" style="margin:0">
                             <div class="col-md-3" style="display:flex; align-items:center; justify-content:center;">
                                 <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
                             </div>
-                            <div class="col-md-6" style="display:flex; justify-content:center">
-                                <span>
+                            <div class="col-md-5" style="display:flex; justify-content:center">
+                                <span style="line-height:25px">
                                     Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) -
-
-                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
-                                    <br />
                                     @if (item.ID_Resp == null)
                                     {
                                         <span>Pas de responsable</span>
@@ -41,6 +38,8 @@
                                     {
                                         <span>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</span>
                                     }
+                                    <br />
+                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
                                 </span>
                             </div>
 
@@ -70,78 +69,71 @@
                                     }
                                 }
                             }
-                            <div class="col-md-3 btn-group" style="margin-top:10px;margin-bottom:10px">
+                            <div class="col-md-4 btn-group" style="display:flex; justify-content:center; align-items:center">
                                 @if (ViewBag.IsAdmin || ViewBag.UserIT)
                                 {
-                                    <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.ID })" role="button" style="max-height:40px">Modifier</a>
-                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button" style="max-height:40px">Détails</a>
-                                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Secteur(s) manquant(s) : @listeSecteurs" onclick="Relance(@item.ID)" style="max-height:40px">Relancer</button>
+                                    <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.ID })">Modifier</a>
+                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
+                                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Secteur(s) manquant(s) : @listeSecteurs" onclick="Relance(@item.ID)">Relancer</button>
                                 }
                                 else if (ViewBag.EstResponsable)
                                 {
-                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button" style="max-height:40px">Détails</a>
+                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
                                 }
+                                <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll" style="border:1px solid black">
+                                    Missions à faire
+                                </button>
                             </div>
 
-                            <div class="accordion">
-                                <div class="accordion-item" style="width: 95%;">
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll" style="height:40px">
-                                            Missions à faire :
-                                        </button>
-                                    </h2>
-                                    <div id="@coll" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr style="line-height:25px">
-                                                        <th class="text-center" style="background-color: #efefef; width:40%">
-                                                            Mission
-                                                        </th>
-                                                        <th class="text-center" style="background-color: #efefef; width:15%">
-                                                            Date de passage
-                                                        </th>
-                                                        <th class="text-center" style="background-color: #efefef;">
-                                                            Remarque
-                                                        </th>
-                                                        <th class="text-center" style="background-color: #efefef; width:14%">
-                                                            Terminée?
-                                                        </th>
+                            <div class="collapse" id="@coll" style="width: 95%; margin: 0 auto 0 auto;">
+                                <div class="card card-body" style="padding: 0">
+                                    <table class="table table-bordered" style="margin:0">
+                                        <thead>
+                                            <tr style="line-height:25px">
+                                                <th class="text-center" style="background-color: #efefef; width:40%">
+                                                    Mission
+                                                </th>
+                                                <th class="text-center" style="background-color: #efefef; width:15%">
+                                                    Date de passage
+                                                </th>
+                                                <th class="text-center" style="background-color: #efefef;">
+                                                    Remarque
+                                                </th>
+                                                <th class="text-center" style="background-color: #efefef; width:14%">
+                                                    Terminée?
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var miss in ViewBag.MissTerm)
+                                            {
+                                                if (miss.ID_Parcours == item.ID)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @miss.Nom_Mission
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @miss.Date_passage
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @miss.Remarque
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if (miss.Passage)
+                                                            {
+                                                                <button type="button" disabled class="btn btn-success" style="opacity:1">Complétée</button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="button" disabled class="btn btn-danger" style="opacity:1">En cours</button>
+                                                            }
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var miss in ViewBag.MissTerm)
-                                                    {
-                                                        if (miss.ID_Parcours == item.ID)
-                                                        {
-                                                            <tr>
-                                                                <td class="text-center">
-                                                                    @miss.Nom_Mission
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    @miss.Date_passage
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    @miss.Remarque
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    @if (miss.Passage)
-                                                                    {
-                                                                        <button type="button" disabled class="btn btn-success" style="opacity:1">Complétée</button>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <button type="button" disabled class="btn btn-danger" style="opacity:1">En cours</button>
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +152,7 @@
                                 <span>
                                     Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) -
 
-                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) - 
+                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) -
 
                                     COMPLÉTÉ
                                 </span>

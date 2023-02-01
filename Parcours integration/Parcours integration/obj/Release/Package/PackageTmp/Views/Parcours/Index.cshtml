@@ -50,7 +50,7 @@
                     }
                     @if (ViewBag.EstRH || ViewBag.IsAdmin)
                     {
-                        <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
+                        <a class="btn btn-primary" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
                     }
                 </div>
             </div>
@@ -91,15 +91,17 @@
     });
 
     function Relance(ID) {
-        $.ajax({
-            type: "POST",
-            url: "SendMail",
-            data: '{ ID: "' + ID + '"}',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                alert("Envoi des mails en cours. Veuillez patienter.")
-            }
-        })
+        if (confirm("Etes-vous sûr(e) de vouloir envoyer un mail à chaque formateur concerné?")) {
+            $.ajax({
+                type: "POST",
+                url: "SendMail",
+                data: '{ ID: "' + ID + '"}',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert("Envoi des mails en cours. Veuillez patienter.")
+                }
+            })
+        }
     }
 
     function Actualiser() {
@@ -122,10 +124,5 @@
 <style>
     .sizeup {
         transform: scale(1.5);
-    }
-
-    input[name="Datepicker"],
-    input[name="Datepicker2"] {
-        width: 190px;
     }
 </style>
