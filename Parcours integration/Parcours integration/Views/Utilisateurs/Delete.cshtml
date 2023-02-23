@@ -13,7 +13,7 @@
                 <tbody>
                     <tr style="height:50px">
                         <td class="text-center" style="width:160px; font-weight:bold">
-                            @Html.DisplayNameFor(model => model.Login)
+                            @Html.DisplayNameFor(model => model.Login) :
                         </td>
                         <td style="width:500px">
                             @Html.DisplayFor(model => model.Login)
@@ -22,7 +22,7 @@
 
                     <tr style="height:50px">
                         <td class="text-center" style="font-weight:bold">
-                            @Html.DisplayNameFor(model => model.Nom)
+                            @Html.DisplayNameFor(model => model.Nom) :
                         </td>
                         <td>
                             @Html.DisplayFor(model => model.Nom)
@@ -31,7 +31,7 @@
 
                     <tr style="height:50px">
                         <td class="text-center" style="font-weight:bold">
-                            Service(s)
+                            Service(s) :
                         </td>
                         <td>
                             @foreach (var serv in ViewBag.Services)
@@ -43,7 +43,7 @@
 
                     <tr style="height:50px">
                         <td class="text-center" style="font-weight:bold">
-                            @Html.DisplayNameFor(model => model.UserMail)
+                            Mail :
                         </td>
                         <td>
                             @Html.DisplayFor(model => model.UserMail)
@@ -52,10 +52,10 @@
 
                     <tr style="height:50px">
                         <td class="text-center" style="font-weight:bold">
-                            @Html.DisplayNameFor(model => model.EstFormateur)
+                            Admin :
                         </td>
                         <td>
-                            @if (Model.EstFormateur == true)
+                            @if (Model.EstAdmin == true)
                             {
                                 <button type="button" class="disabled btn btn-success" style="width: 75px; opacity: 1">OUI</button>
                             }

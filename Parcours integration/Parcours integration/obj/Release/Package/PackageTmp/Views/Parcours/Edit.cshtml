@@ -5,7 +5,7 @@
 }
 
 <h2>Edit</h2>
-
+<script src="~/Scripts/locales/bootstrap-datepicker.fr.min.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -36,7 +36,7 @@
                 @Html.EditorFor(model => model.Poste, new { htmlAttributes = new { @class = "form-control", placeholder = "Poste occupé", required = "required" } })
             </div>
             <div class="col-md-4" style="display: flex; align-items: center">
-                @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required", title="POOOF" })
+                @Html.DropDownList("ID_Resp", null, "--- Responsable ---", htmlAttributes: new { @class = "ID_Resp form-control", required = "required", title = "POOOF" })
             </div>
 
         </div>
@@ -48,13 +48,13 @@
                 @Html.DropDownList("EquipeID", null, "--- Rythme ---", htmlAttributes: new { @class = "form-control dropdwn", required = "required" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Entrée, new { htmlAttributes = new { id = "toto", @class = "form-control", type = "date" } })
+                <input type="text" id="teto" name="Entrée" class="form-control" value="@Model.Entrée.ToString().Substring(0,10)" style="width:100%" placeholder="jj/mm/aaaa" />
             </div>
         </div>
 
         <br />
-        @Html.HiddenFor(model=>model.Complété)
-        @Html.HiddenFor(model=>model.Date_entrée)
+        @Html.HiddenFor(model => model.Complété)
+        @Html.HiddenFor(model => model.Date_entrée)
         @Html.Hidden("Dossier", ViewData["Dossier"])
         @Html.Hidden("OldResp", (object)ViewBag.Resp)
 
@@ -79,6 +79,16 @@
     $(".ID_Employé").select2({
         placeholder: "--- Compte informatique de l'employé ---",
     });
+
+    $("#teto").datepicker({
+        format: "dd/mm/yyyy",
+        maxViewMode: 1,
+        language: "fr",
+        todayBtn: "linked",
+        daysOfWeekHighlighted: "0,6",
+        todayHighlight: true,
+        orientation: "bottom right",
+    })
 </script>
 
 <style>
@@ -94,8 +104,8 @@
         top: 6px;
     }
 
-    .tooltiptext{
-        left:-300px!important;
-        top:250% !important;
+    .tooltiptext {
+        left: -300px !important;
+        top: 250% !important;
     }
 </style>

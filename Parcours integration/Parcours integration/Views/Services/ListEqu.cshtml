@@ -11,7 +11,7 @@
                 </td>
 
                 <td id="test" style="width: 1%; border-left: 0">
-                    @if (ViewBag.IsAdmin)
+                    @if (ViewBag.EstAdmin)
                     {
                         if (item.Actif)
                         {
@@ -49,7 +49,7 @@
     </table>
 
     <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-        @if (ViewBag.IsAdmin)
+        @if (ViewBag.EstAdmin)
         {
             <button type="button" id="NewEqu" class="btn btn-primary btn-mini" onclick="NewLigneEqu()" role="button">Nouvelle Equipe</button>
             <button type="button" disabled id="RenameEqu" class="btn btn-primary" onclick="">Renommer</button>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="btn-group btn-group-sm" style="margin-bottom:10px">
-        @if (ViewBag.IsAdmin)
+        @if (ViewBag.EstAdmin)
         {
             <button type="button" id="UpdateEquBtn" class="btn btn-primary" onclick="" style="display:none">Confirmer</button>
             <button type="button" id="CancelEquBtn" class="btn btn-primary" onclick="" style="display:none">Annuler</button>

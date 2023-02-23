@@ -16,6 +16,9 @@
     <script src="~/Scripts/select2.min.js"></script>
     <link href="~/Content/css/select2.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
 
 
 </head>
@@ -30,7 +33,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <ul class="navbar-nav">
-                        @if (ViewBag.EstRH || ViewBag.IsAdmin)
+                        @if (ViewBag.EstRH || ViewBag.EstAdmin)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">

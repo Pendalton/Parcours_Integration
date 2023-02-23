@@ -7,7 +7,9 @@
 
 @if (ViewBag.EstRH || ViewBag.EstManPower || ViewBag.EstResponsable)
 {
-    <h2>Parcours à signer</h2>
+    <div style="display:flex;align-items:center">
+        <h2>Parcours à signer</h2>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Ici, vous signerez un parcours une fois qu'il est terminé. Cela sert de preuve que le parcours est terminé et que vous en avez pris conscience."></i>
+    </div>
     <hr />
 
     if (Model.Signatures.Count == 0)
@@ -48,7 +50,7 @@
                             }
                             else
                             {
-                                if (ViewBag.IsAdmin || ViewBag.EstRH)
+                                if (ViewBag.EstAdmin || ViewBag.EstRH || ViewBag.EstManPower)
                                 {
                                     <button type="button" id="RHbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
                                 }
@@ -82,7 +84,7 @@
                             }
                             else
                             {
-                                if (ViewBag.IsAdmin || (ViewBag.UserSession == item.Item2))
+                                if (ViewBag.EstAdmin)
                                 {
                                     <button type="button" id="Empbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
                                 }
@@ -100,7 +102,9 @@
     <br />
     <hr />
 }
-<h2>Formations à faire</h2>
+<div style="display:flex;align-items:center">
+    <h2>Formations à faire</h2>&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Cette rubrique liste les formations des secteurs dont vous avez la charge encore non-effectuées. Cliquez sur une ligne pour afficher les formations. Le bouton Planifier sert à indiquer à vos collègues que vous avez pris conscience de cette étape."></i>
+</div>
 <hr />
 
 @using (Html.BeginForm())
@@ -214,16 +218,16 @@ else
                                 <table class="table table-bordered" style="border: 0 solid #bdbdbd; margin-bottom: 0px">
                                     <thead>
                                         <tr style="background-color: #ffffff">
-                                            <th class="text-center" style="width: 37%">Mission</th>
-                                            <th class="text-center" style="width: 18%">Service</th>
-                                            <th class="text-center" style="width: 7%">Planifiée</th>
-                                            <th class="text-center" style="width: 30%;">
+                                            <th class="text-center" style="width: 35%">Mission</th>
+                                            <th class="text-center" style="width: 15%">Service</th>
+                                            <th class="text-center" style="width: 5%">Planifiée</th>
+                                            <th class="text-center" style="width: 40%;">
                                                 <span>
                                                     Remarque
                                                 </span>
                                                 <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Zone destinée à apporter des précisions ou commentaires sur la formation. Ne pas renseigner de remarque personnelle."></i>
                                             </th>
-                                            <th class="text-center" style="background-color: #ffffff; width: 8%">Signer</th>
+                                            <th class="text-center" style="width: 5%">Signer</th>
 
                                         </tr>
                                     </thead>
@@ -246,7 +250,7 @@ else
                                                 <td style="vertical-align:middle">
                                                     @format.Nom_Secteur
                                                 </td>
-                                                <td id="@plan">
+                                                <td id="@plan" style="vertical-align:middle">
                                                     @if (format.Planifié)
                                                     {
                                                         <button type="button" id="@btnID" class="btn btn-success" onclick="Plan(@format.ID)">OUI</button>
@@ -257,10 +261,13 @@ else
                                                     }
                                                 </td>
                                                 <td>
-                                                    <textarea name="RemarqueTxt" id="@remarque" style="width: 100%; max-width: 1300px !important; height: 40px; min-height:40px" class="form-control">@format.Remarque</textarea>
+                                                    <div class="input-group">
+                                                        <textarea name="RemarqueTxt" id="@remarque" style=" max-width: 450px !important; height: 40px; max-height: 90px; min-height:40px" class="form-control">@format.Remarque</textarea>
+                                                        <button type="button" id="btnSave_@format.ID" onclick="Save(@format.ID)" class="input-group-addon btn btn-success"><i class="bi bi-download"></i></button> 
+                                                    </div>
                                                 </td>
-                                                <td id="@sign">
-                                                    <input type="button" name="btnRegister" value="Signer" onclick="ConfirmSign(@format.ID)" class="btn btn-secondary" />
+                                                <td id="@sign" style="vertical-align:middle">
+                                                    <button type="button" name="btnRegister" onclick="ConfirmSign(@format.ID)" class="btn btn-secondary">Signer</button>
                                                 </td>
                                             </tr>
                                         }
@@ -326,7 +333,7 @@ else
                 var test = JSON.parse(data);
                 boutton.style.display = "none";
 
-                var newHtml = '<span style="font-weight:bold">Signé</span>'
+                var newHtml = '<span style="font-weight:bold">Signé !</span>'
 
                 boutton.parentNode.innerHTML = newHtml;
             }
@@ -350,6 +357,23 @@ else
                 document.getElementById('PlanBtn' + ID).disabled = true;
             }
 
+        })
+    };
+
+    function Save(ID) {
+        var remtxt = document.getElementById('RemarqueTxt' + ID).value;
+        $.ajax({
+            type: "POST",
+            url: "../Formations/Save",
+            data: '{ID:"' + ID + '", Rem:"' + remtxt + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                var newSignBtn = "";
+                if (data == "True") {
+                    newSignBtn = '<i class="bi bi-check-lg"></i>';
+                }
+                $("#btnSave_" + ID).html(newSignBtn);
+            }
         })
     };
 

@@ -39,7 +39,7 @@ namespace Parcours_integration.Controllers
             ViewBag.UserID = UserSession.ID;
             ViewBag.UserSecteur = UserService;
 
-            ViewBag.IsAdmin = EstAdmin = UserSession.EstAdmin; //Si admin
+            ViewBag.EstAdmin = EstAdmin = UserSession.EstAdmin; //Si admin
             ViewBag.EstFormateur = EstFormateur = UserSession.EstFormateur; //Si est un Formateur
             ViewBag.EstRH = EstRH = UserService.Any(s => s.ID_Service == 5); //Si RH
             ViewBag.EstManPower = EstManPower = UserService.Any(s => s.ID_Service == 16);
@@ -60,6 +60,8 @@ namespace Parcours_integration.Controllers
         {
             var servMiss = db.Missions.Where(s => !s.Passage).Select(s => s.Nom_Secteur).Distinct().ToList();
             List<int> Serv = new List<int>();
+
+            var mailType = db.Mail.Find(2);
 
             foreach (var item in servMiss)
             {
@@ -88,7 +90,7 @@ namespace Parcours_integration.Controllers
 
                 if (util.UserMail != null)
                 {
-                    var senderMail = new MailAddress("ServiceRHLisieux@knorr-bremse.com", "Service RH");
+                    var senderMail = new MailAddress("service-rhlisieux@knorr-bremse.com", "Service RH");
 
                     var receiverMail = new MailAddress(util.UserMail);
 
@@ -99,20 +101,19 @@ namespace Parcours_integration.Controllers
                     var body = $"{util.Nom}, il vous reste {ParcP.Count()} formation(s) à effectuer sur des parcours d'intégration. Cliquez le lien suivant pour avoir accès aux formations en question.<br/><br/><a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index\">Liste des parcours à faire</a>" +
 
                         $"<br/><br/>" +
-                        $"<table>" +
-                        $"<th><tr style=\"background-color:#efefef;border:1px solid black\"><td>Nom du parcours</td><td>Formations à faire</td><td>Détails du parcours</td></tr></th><tbody>";
+                        $"<ul> ";
 
                     var Content = "";
                     foreach (var item in ParcP)
                     {
-                        Content += "<tr style=\"border:1px solid black \">" +
-                                       "<td><span style=\"font-style:bold\">" + item.Nom + "</span> " + item.Prénom + "</td>" +
-                                       "<td>" + item.Missions.Where(s=>!s.Passage).Where(s => ServP.Contains(s.Nom_Secteur)).Count() + "</td>" +
-                                       "<td> <a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Parcours/Details/" + item.ID + "\">Parcours</a></td>" +
-                                   "</tr>";
+                        Content += $"<li>" +
+                        $"<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Parcours/Details/" + item.ID + "\">" + item.Nom + " " + item.Prénom + "</a>, " + item.Poste + " embauché(e) le " + item.Entrée.ToString().Substring(0,10) + 
+                        $"</li>";
                     }
 
-                    var end = "</tbody>" + "</table>";
+                    var end = "</ul>" +
+                        "<br/><br/>" +
+                        "Si vous avez des remarques ou questions, n’hésitez pas à contacter le service RH.<br/>Merci.";
 
                     var smtp = new SmtpClient
                     {

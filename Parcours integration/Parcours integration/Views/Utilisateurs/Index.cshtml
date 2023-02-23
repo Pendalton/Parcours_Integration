@@ -22,7 +22,7 @@
 
             <div class="col-md-3">
                 <div class="d-grid d-md-flex btn-group-vertical">
-                    @if (ViewBag.IsAdmin)
+                    @if (ViewBag.EstAdmin)
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvel interlocuteur</a>
                     }
@@ -67,10 +67,11 @@
 
                         <div>@Html.DisplayFor(modelItem => item.UserMail)</div>
 
-                        <div style="margin-bottom:5px">
-                            @if (ViewBag.IsAdmin)
+                        <div class="btn-group" style="margin-bottom:5px">
+                            @if (ViewBag.EstAdmin)
                             {
                                 <a href="@Url.Action("Edit", new { ID = item.ID })" class="btn btn-primary" style="width:100px">Modifier</a>
+                                <a href="@Url.Action("Delete", new { ID = item.ID })" class="btn btn-danger" style="width:100px">Supprimer</a>
                             }
                         </div>
                     </div>

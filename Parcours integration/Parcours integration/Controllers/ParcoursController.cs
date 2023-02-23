@@ -129,10 +129,10 @@ namespace Parcours_integration.Controllers
 
             Résultat = Résultat.OrderByDescending(s=>s.ID).ToList();
 
-            return View(Résultat.ToList().ToPagedList(page?? 1, 10));
+            return View(Résultat.ToList().ToPagedList(page?? 1, 14));
         }
 
-        public ActionResult IndexAjax(string YearPicker, int? Rythme, int? page, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
+        public ActionResult IndexAjax(string ParcName, string YearPicker, int? Rythme, int? page, bool CDI = true, bool CDD = true, bool Stage = true, bool Mutation = true, bool Terminé = false, bool Intérim = true)
         {
             if (UserService.Select(s => s.Service.Nom).ToList().Contains(db.Service.Find(16).Nom))
             {
@@ -232,17 +232,17 @@ namespace Parcours_integration.Controllers
 
             ViewBag.UserIT = UserService.Any(s => s.ID_Service == 9);
 
-            ViewBag.CDI = CDI;
-            ViewBag.CDD = CDD;
-            ViewBag.Stage = Stage;
-            ViewBag.Mutation = Mutation;
-            ViewBag.Intérim = Intérim;
+            if (!String.IsNullOrEmpty(ParcName))
+            {
+                Résultat = Résultat.Where(s => s.Nom.ToLower().Contains(ParcName) || s.Prénom.ToLower().Contains(ParcName)).ToList();
+            }
+
             ViewBag.Term = Terminé;
             ViewBag.MissTerm = MissTerm;
 
             Résultat = Résultat.OrderByDescending(s => s.ID).ToList();
 
-            return PartialView("TableParc", Résultat.ToList().ToPagedList(page ?? 1, 10));
+            return PartialView("TableParc", Résultat.ToList().ToPagedList(page ?? 1, 14));
         }
 
         // GET: Parcours/Details/5
@@ -309,6 +309,7 @@ namespace Parcours_integration.Controllers
             ViewBag.PosteOccupé = parcours.Poste;
             ViewBag.Entrée = parcours.Entrée.ToString().Substring(0,10);
             ViewBag.Responsable = parcours.Utilisateurs.Nom;
+            ViewBag.EstResponsableCurrent = parcours.ID_Resp == UserSession.ID;
 
             List<string> Lieux = new List<string>();
             var adding = from m in db.Utilisateurs_Services
@@ -345,7 +346,7 @@ namespace Parcours_integration.Controllers
                 var mods = db.ModeleContrat.Where(s => s.ID_Contrat == parcours.Type_Contrat).ToArray();
                 Utilisateurs resp = db.Utilisateurs.Find(parcours.ID_Resp);
 
-                resp.EstResponsable = true;
+                resp.EstResponsable = true; 
                 db.Entry(resp).State = EntityState.Modified;
                 foreach (var item in mods)
                 {
@@ -820,7 +821,7 @@ namespace Parcours_integration.Controllers
             switch (RoleBtn) 
             {
                 case "RHbtn":
-                    Role = "Ressources Humaines";
+                    Role = "Ressources Humaines ou Manpower";
                     break;
 
                 case "Respbtn":

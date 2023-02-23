@@ -19,7 +19,7 @@
 
             <div class="col-md-6">
                 <div style="line-height:30px;display:flex;justify-content:center; align-items:center">
-                    Service :&nbsp;&nbsp;&nbsp;@Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()" }) &nbsp;&nbsp; <br />
+                    Service :&nbsp;&nbsp;&nbsp;@Html.DropDownList("ServiceID", null, "Tous", htmlAttributes: new { @onchange = "this.form.submit()", @class = "form-control dropdwn", style = "width:200px; margin-top:5px; height:35px;" }) &nbsp;&nbsp; <br />
 
 
                 </div>
@@ -27,7 +27,7 @@
 
             <div class="col-md-3">
                 <div class="d-grid gap-1 d-md-flex btn-group-vertical">
-                    @if (ViewBag.IsAdmin)
+                    @if (ViewBag.EstAdmin)
                     {
                         <a class="btn btn-primary btn-mini" href="@Url.Action("Create")" role="button">Nouvelle Formation</a>
                     }

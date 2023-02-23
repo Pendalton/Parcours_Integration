@@ -23,7 +23,7 @@
                 <th class="text-center" style="width: 8%;">
                     Intérimaire
                 </th>
-                @if (ViewBag.IsAdmin)
+                @if (ViewBag.EstAdmin)
                 {
                     <th class="text-center" style="width: 10%">
                         Actions
@@ -121,7 +121,7 @@
                         <td class="align-middle">
                             <button id="btnEdit" type="button" onclick="" class="btn btn-primary Edit">Modifier</button>
                             <div class="btn-group btnConfirm" style="display:none">
-                                @if (ViewBag.IsAdmin)
+                                @if (ViewBag.EstAdmin)
                                 {
                                     <button type="button" class="btn btn-success Update" onclick=""><i class="bi bi-check-lg"></i></button>
                                     <button type="button" class="btn btn-primary Cancel" onclick=""><i class="bi bi-arrow-counterclockwise"></i></button>

@@ -1,175 +1,181 @@
 ﻿@model IPagedList<Parcours_integration.Models.Parcours>
 
+@{ 
+    var temporary = Model.ToList();
+    var Lim = Math.Ceiling(temporary.Count() / 2.0f);
+
+}
+
 @using PagedList;
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
-<div class="col-md-12">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            string[] colors = { "success", "secondary" };
-            int index = 1;
-            if (item.Complété)
+<div class="row">
+    @for (var i = 0; i < 2; i++)
+    {
+        <div class="col-md-6" style="padding:0">
+            @for (var j = 0; j < Lim; j++)
             {
-                index = 0;
-            }
-            var complété = colors[index];
-            string listeSecteurs = "";
-            List<String> serv = new List<string>();
-            string coll = String.Concat("collapse" + item.ID);
+                foreach (var item in temporary)
+                {
+                    string listeSecteurs = "";
+                    List<String> serv = new List<string>();
+                    string coll = String.Concat("collapse" + item.ID);
 
-            if (!item.Complété)
-            {
-                <div class="col-md-12" style="padding: 5px">
-                    <div class="h-100 bg-light border rounded-3 Search" style="padding:10px; line-height:30px" align="center">
-                        <div class="row" style="margin:0">
-                            <div class="col-md-3" style="display:flex; align-items:center; justify-content:center;">
-                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
-                            </div>
-                            <div class="col-md-5" style="display:flex; justify-content:center">
-                                <span style="line-height:25px">
-                                    Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) -
-                                    @if (item.ID_Resp == null)
-                                    {
-                                        <span>Pas de responsable</span>
-                                    }
-                                    else
-                                    {
-                                        <span>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</span>
-                                    }
-                                    <br />
-                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste)
-                                </span>
-                            </div>
-
-                            @{
-                                foreach (var mission in item.Missions)
-                                {
-                                    if (!mission.Passage)
-                                    {
-                                        if (!serv.Contains(mission.Nom_Secteur))
+                    if (!item.Complété)
+                    {
+                        <div style="padding: 5px">
+                            <div class="bg-light border rounded-3" style="padding: 10px; line-height: 25px" align="center">
+                                <div class="Search" style="display:flex; align-items:center; justify-content:center;">
+                                    <h4 style="line-height:20px">@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+                                </div>
+                                <div style="display:flex; justify-content:center">
+                                    <span>
+                                        Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) - Entré(e) le @Html.DisplayFor(modelItem => item.Entrée).ToString().Substring(0, 10)
+                                        <br />
+                                        @if (item.ID_Resp == null)
                                         {
-                                            serv.Add(mission.Nom_Secteur);
+                                            <span>Pas de responsable</span>
                                         }
-                                    }
-                                }
-                                var lastitem = serv.Last();
-                                foreach (var service in serv)
-                                {
-                                    if (service == lastitem)
-                                    {
-                                        listeSecteurs = String.Concat(listeSecteurs + service);
-                                    }
-                                    else
-                                    {
+                                        else
                                         {
-                                            listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                            <span>Responsable : @Html.DisplayFor(modelItem => item.Utilisateurs.Nom)</span>
                                         }
-                                    }
-                                }
-                            }
-                            <div class="col-md-4 btn-group" style="display:flex; justify-content:center; align-items:center">
-                                @if (ViewBag.IsAdmin || ViewBag.UserIT)
-                                {
-                                    <a class="btn btn-primary" href="@Url.Action("Edit", new { id = item.ID })">Modifier</a>
-                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
-                                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Secteur(s) manquant(s) : @listeSecteurs" onclick="Relance(@item.ID)">Relancer</button>
-                                }
-                                else if (ViewBag.EstResponsable)
-                                {
-                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
-                                }
-                                <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll" style="border:1px solid black">
-                                    Missions à faire
-                                </button>
-                            </div>
 
-                            <div class="collapse" id="@coll" style="width: 95%; margin: 0 auto 0 auto;">
-                                <div class="card card-body" style="padding: 0">
-                                    <table class="table table-bordered" style="margin:0">
-                                        <thead>
-                                            <tr style="line-height:25px">
-                                                <th class="text-center" style="background-color: #efefef; width:40%">
-                                                    Mission
-                                                </th>
-                                                <th class="text-center" style="background-color: #efefef; width:15%">
-                                                    Date de passage
-                                                </th>
-                                                <th class="text-center" style="background-color: #efefef;">
-                                                    Remarque
-                                                </th>
-                                                <th class="text-center" style="background-color: #efefef; width:14%">
-                                                    Terminée?
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var miss in ViewBag.MissTerm)
+                                        <span style="font-weight: bold"> - @Html.DisplayFor(modelItem => item.Contrat.Nom)</span>
+                                        <span>- @Html.DisplayFor(modelItem => item.Poste)</span>
+                                    </span>
+                                </div>
+
+                                @{
+                                    foreach (var mission in item.Missions)
+                                    {
+                                        if (!mission.Passage)
+                                        {
+                                            if (!serv.Contains(mission.Nom_Secteur))
                                             {
-                                                if (miss.ID_Parcours == item.ID)
-                                                {
-                                                    <tr>
-                                                        <td class="text-center">
-                                                            @miss.Nom_Mission
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @miss.Date_passage
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @miss.Remarque
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @if (miss.Passage)
-                                                            {
-                                                                <button type="button" disabled class="btn btn-success" style="opacity:1">Complétée</button>
-                                                            }
-                                                            else
-                                                            {
-                                                                <button type="button" disabled class="btn btn-danger" style="opacity:1">En cours</button>
-                                                            }
-                                                        </td>
-                                                    </tr>
-                                                }
+                                                serv.Add(mission.Nom_Secteur);
                                             }
-                                        </tbody>
-                                    </table>
+                                        }
+                                    }
+                                    var lastitem = serv.Last();
+                                    foreach (var service in serv)
+                                    {
+                                        if (service == lastitem)
+                                        {
+                                            listeSecteurs = String.Concat(listeSecteurs + service);
+                                        }
+                                        else
+                                        {
+                                            {
+                                                listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                            }
+                                        }
+                                    }
+                                }
+                                <div class="btn-group" style="display:flex; justify-content:center; align-items:center; width:80%;margin-top:5px">
+                                    @if (ViewBag.EstAdmin || ViewBag.UserIT)
+                                    {
+                                        <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", new { id = item.ID })">Modifier</a>
+                                        <a class="btn btn-primary btn-sm" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
+                                        <button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Secteur(s) manquant(s) : @listeSecteurs" onclick="Relance(@item.ID)">Relancer</button>
+                                    }
+                                    else if (ViewBag.EstResponsable)
+                                    {
+                                        <a class="btn btn-primary btn-sm" href="@Url.Action("Details", new { id = item.ID })">Détails</a>
+                                    }
+                                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#@coll" aria-controls="@coll" style="border:1px solid black">
+                                        Missions à faire
+                                    </button>
+                                </div>
+
+                                <div class="collapse" id="@coll" style="width: 100%; margin: 7px auto 0 auto;">
+                                    <div class="card card-body" style="padding: 0">
+                                        <table class="table table-bordered" style="margin:0">
+                                            <thead>
+                                                <tr style="line-height:20px">
+                                                    <th class="text-center" style="background-color: #efefef; width:40%">
+                                                        Mission
+                                                    </th>
+                                                    <th class="text-center" style="background-color: #efefef; width:15%">
+                                                        Passage
+                                                    </th>
+                                                    <th class="text-center" style="background-color: #efefef;">
+                                                        Remarque
+                                                    </th>
+                                                    <th class="text-center" style="background-color: #efefef; width:14%">
+                                                        Terminée?
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="line-height:20px">
+                                                @foreach (var miss in ViewBag.MissTerm)
+                                                {
+                                                    if (miss.ID_Parcours == item.ID)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @miss.Nom_Mission
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @miss.Date_passage
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @miss.Remarque
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @if (miss.Passage)
+                                                                {
+                                                                    <button type="button" disabled class="btn btn-success btn-sm" style="opacity:1">Complétée</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button type="button" disabled class="btn btn-danger btn-sm" style="opacity:1">En cours</button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="padding:5px">
+                            <div class="border rounded-3 Search" style="padding: 10px; line-height: 20px; background-color: #00aa0050" align="center">
+                                <div class="row" style="margin:0">
+                                    <div>
+                                        <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <span>
+                                            Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) - Entré(e) le @Html.DisplayFor(modelItem => item.Entrée).ToString().Substring(0, 10)
+                                        </span>
+                                        <br />
+                                        <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) -
+
+                                        COMPLÉTÉ
+                                    </div>
+                                    <div class="col-md-2" style="display:flex; justify-content:center; align-items:center; margin-top:5px">
+                                        @if (ViewBag.EstAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
+                                        {
+                                            <a class="btn btn-primary btn-sm" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                    temporary.Remove(item);
+                    break;
+                }
             }
-            else
-            {
-                <div class="col-md-12" style="padding:5px; line-height:50px;">
-                    <div class="h-100 border rounded-3 Search" style="padding:10px; line-height:30px; background-color:#00aa0050" align="center">
-                        <div class="row" style="margin:0">
-                            <div class="col-md-4">
-                                <h4>@Html.DisplayFor(modelItem => item.Nom) <span style="font-weight:normal">@Html.DisplayFor(modelItem => item.Prénom)</span></h4>
-                            </div>
-                            <div class="col-md-6">
-                                <span>
-                                    Parcours créé le @Html.DisplayFor(modelItem => item.Date_entrée) -
-
-                                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.Contrat.Nom)</span> - @Html.DisplayFor(modelItem => item.Poste) -
-
-                                    COMPLÉTÉ
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                @if (ViewBag.IsAdmin || item.Nom.ToUpper() + " " + item.Prénom == ViewBag.UserSession)
-                                {
-                                    <a class="btn btn-primary" href="@Url.Action("Details", new { id = item.ID })" role="button">Détails</a>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-    <div>
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))
-    </div>
+        </div>
+    }
 </div>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))

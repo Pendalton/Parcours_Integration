@@ -205,6 +205,7 @@ namespace Parcours_integration.Controllers
 
             employes.EstFormateur = false;
             employes.EstAdmin = false;
+            employes.Photo = null;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

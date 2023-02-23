@@ -210,8 +210,8 @@ namespace Parcours_integration.Controllers
                     Miss.Remarque = "";
                 }
                 db.SaveChanges();
-                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable==true).Where(s=>s.Passage==false).ToList();
-                if(MissComp.Count == 0)
+                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable).Where(s=>s.Passage).Count();
+                if(MissComp == 0)
                 {
                     db.Parcours.Find(Miss.ID_Parcours).Complété = true;
                     
@@ -237,6 +237,18 @@ namespace Parcours_integration.Controllers
 
             db.Entry(MissionNA).State = EntityState.Modified;
             db.SaveChanges();
+
+            var MissComp = db.Missions.Where(s => s.ID_Parcours == MissionNA.ID_Parcours).Where(s => s.Applicable).Where(s => s.Passage).Count();
+            if (MissComp == 0)
+            {
+                db.Parcours.Find(MissionNA.ID_Parcours).Complété = true;
+
+            }
+            else
+            {
+                db.Parcours.Find(MissionNA.ID_Parcours).Complété = false;
+
+            }
 
             Parcours parcours = db.Parcours.Find(MissionNA.ID_Parcours);
             var ListeDesMissions = parcours.Missions.OrderBy(s => s.ID).ToList();

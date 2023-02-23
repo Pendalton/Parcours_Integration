@@ -48,7 +48,7 @@
                     {
                         <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
                     }
-                    @if (ViewBag.EstRH || ViewBag.IsAdmin)
+                    @if (ViewBag.EstRH || ViewBag.EstAdmin)
                     {
                         <a class="btn btn-primary" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
                     }
@@ -79,14 +79,7 @@
 
         $("#Search").keyup(function () {
             var searchText = $("#Search").val().toLowerCase();
-            $(".Search").each(function () {
-                if (!Contains($(this).text().toLowerCase(), searchText)) {
-                    $(this).parent().hide();
-                }
-                else {
-                    $(this).parent().show();
-                }
-            });
+            TextSearch(searchText);
         });
     });
 
@@ -102,6 +95,22 @@
                 }
             })
         }
+    }
+
+    function TextSearch(Text) {
+        $.ajax({
+            type: "post",
+            url: "IndexAjax",
+            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '", ParcName: "' + Text + '"}',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#PIField").html(data);
+            },
+            error: function (data) {
+                alert("Erreur");
+                console.log(data);
+            }
+            })
     }
 
     function Actualiser() {

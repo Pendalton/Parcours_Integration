@@ -18,7 +18,7 @@
             <th class="text-center" style="background-color: #efefef; width: 8%">
                 Date Réalisation
             </th>
-            @if (ViewBag.EstRH)
+            @if (ViewBag.EstRH || ViewBag.EstAdmin || ViewBag.EstResponsableCurrent)
             {
                 <th class="text-center" style="background-color: #efefef; width: 13%">Actions / remarque</th>
             }
@@ -63,7 +63,7 @@
                         <span>NON APPLICABLE</span>
                     </td>
 
-                    @if (ViewBag.EstRH)
+                    @if (ViewBag.EstRH || ViewBag.EstAdmin || ViewBag.EstResponsableCurrent)
                     {
                         <td>
                             <button type="button" onclick="NonApplicable(@item.ID)" style="display:block" class="btn btn-outline-primary poof">Applicable</button>
@@ -91,7 +91,7 @@
                         }
                     </td>
                     <td>
-                        @if (ViewBag.EstRH)
+                        @if (ViewBag.EstRH || ViewBag.EstAdmin || ViewBag.EstResponsableCurrent)
                         {
                             if (item.Passage)
                             {
@@ -119,7 +119,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Date_passage)
                     </td>
-                    @if (ViewBag.EstRH)
+                    @if (ViewBag.EstRH || ViewBag.EstAdmin || ViewBag.EstResponsableCurrent)
                     {
                         <td>
                             @if (!item.Passage)

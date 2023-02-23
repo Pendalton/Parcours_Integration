@@ -110,7 +110,7 @@
                 <br />
                 @if (ViewBag.RHSign == null)
                 {
-                    if (ViewBag.IsAdmin || ViewBag.EstRH)
+                    if (ViewBag.EstAdmin || ViewBag.EstRH)
                     {
                         <div id="RHSign" style="text-align:center">
                             <button type="button" id="RHbtn" onclick="Sign(@Model.ID, this.id)" class="btn btn-outline-primary float-end" style="position:absolute;bottom:0;right:12px">Signer</button>
@@ -154,7 +154,7 @@
                 <br />
                 @if (ViewBag.EmpSign == null)
                 {
-                    if (ViewBag.IsAdmin || (ViewBag.UserSession == Model.Nom + " " + Model.Prénom))
+                    if (ViewBag.EstAdmin || (ViewBag.UserSession == Model.Nom + " " + Model.Prénom))
                     {
                         <div id="EmpSign" style="text-align:center">
                             <button type="button" id="Empbtn" onclick="Sign(@Model.ID, this.id)" class="btn btn-outline-primary float-end" style="position:absolute;bottom:0;right:12px">Signer</button>
