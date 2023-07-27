@@ -138,3 +138,4 @@ C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Par
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xmlworker.dll
 C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\itextsharp.xml
+C:\Users\delesalf\Documents\GitHub\Parcours_Integration\Parcours integration\Parcours integration\bin\Controllers\HomeController.cs

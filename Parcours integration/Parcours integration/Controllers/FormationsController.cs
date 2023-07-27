@@ -21,17 +21,7 @@ namespace Parcours_integration.Controllers
 
             if (!EstFormateur && !EstResponsable)
             {
-                var Nom = UserSession.Nom;
-                var Parc = db.Parcours.Where(m => m.Nom + m.Prénom == Nom).FirstOrDefault();
-
-                if(Parc == null)
-                {
-                    return RedirectToAction("Index", "Parcours");
-                }
-                else 
-                { 
-                    return RedirectToAction("Details", "Parcours", new { id = Parc.ID }); 
-                }
+                return RedirectToAction("Index", "Home");
             }
 
             var SectEmploi = UserService.Select(s=>s.Service.Nom).ToList();
@@ -107,7 +97,7 @@ namespace Parcours_integration.Controllers
 
                 ViewBag.Intérim = Intérim;
 
-                Résultat = Résultat.OrderBy(s => s.ID).ToList();
+                Résultat = Résultat.OrderBy(s => s.Entrée).ToList();
             }
 
             ListAFaire.Formations = Résultat;
@@ -124,7 +114,7 @@ namespace Parcours_integration.Controllers
                     }
                     else
                     {
-                        var RH = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Ressources Humaines");
+                        var RH = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Ressources Humaines ou Manpower");
                         var Resp = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Responsable");
                         var Emp = db.Signatures.Where(s => s.ID_Parcours == Parc.ID).Any(s => s.Role == "Employé" || s.Role == "Admin");
 
@@ -134,7 +124,7 @@ namespace Parcours_integration.Controllers
                 }
             }
 
-            ListAFaire.Signatures = SignaturesAFaire;
+            ListAFaire.Signatures = SignaturesAFaire.OrderBy(s=>s.Item2).ToList();
 
             return View(ListAFaire);
         }
@@ -154,18 +144,22 @@ namespace Parcours_integration.Controllers
                 db.Entry(missions).State = EntityState.Modified;
                 db.SaveChanges();
 
-                var MissComp = db.Missions.Where(s => s.ID_Parcours == missions.ID_Parcours).Where(s => !s.Passage).Where(s=>s.Applicable).Count();
+                var MissComp = db.Missions.Where(s => s.ID_Parcours == missions.ID_Parcours).Where(s => s.Applicable).Where(s => !s.Passage).Count();
+                var temp = missions.Parcours.Missions.Where(s => s.Applicable).Where(s => !s.Passage).Count();
                 if (MissComp == 0)
                 {
                     missions.Parcours.Complété = true;
+                    db.SaveChanges();
                     if (db.Parcours.Where(s => s.ID_Resp == missions.Parcours.ID_Resp).Where(s => !s.Complété).Count() == 0)
                     {
                         missions.Parcours.Utilisateurs.EstResponsable = false;
                     }
+                    CompletionMail(missions.Parcours.ID);
                 }
                 else
                 {
                     missions.Parcours.Complété = false;
+                    db.SaveChanges();
                     if (db.Parcours.Where(s => s.ID_Resp == missions.Parcours.ID_Resp).Where(s => !s.Complété).Count() != 0)
                     {
                         missions.Parcours.Utilisateurs.EstResponsable = true;

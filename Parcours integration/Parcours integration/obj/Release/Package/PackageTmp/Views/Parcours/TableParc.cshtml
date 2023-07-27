@@ -58,17 +58,20 @@
                                             }
                                         }
                                     }
-                                    var lastitem = serv.Last();
-                                    foreach (var service in serv)
+                                    if(serv != null)
                                     {
-                                        if (service == lastitem)
+                                        var lastitem = serv.Last();
+                                        foreach (var service in serv)
                                         {
-                                            listeSecteurs = String.Concat(listeSecteurs + service);
-                                        }
-                                        else
-                                        {
+                                            if (service == lastitem)
                                             {
-                                                listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                                listeSecteurs = String.Concat(listeSecteurs + service);
+                                            }
+                                            else
+                                            {
+                                                {
+                                                    listeSecteurs = String.Concat(listeSecteurs + service + ", ");
+                                                }
                                             }
                                         }
                                     }
@@ -178,4 +181,4 @@
         </div>
     }
 </div>
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutat, Terminé = ViewBag.Term }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, CDI = ViewBag.CDI, CDD = ViewBag.CDD, Stage = ViewBag.Stage, Mutation = ViewBag.Mutation, Intérim = ViewBag.Intérim, Terminé = ViewBag.Term }))

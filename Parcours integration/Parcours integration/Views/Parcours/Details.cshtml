@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <h3 style="font-weight:normal; padding-left:13px"><span>Responsable : @ViewBag.Responsable</span></h3>
+                <h3 style="font-weight:normal; padding-left:13px"><span>Responsable : @Html.DisplayFor(model=>model.Utilisateurs.Nom)</span></h3>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@
 
         <div class="row" style="margin-top:15px">
             <div class="col-md-4" style="position: relative;height:110px">
-                <span>Ressources Humaines :</span>
+                <span>Ressources Humaines / Manpower :</span>
                 <br />
                 @if (ViewBag.RHSign == null)
                 {
@@ -154,7 +154,7 @@
                 <br />
                 @if (ViewBag.EmpSign == null)
                 {
-                    if (ViewBag.EstAdmin || (ViewBag.UserSession == Model.Nom + " " + Model.Prénom))
+                    if (ViewBag.EstAdmin || (ViewBag.UserID == Model.ID_Employé))
                     {
                         <div id="EmpSign" style="text-align:center">
                             <button type="button" id="Empbtn" onclick="Sign(@Model.ID, this.id)" class="btn btn-outline-primary float-end" style="position:absolute;bottom:0;right:12px">Signer</button>
@@ -216,15 +216,14 @@
         var boutton = document.getElementById(clicked_id);
         $.ajax({
             type: "POST",
-            url: "Signer",
+            url: "../Signer",
             data: '{ ID: "' + ID + '", RoleBtn: "' + boutton.id + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(data)
                 var test = JSON.parse(data);
                 boutton.style.display = "none";
 
-                var newHtml = "<h4 style='margin:0'>" + test.Item2 + "</h4> <span>En tant que " + test.Item3 + "</span><br/><span>Signé le : " + test.Item1 + "</span>"
+                var newHtml = "<h4 style='margin:0'>" + test[1] + "</h4> <span>En tant que " + test[2] + "</span><br/><span>Signé le : " + test[0] + "</span>"
 
                 boutton.parentNode.innerHTML = newHtml;
             }

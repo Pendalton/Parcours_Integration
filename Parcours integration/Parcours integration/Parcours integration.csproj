@@ -139,7 +139,9 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\FormationsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeController.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Controllers\MissionsController.cs" />
     <Compile Include="Controllers\ModelesController.cs" />
     <Compile Include="Controllers\OrganiController.cs" />
@@ -501,7 +503,6 @@
     <Content Include="Views\Parcours\TableParc.cshtml" />
     <Content Include="Views\Home\MailRedact.cshtml" />
     <Content Include="Views\Home\MailRedactContent.cshtml" />
-    <Content Include="Views\Home\Emergency.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

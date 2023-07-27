@@ -33,9 +33,9 @@
             <tbody>
                 @foreach (var item in Model.Signatures)
                 {
-                    var RH = "RH" + item.Item1;
-                    var Resp = "Resp" + item.Item1;
-                    var Emp = "Emp" + item.Item1;
+                    var RH = "RHbtn" + item.Item1;
+                    var Resp = "Respbtn" + item.Item1;
+                    var Emp = "Empbtn" + item.Item1;
                     <tr align="center">
                         <td>
                             <span style="font-weight:bold">@item.Item2</span>
@@ -43,54 +43,54 @@
                         <td>
                             <span style="font-weight:bold">@item.Item3</span>
                         </td>
-                        <td id="@RH">
+                        <td>
                             @if (item.Item4)
                             {
-                                <span style="font-weight:bold">Signé</span>
+                                <span style="font-weight:bold">Signé !</span>
                             }
                             else
                             {
                                 if (ViewBag.EstAdmin || ViewBag.EstRH || ViewBag.EstManPower)
                                 {
-                                    <button type="button" id="RHbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                    <button type="button" id="@RH" class="btn btn-primary" onclick="Signer(@item.Item1,'RHbtn')">Signer</button>
                                 }
                                 else
                                 {
-                                    <button type="button" id="RHbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
+                                    <button type="button" id="@RH" class="btn btn-secondary" disabled onclick="">Autorisation</button>
                                 }
                             }
                         </td>
-                        <td id="@Resp">
+                        <td>
                             @if (item.Item5)
                             {
-                                <span style="font-weight:bold">Signé</span>
+                                <span style="font-weight:bold">Signé !</span>
                             }
                             else
                             {
                                 if (ViewBag.UserID == item.Item7)
                                 {
-                                    <button type="button" id="Respbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                    <button type="button" id="@Resp" class="btn btn-primary" onclick="Signer(@item.Item1, 'Respbtn')">Signer</button>
                                 }
                                 else
                                 {
-                                    <button type="button" id="Respbtn" class="btn btn-secondary" disabled onclick="">Responsable</button>
+                                    <button type="button" id="@Resp" class="btn btn-secondary" disabled onclick="">Responsable</button>
                                 }
                             }
                         </td>
-                        <td id="@Emp">
+                        <td>
                             @if (item.Item6)
                             {
-                                <span style="font-weight:bold">Signé</span>
+                                <span style="font-weight:bold">Signé !</span>
                             }
                             else
                             {
                                 if (ViewBag.EstAdmin)
                                 {
-                                    <button type="button" id="Empbtn" class="btn btn-primary" onclick="Signer(@item.Item1, this.id)">Signer</button>
+                                    <button type="button" id="@Emp" class="btn btn-primary" onclick="Signer(@item.Item1, 'Empbtn')">Signer</button>
                                 }
                                 else
                                 {
-                                    <button type="button" id="Empbtn" class="btn btn-secondary" disabled onclick="">Autorisation</button>
+                                    <button type="button" id="@Emp" class="btn btn-secondary" disabled onclick="">Autorisation</button>
                                 }
                             }
                         </td>
@@ -162,9 +162,9 @@ else
             <tbody>
                 @foreach (var item in Model.Formations)
                 {
-                    var jours = item.Date_entrée.Substring(0, 2);
-                    var mois = item.Date_entrée.Substring(3, 2);
-                    var an = item.Date_entrée.Substring(6, 4);
+                    var jours = item.Entrée.ToString().Substring(0, 2);
+                    var mois = item.Entrée.ToString().Substring(3, 2);
+                    var an = item.Entrée.ToString().Substring(6, 4);
 
                     var day = int.Parse(jours);
                     var month = int.Parse(mois);
@@ -219,7 +219,7 @@ else
                                     <thead>
                                         <tr style="background-color: #ffffff">
                                             <th class="text-center" style="width: 35%">Mission</th>
-                                            <th class="text-center" style="width: 15%">Service</th>
+                                            <th class="text-center" style="width: 14%">Service</th>
                                             <th class="text-center" style="width: 5%">Planifiée</th>
                                             <th class="text-center" style="width: 40%;">
                                                 <span>
@@ -227,7 +227,7 @@ else
                                                 </span>
                                                 <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Zone destinée à apporter des précisions ou commentaires sur la formation. Ne pas renseigner de remarque personnelle."></i>
                                             </th>
-                                            <th class="text-center" style="width: 5%">Signer</th>
+                                            <th class="text-center" style="width: 6%"></th>
 
                                         </tr>
                                     </thead>
@@ -243,7 +243,7 @@ else
                                             {
                                                 continue;
                                             }
-                                            <tr align="center" style="background-color:#ffffff">
+                                            <tr align="center" style="background-color: #ffffff; cursor: default;">
                                                 <td style="vertical-align:middle">
                                                     @format.Nom_Mission <input type="hidden" name="MissionID" value="@format.ID" />
                                                 </td>
@@ -306,16 +306,16 @@ else
     function Plan(ID) {
         $.ajax({
             type: "POST",
-            url: "../Formations/Plan",
+            url: "/ParcoursIntegration/Formations/Plan",
             data: '{ ID: "' + ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 var newBtn = "";
                 if (data == "True") {
-                    newBtn = '<button type="button" onclick="Plan(' + ID + ')" class="btn btn-success">OUI</button>';
+                    newBtn = '<button type="button" id="PlanBtn' + ID + '" onclick="Plan(' + ID + ')" class="btn btn-success">OUI</button>';
                 }
                 else {
-                    newBtn = '<button type="button" onclick="Plan(' + ID + ')" class="btn btn-danger">NON</button>';
+                    newBtn = '<button type="button" id="PlanBtn' + ID + '" onclick="Plan(' + ID + ')" class="btn btn-danger">NON</button>';
                 }
                 $("#Plan" + ID).html(newBtn);
             }
@@ -323,10 +323,10 @@ else
     };
 
     function Signer(ID, clicked_ID) {
-        var boutton = document.getElementById(clicked_ID);
+        var boutton = document.getElementById(clicked_ID+ID);
         $.ajax({
             type: "POST",
-            url: "/Parcours/Signer",
+            url: "Parcours/Signer",
             data: '{ ID: "' + ID + '", RoleBtn: "' + clicked_ID + '" }',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -344,7 +344,7 @@ else
         var remtxt = document.getElementById('RemarqueTxt' + ID).value;
         $.ajax({
             type: "POST",
-            url: "../Formations/Sign",
+            url: "/ParcoursIntegration/Formations/Sign",
             data: '{ID:"' + ID + '", Rem:"' + remtxt + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -364,7 +364,7 @@ else
         var remtxt = document.getElementById('RemarqueTxt' + ID).value;
         $.ajax({
             type: "POST",
-            url: "../Formations/Save",
+            url: "/ParcoursIntegration/Formations/Save",
             data: '{ID:"' + ID + '", Rem:"' + remtxt + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -393,19 +393,13 @@ else
         padding: 0 !important;
     }
 
-    .temp tbody > :nth-child(4n+0) {
-        background: white;
-    }
-
-    .temp tbody > :nth-child(4n+2) {
-        background: white;
-    }
-
     .temp tbody > :nth-child(4n+1) {
         background-color: rgba(66, 218, 245, 0.3);
+        cursor: pointer;
     }
 
     .temp tbody > :nth-child(4n+3) {
         background-color: rgba(66, 183, 255, 0.3);
+        cursor: pointer;
     }
 </style>

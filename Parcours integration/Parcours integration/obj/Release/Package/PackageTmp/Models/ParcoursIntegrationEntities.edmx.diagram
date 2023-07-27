@@ -17,7 +17,7 @@
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Missions_Utilisateurs" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Employes_Services_Service" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Utilisateurs_Services_Utilisateurs" />
-        <EntityTypeShape EntityType="ParcoursIntegrationModel.Parcours" Width="1.5" PointX="2.75" PointY="3" />
+        <EntityTypeShape EntityType="ParcoursIntegrationModel.Parcours" Width="1.625" PointX="2.75" PointY="3" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Comment_Parcours" />
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Contrat" ></AssociationConnector>
         <AssociationConnector Association="ParcoursIntegrationModel.FK_Parcours_Equipe" ManuallyRouted="false" >

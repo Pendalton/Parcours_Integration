@@ -210,16 +210,25 @@ namespace Parcours_integration.Controllers
                     Miss.Remarque = "";
                 }
                 db.SaveChanges();
-                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable).Where(s=>s.Passage).Count();
+                var MissComp = db.Missions.Where(s => s.ID_Parcours == Miss.ID_Parcours).Where(s=>s.Applicable).Where(s=>!s.Passage).Count();
                 if(MissComp == 0)
                 {
-                    db.Parcours.Find(Miss.ID_Parcours).Complété = true;
-                    
+                    Miss.Parcours.Complété = true;
+                    db.SaveChanges();
+                    CompletionMail(Miss.Parcours.ID);
+                    if (db.Parcours.Where(s => s.ID_Resp == Miss.Parcours.ID_Resp).Where(s => !s.Complété).Count() == 0)
+                    {
+                        Miss.Parcours.Utilisateurs.EstResponsable = false;
+                    }
                 }
                 else
                 {
-                    db.Parcours.Find(Miss.ID_Parcours).Complété = false;
-                    
+                    Miss.Parcours.Complété = false;
+                    db.SaveChanges();
+                    if (db.Parcours.Where(s => s.ID_Resp == Miss.Parcours.ID_Resp).Where(s => !s.Complété).Count() != 0)
+                    {
+                        Miss.Parcours.Utilisateurs.EstResponsable = true;
+                    }
                 }
                 db.SaveChanges();
             }
@@ -238,18 +247,26 @@ namespace Parcours_integration.Controllers
             db.Entry(MissionNA).State = EntityState.Modified;
             db.SaveChanges();
 
-            var MissComp = db.Missions.Where(s => s.ID_Parcours == MissionNA.ID_Parcours).Where(s => s.Applicable).Where(s => s.Passage).Count();
+            var MissComp = db.Missions.Where(s => s.ID_Parcours == MissionNA.ID_Parcours).Where(s => s.Applicable).Where(s => !s.Passage).Count();
             if (MissComp == 0)
             {
-                db.Parcours.Find(MissionNA.ID_Parcours).Complété = true;
-
+                MissionNA.Parcours.Complété = true;
+                CompletionMail(MissionNA.Parcours.ID);
+                if (db.Parcours.Where(s => s.ID_Resp == MissionNA.Parcours.ID_Resp).Where(s => !s.Complété).Count() == 0)
+                {
+                    MissionNA.Parcours.Utilisateurs.EstResponsable = false;
+                    if (db.Parcours.Where(s => s.ID_Resp == MissionNA.Parcours.ID_Resp).Where(s => !s.Complété).Count() != 0)
+                    {
+                        MissionNA.Parcours.Utilisateurs.EstResponsable = true;
+                    }
+                }
             }
             else
             {
-                db.Parcours.Find(MissionNA.ID_Parcours).Complété = false;
-
+                MissionNA.Parcours.Complété = false;
             }
 
+            db.SaveChanges();
             Parcours parcours = db.Parcours.Find(MissionNA.ID_Parcours);
             var ListeDesMissions = parcours.Missions.OrderBy(s => s.ID).ToList();
 

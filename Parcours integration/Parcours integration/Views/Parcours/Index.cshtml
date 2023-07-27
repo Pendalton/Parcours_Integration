@@ -40,14 +40,8 @@
 
             <div style="width:21%">
                 <div class="gap-1 d-md-flex btn-group-vertical">
-                    @if (!ViewBag.Term)
-                    {
-                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Afficher les parcours terminés</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-outline-secondary" href="@Url.Action("Index", new {Terminé = !ViewBag.Term})">Cacher les parcours terminés</a>
-                    }
+                    <input type="checkbox" checked="@ViewBag.Term" class="btn-check" id="Term" autocomplete="off" onChange="Actualiser()">
+                    <label id="TermText" class="btn btn-outline-secondary" for="Term" >Afficher les parcours terminés</label>
                     @if (ViewBag.EstRH || ViewBag.EstAdmin)
                     {
                         <a class="btn btn-primary" href="@Url.Action("Create")" role="button">Nouveau parcours</a>
@@ -81,13 +75,22 @@
             var searchText = $("#Search").val().toLowerCase();
             TextSearch(searchText);
         });
+
+        if (Term.checked) {
+            $("#TermText").text("Cacher les parcours terminés");
+        }
+        else {
+            $("#TermText").text("Afficher les parcours terminés")
+        }
     });
+
+
 
     function Relance(ID) {
         if (confirm("Etes-vous sûr(e) de vouloir envoyer un mail à chaque formateur concerné?")) {
             $.ajax({
                 type: "POST",
-                url: "SendMail",
+                url: "Parcours/SendMail",
                 data: '{ ID: "' + ID + '"}',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -100,8 +103,8 @@
     function TextSearch(Text) {
         $.ajax({
             type: "post",
-            url: "IndexAjax",
-            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '", ParcName: "' + Text + '"}',
+            url: "Parcours/IndexAjax",
+            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '", Terminé: "' + Term.value + '", ParcName: "' + Text + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#PIField").html(data);
@@ -110,14 +113,21 @@
                 alert("Erreur");
                 console.log(data);
             }
-            })
+        })
     }
 
     function Actualiser() {
+        if (Term.checked) {
+            $("#TermText").text("Cacher les parcours terminés");
+        }
+        else {
+            $("#TermText").text("Afficher les parcours terminés")
+        }
+
         $.ajax({
             type: "POST",
-            url: "IndexAjax",
-            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '"}',
+            url: "Parcours/IndexAjax",
+            data: '{CDI: "' + CDI.checked + '", CDD: "' + CDD.checked + '", Stage: "' + Stage.checked + '", Mutation: "' + Mutation.checked + '", Intérim: "' + Int_rim.checked + '", YearPicker: "' + YearPicker.value + '", Rythme: "' + Rythme.value + '", Terminé: "' + Term.checked + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 $("#PIField").html(data);
@@ -133,5 +143,9 @@
 <style>
     .sizeup {
         transform: scale(1.5);
+    }
+    .quick .toggle-group {
+        transition: none;
+        -webkit-transition: none;
     }
 </style>

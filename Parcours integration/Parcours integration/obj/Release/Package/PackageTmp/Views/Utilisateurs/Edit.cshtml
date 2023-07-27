@@ -54,6 +54,7 @@
             <div class="col-md-4">
                 @if (Model.Photo != null)
                 {
+                    @Html.HiddenFor(s => s.Photo);
                     var base64 = Convert.ToBase64String(Model.Photo);
                     var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                     <img id="ProfileImage" src="@imgSrc" class="picture" style="margin-bottom:10px; max-width:50%" />

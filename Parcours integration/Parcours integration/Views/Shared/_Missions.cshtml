@@ -158,7 +158,7 @@
     function Completer(ID) {
         $.ajax({
             type: "POST",
-            url: "/ParcoursIntegration/Missions/Completer",
+            url: "../../Missions/Completer",
             contentType: "application/json; charset=utf-8",
             data: '{ ID: "' + ID + '"}',
             success: function (data) {
@@ -166,6 +166,7 @@
             },
             error: function (data) {
                 alert("Error");
+                console.log(url);
             }
         });
     }
@@ -173,7 +174,7 @@
     function NonApplicable(ID) {
         $.ajax({
             type: "POST",
-            url: "/ParcoursIntegration/Missions/NonApplicable",
+            url: "../../Missions/NonApplicable",
             data: '{ ID: "' + ID + '"}',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
@@ -181,6 +182,7 @@
             },
             error: function (data) {
                 alert("Error");
+                console.log(data);
             }
         })
     }

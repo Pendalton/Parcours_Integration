@@ -10,6 +10,8 @@ using System.Net.Mail;
 using System.IO;
 using System.Text.RegularExpressions;
 using Parcours_integration.Models;
+using System.util;
+using System.Web.UI.WebControls.WebParts;
 
 namespace Parcours_integration.Controllers
 {
@@ -77,7 +79,7 @@ namespace Parcours_integration.Controllers
                 var ServP = db.Utilisateurs_Services.Where(s => s.ID_Utilisateur == util.ID).Select(s => s.Service.Nom).ToList();
 
                 var ParcP = db.Parcours.Where(s => !s.Complété).OrderBy(s => s.Nom).ToList();
-
+                int missNbr = 0;
                 foreach(var parc in ParcP.ToList())
                 {
                     var Name = db.Missions.Where(s => !s.Passage).Where(s => s.Applicable).Where(s => s.ID_Parcours == parc.ID).Select(s => s.Nom_Secteur).Distinct().ToList();
@@ -86,19 +88,21 @@ namespace Parcours_integration.Controllers
                     {
                         ParcP.Remove(parc);
                     }
+                    else
+                    {
+                        missNbr += db.Missions.Where(s => !s.Passage).Where(s => s.Applicable).Where(s => s.ID_Parcours == parc.ID).Where(s=>ServP.Contains(s.Nom_Secteur)).Count();
+                    }
                 }
 
                 if (util.UserMail != null)
                 {
                     var senderMail = new MailAddress("service-rhlisieux@knorr-bremse.com", "Service RH");
 
-                    var receiverMail = new MailAddress(util.UserMail);
-
-                    var password = "";
+                    var receiverMail = new MailAddress("felix.delesalle@knorr-bremse.com");
 
                     var sub = "Relance des parcours d'intégration";
 
-                    var body = $"{util.Nom}, il vous reste {ParcP.Count()} formation(s) à effectuer sur des parcours d'intégration. Cliquez le lien suivant pour avoir accès aux formations en question.<br/><br/><a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index\">Liste des parcours à faire</a>" +
+                    var body = $"{util.Nom}, il vous reste {missNbr} formation(s) à effectuer sur des parcours d'intégration. Cliquez les liens suivants pour avoir accès aux formations en question.<br/><br/><a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Formations/Index\">Liste des parcours à faire</a>" +
 
                         $"<br/><br/>" +
                         $"<ul> ";
@@ -112,7 +116,7 @@ namespace Parcours_integration.Controllers
                     }
 
                     var end = "</ul>" +
-                        "<br/><br/>" +
+                        "<br/>" +
                         "Si vous avez des remarques ou questions, n’hésitez pas à contacter le service RH.<br/>Merci.";
 
                     var smtp = new SmtpClient
@@ -121,8 +125,7 @@ namespace Parcours_integration.Controllers
                         Port = 25,
                         EnableSsl = false,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderMail.Address, password),
+                        UseDefaultCredentials = false
                     };
 
                     using (MailMessage mm = new MailMessage(senderMail, receiverMail))
@@ -131,8 +134,61 @@ namespace Parcours_integration.Controllers
                         mm.Body = body + Content + end;
                         mm.IsBodyHtml = true;
                         smtp.Send(mm);
-                        ViewBag.Message = "Mail envoyé";
                     }
+                }
+            }
+        }
+
+        public void CompletionMail(int ID)
+        {
+            var parcours = db.Parcours.Find(ID);
+            List<Utilisateurs> Mails = new List<Utilisateurs>();
+            if(parcours.Type_Contrat == 7)
+            {
+                var temp = db.Utilisateurs_Services.Where(s => s.ID_Service == 16).Select(s=>s.Utilisateurs).ToList();
+                Mails.AddRange(temp);
+            }
+            else
+            {
+                var temp = db.Utilisateurs_Services.Where(s => s.ID_Service == 5).Select(s => s.Utilisateurs).ToList(); 
+                Mails.AddRange(temp);
+            }
+            Mails.Add(parcours.Utilisateurs);
+            if(parcours.CompteInformatique != null)
+            {
+                Mails.Add(parcours.CompteInformatique);
+            }
+
+            foreach(var mail in Mails)
+            {
+                var senderMail = new MailAddress("service-rhlisieux@knorr-bremse.com", "Service RH");
+
+                var receiverMail = new MailAddress(mail.UserMail);
+
+                var sub = "Fin du parcours, Signatures requises";
+
+                var body = $"Le parcours de {parcours.Nom + " " + parcours.Prénom} vient d'être complété. Merci de signer le parcours en cliquant sur le lien ci-dessous :" +
+                    "<br/><br/>" + 
+                    $"<a href=\"http://liss4022.corp.knorr-bremse.com/ParcoursIntegration/Parcours/Details/" + parcours.ID + "\">" + parcours.Nom + " " + parcours.Prénom + "</a>, " + parcours.Poste + ", embauché(e) le " + parcours.Entrée.ToString().Substring(0, 10) +
+                    ".<br/><br/>" +
+                    "Si vous avez des remarques ou questions, n’hésitez pas à contacter le service RH.<br/>Merci.";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "mail-lis.corp.knorr-bremse.com",
+                    Port = 25,
+                    EnableSsl = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false
+                };
+
+                using (MailMessage mm = new MailMessage(senderMail, receiverMail))
+                {
+                    mm.Subject = sub;
+                    mm.Body = body;
+                    mm.IsBodyHtml = true;
+                    smtp.Send(mm);
+                    ViewBag.Message = "Mail envoyé";
                 }
             }
         }

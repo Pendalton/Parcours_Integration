@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>\\liss4022\ParcoursIntegration</_PublishTargetUrl>
-    <History>True|2023-02-23T13:22:43.6754108Z;True|2023-02-22T14:47:10.8030907+01:00;True|2023-01-30T10:19:18.0145963+01:00;True|2022-09-02T15:42:29.4134598+02:00;</History>
+    <History>True|2023-07-26T07:34:10.5692573Z;True|2023-06-06T10:50:38.1143219+02:00;True|2023-05-17T16:29:49.2966609+02:00;True|2023-05-12T14:17:03.7519787+02:00;True|2023-05-12T14:13:42.4632896+02:00;True|2023-05-12T14:12:32.9377522+02:00;True|2023-05-12T14:11:19.8678118+02:00;True|2023-05-10T15:21:51.9082262+02:00;True|2023-05-10T15:20:28.9172413+02:00;True|2023-05-10T14:50:17.8107725+02:00;True|2023-05-10T14:48:46.7024219+02:00;True|2023-05-10T14:47:48.1680075+02:00;True|2023-05-10T14:46:47.5458737+02:00;True|2023-05-10T14:38:32.4905246+02:00;False|2023-05-10T14:38:03.1146167+02:00;False|2023-05-10T14:37:36.8254134+02:00;True|2023-05-10T14:36:10.2664843+02:00;True|2023-05-05T16:10:27.9782953+02:00;True|2023-05-05T16:09:56.1113207+02:00;True|2023-05-05T15:23:17.2574198+02:00;True|2023-05-03T08:51:04.6880299+02:00;True|2023-04-28T17:06:29.3161394+02:00;True|2023-04-28T16:40:34.4200789+02:00;True|2023-04-28T16:12:01.3387991+02:00;True|2023-04-28T16:02:28.1415548+02:00;True|2023-04-28T15:18:58.5040569+02:00;True|2023-04-27T15:03:12.3593956+02:00;True|2023-04-27T14:53:53.7833730+02:00;True|2023-04-27T14:52:25.5762657+02:00;True|2023-04-27T14:50:02.3892968+02:00;True|2023-04-27T14:48:35.2567317+02:00;True|2023-04-27T13:58:48.9112907+02:00;True|2023-04-27T11:44:26.9946808+02:00;True|2023-04-27T11:35:41.3595828+02:00;True|2023-04-27T11:28:43.1257949+02:00;True|2023-04-27T11:24:43.6610461+02:00;True|2023-04-27T11:13:58.7596455+02:00;True|2023-04-26T10:07:37.3616344+02:00;True|2023-04-07T11:40:51.5413321+02:00;True|2023-04-05T13:32:24.5089775+02:00;True|2023-04-04T13:33:52.1749178+02:00;True|2023-04-04T13:21:02.9459305+02:00;True|2023-04-04T13:19:18.9271604+02:00;True|2023-04-04T13:18:13.1834692+02:00;True|2023-04-04T12:28:50.2923965+02:00;True|2023-04-04T12:28:05.7641907+02:00;True|2023-04-04T12:27:01.8423379+02:00;True|2023-04-04T12:19:05.5831069+02:00;True|2023-04-04T12:15:07.6612550+02:00;False|2023-04-04T12:14:27.4649450+02:00;True|2023-04-04T12:12:04.7083645+02:00;True|2023-04-04T12:10:31.1476292+02:00;True|2023-03-27T09:19:09.5633498+02:00;True|2023-03-23T15:04:57.4205914+01:00;True|2023-03-23T14:58:53.0399583+01:00;True|2023-03-23T14:39:53.0076607+01:00;True|2023-03-23T14:29:18.7251372+01:00;True|2023-03-22T15:01:55.4571543+01:00;True|2023-03-21T10:56:52.0307290+01:00;False|2023-03-21T10:55:29.3223114+01:00;False|2023-03-21T10:55:11.5969307+01:00;True|2023-03-21T09:18:24.1581382+01:00;True|2023-03-20T16:19:26.5861620+01:00;True|2023-03-20T12:05:26.1663371+01:00;True|2023-03-20T12:03:42.0116082+01:00;True|2023-03-20T11:21:25.7384007+01:00;True|2023-03-20T11:10:33.7398238+01:00;True|2023-03-20T11:04:37.9786769+01:00;True|2023-03-20T10:44:50.8244078+01:00;True|2023-02-23T14:22:43.6754108+01:00;True|2023-02-22T14:47:10.8030907+01:00;True|2023-01-30T10:19:18.0145963+01:00;True|2022-09-02T15:42:29.4134598+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -20,6 +20,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/BouncyCastle.Crypto.dll">
       <publishTime>08/12/2020 19:05:32</publishTime>
+    </File>
+    <File Include="bin/Controllers/HomeController.cs">
+      <publishTime>03/22/2023 09:25:19</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>04/16/2020 22:38:42</publishTime>
@@ -49,10 +52,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/30/2013 20:15:20</publishTime>
     </File>
     <File Include="bin/Parcours integration.dll">
-      <publishTime>02/23/2023 14:22:30</publishTime>
+      <publishTime>07/26/2023 09:33:55</publishTime>
     </File>
     <File Include="bin/Parcours integration.pdb">
-      <publishTime>02/23/2023 14:22:30</publishTime>
+      <publishTime>07/26/2023 09:33:55</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/19/2020 03:51:56</publishTime>
@@ -325,7 +328,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/20/2022 10:46:39</publishTime>
     </File>
     <File Include="Controllers/ParcoursController.cs">
-      <publishTime>08/22/2022 10:27:23</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Docs/18MartinRémy/Compte-Rendu de Réunion.docx">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -367,7 +370,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Docs/TestTrombi.png">
-      <publishTime>04/27/2022 15:26:02</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>02/01/2022 16:25:28</publishTime>
@@ -379,7 +382,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Models/ParcoursIntegrationEntities.edmx.diagram">
-      <publishTime>01/03/2023 10:34:38</publishTime>
+      <publishTime>04/28/2023 16:36:41</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>02/02/2022 14:54:44</publishTime>
@@ -637,22 +640,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/02/2022 16:28:21</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.js">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.min.js">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.min.map">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.slim.js">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.slim.min.js">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.1.slim.min.map">
-      <publishTime>12/20/2022 15:11:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/jquery-3.6.3.js">
       <publishTime>02/03/2023 10:37:12</publishTime>
@@ -952,7 +955,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/02/2022 16:10:17</publishTime>
     </File>
     <File Include="Views/Formations/Index.cshtml">
-      <publishTime>02/23/2023 08:41:52</publishTime>
+      <publishTime>07/26/2023 09:33:30</publishTime>
     </File>
     <File Include="Views/Formations/Signer.cshtml">
       <publishTime>03/04/2022 15:13:53</publishTime>
@@ -985,7 +988,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/31/2022 11:17:50</publishTime>
     </File>
     <File Include="Views/Modeles/Create.cshtml">
-      <publishTime>09/06/2022 11:14:04</publishTime>
+      <publishTime>05/05/2023 08:59:47</publishTime>
     </File>
     <File Include="Views/Modeles/Delete.cshtml">
       <publishTime>09/06/2022 11:13:59</publishTime>
@@ -994,7 +997,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Modeles/Index.cshtml">
-      <publishTime>02/22/2023 14:56:39</publishTime>
+      <publishTime>04/07/2023 11:50:07</publishTime>
     </File>
     <File Include="Views/Modeles/TableModeles.cshtml">
       <publishTime>02/21/2023 11:21:10</publishTime>
@@ -1015,16 +1018,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/31/2022 14:02:06</publishTime>
     </File>
     <File Include="Views/Parcours/Details.cshtml">
-      <publishTime>02/21/2023 11:21:10</publishTime>
+      <publishTime>06/06/2023 10:49:24</publishTime>
     </File>
     <File Include="Views/Parcours/Edit.cshtml">
       <publishTime>02/06/2023 14:14:51</publishTime>
     </File>
     <File Include="Views/Parcours/Index.cshtml">
-      <publishTime>02/22/2023 09:49:07</publishTime>
+      <publishTime>04/07/2023 11:48:02</publishTime>
     </File>
     <File Include="Views/Parcours/TableParc.cshtml">
-      <publishTime>02/22/2023 09:37:44</publishTime>
+      <publishTime>04/05/2023 13:31:16</publishTime>
     </File>
     <File Include="Views/Services/Index.cshtml">
       <publishTime>07/12/2022 10:55:07</publishTime>
@@ -1045,13 +1048,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/20/2022 09:24:30</publishTime>
     </File>
     <File Include="Views/Shared/_HiddenMissions.cshtml">
-      <publishTime>01/09/2022 09:48:32</publishTime>
+      <publishTime>03/21/2023 13:58:03</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/21/2023 11:21:10</publishTime>
+      <publishTime>05/17/2023 14:53:37</publishTime>
     </File>
     <File Include="Views/Shared/_Missions.cshtml">
-      <publishTime>02/21/2023 11:28:06</publishTime>
+      <publishTime>04/04/2023 13:21:42</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Create.cshtml">
       <publishTime>12/22/2022 09:35:59</publishTime>
@@ -1060,7 +1063,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/06/2023 09:35:18</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Edit.cshtml">
-      <publishTime>01/05/2023 16:15:37</publishTime>
+      <publishTime>05/10/2023 14:52:39</publishTime>
     </File>
     <File Include="Views/Utilisateurs/Index.cshtml">
       <publishTime>02/21/2023 11:21:10</publishTime>
